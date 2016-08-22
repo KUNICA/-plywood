@@ -1,0 +1,23 @@
+#ex1Slider .slider-selection {
+    background: #BABABA;
+}
+
+.PanelSlide{
+    position: relative;
+    left: 40px;
+    top: 20px;
+}
+
+.panelPrice{
+    width: 400px;
+    height: 60px;
+}
+
+.panelElement{
+    width: 200px;
+    height: 60px;
+}
+
+.inputElement{
+    width: 100px;
+}

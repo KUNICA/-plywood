@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:security="http://www.springframework.org/schema/c"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+    <http auto-config="true" use-expressions="true">
+
+        <form-login login-page="/login" authentication-failure-url="/login?error_code=99" />
+        <logout logout-success-url="/home"/>
+
+        <custom-filter ref="preAuthentificationProcessingFilter" before="FORM_LOGIN_FILTER"/>
+
+    </http>
+
+    <!--- Фильтр для проверки пользователя (вызывается перед аутентификацией) -->
+    <beans:bean id="preAuthentificationProcessingFilter" class="com.filter.PreAuthentificationFilter">
+        <!--<custom-filter before="PRE_AUTH_FILTER"/>-->
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+        <beans:property name="authenticationSuccessHandler">
+            <beans:bean class="com.handler.SavedRequestAwareAuthenticationSuccessHandler">
+                <beans:property name="defaultTargetUrl" value="/home" />
+            </beans:bean>
+        </beans:property>
+        <beans:property name="authenticationFailureHandler">
+            <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <beans:property name="defaultFailureUrl" value="/login?error_code=99" />
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+
+
+
+    <!--<beans:bean id="userStatusService" class="com.ergi.services.security.UserStatusService">
+        <beans:property name="allowableFailureCounts" value="${security.attempt_auth_interval}" />
+    </beans:bean>-->
+
+    <global-method-security pre-post-annotations="enabled" secured-annotations="enabled" jsr250-annotations="enabled"/>
+
+
+    <authentication-manager alias="authenticationManager" >
+        <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder hash="md5">
+                <!-- <salt-source user-property="username"/> -->
+            </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

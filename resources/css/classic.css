@@ -1,0 +1,107 @@
+.search{
+    width:100%;
+}
+
+.homeCard{
+    position:relative;
+
+}
+.homeCardLink{
+    overflow:auto;
+    display:block;
+    padding:1rem 0;
+    border-bottom:1px solid #cdcdd1;
+    text-decoration:none;
+}
+.homeCardImage{
+    min-height:1px;
+    float: left;
+    width: 61.8%;
+    padding-right: 1rem;
+}
+.homeCardInfo{
+    float: left;
+    width: 38.2%;
+    padding: 0 0 0 1rem;
+    margin-top: 3rem;
+}
+@media only screen and (min-width: 641px){
+    .homeCardInfo {
+        float: left;
+        width: 38.2%;
+        padding: 0 0 0 1rem;
+        margin-top: 3rem;
+    }
+}
+.homeCardTitle{
+    color:#ed5434;
+    font-size:1.3125rem;
+    margin-bottom:0;
+}
+.homeCardSubtitle{
+    font-weight: 400;
+    font-size: .875rem;
+    margin-bottom: 1rem;
+}.homeCardFeatures{
+     border-top: 1px solid #cdcdd1;
+     border-bottom: 1px solid #cdcdd1;
+     float: none;
+ }
+.homeCardFeature{
+    position:relative;
+    display:inline-block;
+    color:#50575f;
+    margin-right:.75rem
+}
+.homeCardFeatureValue{
+    font-weight:700;
+    padding-left:.375rem
+}
+.homeCardPrice{
+    margin-top:1.5rem;
+    color:#2a2730;
+    font-size:.875rem
+}
+.homeCardPriceValue{
+    font-size:1.3125rem;
+    color:#2a2730;
+    font-weight:700
+}
+
+.homeCardPerBedroom{
+    color:#9aa2ab;
+    font-size:.75rem;
+    line-height:1
+}
+.homeCardPerBedroomValue{
+    font-weight:700
+}
+html{
+    font-size:16px;
+    box-sizing:border-box
+}
+button:focus,button:hover{
+    color:#fff;
+    background-color:#ff6f51;
+    border-color:#ff6f51;
+    outline:0
+}button:active{
+     color:#fff;
+     background-color:#db3613;
+     border-color:#db3613
+ }
+.responsiveImage{
+    background-color:#9aa2ab;
+}
+.responsiveImageLoaded{
+    background-color:initial;
+}
+.responsiveImageImage{
+    width:100%;
+}
+
+.homeCardGalary{
+    float: left;
+    margin-top: 30px;
+    z-index: 1000;
+}

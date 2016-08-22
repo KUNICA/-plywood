@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+      http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <context:annotation-config/>
+    <mvc:annotation-driven />
+    <context:component-scan base-package="com"/>
+
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/views/**" location="/views/"/>
+    <mvc:resources mapping="/avatars/**" location="/avatars/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <!--
+     Loads externalized configuration details from db.properties.
+    -->
+
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"/>
+    <bean id="tilesConfigurer"
+          class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/views/views.xml</value>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <context:property-placeholder location="WEB-INF/classes/db.properties" />
+    <context:property-placeholder location="WEB-INF/classes/security.properties" />
+
+
+    <!--A DriverManagerDataSource-->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan"
+                  value="com.entity" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.connection.pool_size">${connection.pool_size}</prop>
+                <prop key="hibernate.current_session_context_class">${current_session_context_class}</prop>
+                <prop key="hibernate.show_sql">${show_sql}</prop>
+
+                <prop key="hibernate.default_schema">${default_schema}</prop>
+                <prop key="hibernate.max_fetch_depth">${max_fetch_depth}</prop>
+                <prop key="hibernate.jdbc.batch_size">${jdbc.batch_size}</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/plywood_work</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <import resource="security.xml"/>
+    <import resource="plywood-service.xml"/>
+
+    <!--
+      Setup Hibernate based on config file.
+    -->
+
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
+
+
+
+    <!-- АОП лог-класс для логгирования взаимодействий с базой -->
+    <!--<bean id="performanceMonitor" class="com.ergi.util.PerfomanceMonitor"/>
+    <aop:config>
+        <aop:aspect ref="performanceMonitor">
+            <aop:around pointcut="execution(public * com.ergi.dao..*.*(..))" method="monitor"/>
+            &lt;!&ndash;<aop:around pointcut="execution(public * com.ergi.dao.security.UserStatusDao*.*(..))" method="monitor"/>&ndash;&gt;
+        </aop:aspect>
+    </aop:config>-->
+
+
+</beans>

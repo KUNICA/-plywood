@@ -1,0 +1,117 @@
+
+.paginator {
+    font-size:3em;
+    width:20%;
+    position:relative;
+    text-align: right;
+    margin-left: auto;
+    margin-right: 10px;
+    border: ridge;
+}
+.paginator table {
+    border-collapse:collapse;
+    table-layout:fixed;
+    width:100%;
+    border: none;
+    text-align:center;
+}
+.paginator table td {
+    padding:0;
+    white-space:nowrap;
+    text-align:center;
+}
+.paginator span {
+    display:block;
+    padding:3px 0;
+    color:#eceade;
+}
+.paginator span strong,
+.paginator span a {
+    padding:2px 6px;
+}
+.paginator span strong {
+    background:#0D4F8B;
+    font-style:normal;
+    font-weight:normal;
+}
+.paginator .scroll_bar {
+    width:100%;	height:20px;
+    position:relative;
+    margin-top:10px;
+}
+.paginator .scroll_trough {
+    width:100%;	height:3px;
+    background:#ccc;
+    overflow:hidden;
+}
+.paginator .scroll_thumb {
+    position:absolute;
+    z-index:2;
+    width:10px; height:3px;
+    top:0; left:0;
+    font-size:1px;
+    background:darkorange;
+}
+.paginator .scroll_knob {
+    position:absolute;
+    top:-12px; left:50%;
+    margin-left:-10px;
+    width:20px; height:20px;
+    overflow:hidden;
+    z-index: 100;
+    background:url(/avatars/circle.png) no-repeat 100% 100%;
+}
+.paginator .current_page_mark {
+    position:absolute;
+    z-index:10;
+    top:0; left:0;
+    width:10px; height:3px;
+    overflow:hidden;
+}
+
+.fullsize .scroll_thumb {
+    display:none;
+}
+
+
+.paginator_pages {
+    width:50%;
+    text-align:center;
+    font-size:0.8em;
+    color:#808080;
+    margin-top:-15px;
+}
+
+.arrow_left {
+    background:url(/avatars/left.png) no-repeat 100% 100%;
+    cursor:pointer; cursor:hand;
+}
+
+.arrow_left:active {
+    background:url(/avatars/left_black.png) no-repeat 100% 100%;
+    cursor:pointer; cursor:hand;
+}
+.arrow_left:focus {
+    background:url(/avatars/left_focus.png) no-repeat 100% 100%;
+    cursor:pointer; cursor:hand;
+}
+
+.arrow_right {
+    background:url(/avatars/right.png) no-repeat 100% 100%;
+    cursor:pointer; cursor:hand;
+}
+
+.arrow_right:active {
+    background:url(/avatars/right_black.png) no-repeat 100% 100%;
+    cursor:pointer; cursor:hand;
+}
+
+.arrow_right:focus {
+    background:url(/avatars/right_focus.png) no-repeat 100% 100%;
+    cursor:pointer; cursor:hand;
+}
+
+div#s-all {font-size:12px; width:100%;  margin-left: -25px;}
+div#s-col1 {float:left; width:10px;}
+div#s-col2 {float:right; width:10px;}
+div#s-content {margin:0 10px 0 60px;}

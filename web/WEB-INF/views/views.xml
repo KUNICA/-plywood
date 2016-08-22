@@ -1,0 +1,78 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="baseTemplate" template="/views/tiles/layout.jsp">
+        <put-attribute name="header" value="/views/tiles/header.jsp" />
+        <put-attribute name="title" value="" />
+        <put-attribute name="menu" value="" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="/views/tiles/pay.jsp" />
+            </definition>
+        </put-attribute>
+        <put-attribute name="footer" value="/views/tiles/footer.jsp" />
+    </definition>
+
+    <definition name="baseTemplateMain" extends="baseTemplate">
+        <put-attribute name="body">
+            <definition template="/views/tiles/home.jsp">
+                <put-attribute name="galary" value="/views/tiles/galary.jsp"/>
+                <put-attribute name="video" value="/views/tiles/video.jsp"/>
+            </definition>
+        </put-attribute>
+        <put-attribute name="menu" value="/views/tiles/menu.jsp"/>
+    </definition>
+
+    <definition name="home" extends="baseTemplateMain">
+        <put-attribute name="title" value="home page"/>
+    </definition>
+
+    <definition name="login" extends="baseTemplateMain">
+        <put-attribute name="title" value="login page"/>
+    </definition>
+
+    <definition name="admin" extends="baseTemplate">
+        <put-attribute name="title" value="admin page"/>
+        <put-attribute name="body" value="/views/tiles/admin.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="tableCompare" extends="baseTemplate">
+        <put-attribute name="title" value="compare page"/>
+        <put-attribute name="body" value="/views/tiles/compareTable.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+
+    <definition name="offer" extends="baseTemplate">
+        <put-attribute name="title" value="admin page"/>
+        <put-attribute name="body" value="/views/tiles/offer.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+
+
+</tiles-definitions>

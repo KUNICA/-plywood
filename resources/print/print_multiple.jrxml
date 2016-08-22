@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="print_multiple" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f969b903-2c45-4b75-bec9-82192bc58b82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="59"/>
+	<subDataset name="Table Dataset 1" uuid="011f54bf-5950-487d-90bf-21d22668421b"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="adress" class="java.lang.String"/>
+	<field name="sleeps" class="java.lang.String"/>
+	<field name="bedrooms" class="java.lang.String"/>
+	<field name="flors" class="java.lang.String"/>
+	<field name="bethrooms" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="51" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="51" uuid="91b68b1e-e8ef-41f3-a024-6f5c21491a6c"/>
+				<textElement textAlignment="Center">
+					<font size="24" pdfFontName="TIMES.TTF" pdfEncoding="Cp1251" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Привет Отель!"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="435" splitType="Stretch">
+			<image>
+				<reportElement x="140" y="139" width="261" height="260" uuid="ff953353-d030-4e58-900c-5639fc643edd"/>
+				<imageExpression><![CDATA["C:\\Users\\user\\Desktop\\121422.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="140" y="9" width="142" height="20" uuid="f1b20973-12ea-4302-a769-8b8bceeedf2a"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="9" width="100" height="20" uuid="720f20de-445b-473f-8a0e-728d593af200"/>
+				<textFieldExpression><![CDATA["Наименование:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="29" width="100" height="20" uuid="e7061d06-8bb7-4610-812d-7d8120a691f8"/>
+				<textFieldExpression><![CDATA["Адрес:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="29" width="142" height="20" uuid="53ebbf7b-e3ae-4818-8dcf-b4e7e69fa1ff"/>
+				<textFieldExpression><![CDATA[$F{adress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="49" width="115" height="20" uuid="6e27421b-2e91-4490-b9a3-9c4a04f7e567"/>
+				<textFieldExpression><![CDATA["Колличество людей:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="49" width="142" height="20" uuid="7843b4ce-7ad3-4374-b22c-fd5f0b7f873b"/>
+				<textFieldExpression><![CDATA[$F{sleeps}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="69" width="115" height="20" uuid="b05869fc-62d2-41ec-b202-299f3893078b"/>
+				<textFieldExpression><![CDATA["Колличество комнат:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="69" width="142" height="20" uuid="36dba2b7-9406-45db-ac66-992ce6150202"/>
+				<textFieldExpression><![CDATA[$F{bedrooms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="89" width="115" height="20" uuid="ccf8e084-9fb8-4e1d-ad3f-4f07c41944c0"/>
+				<textFieldExpression><![CDATA["Колличество этажей:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="89" width="142" height="20" uuid="36e85313-58db-439a-9815-be1dc0a07453"/>
+				<textFieldExpression><![CDATA[$F{flors}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="109" width="115" height="30" uuid="8840cd4e-ca5a-41ce-89ec-2c93934881d3"/>
+				<textFieldExpression><![CDATA["Колличество вынных комнат:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="119" width="142" height="20" uuid="0347c810-b57f-4cbe-a243-a27342a1a6cb"/>
+				<textFieldExpression><![CDATA[$F{bethrooms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="391" y="9" width="68" height="20" uuid="26d5edb7-b9b1-48b0-802e-12c933ec7934"/>
+				<textFieldExpression><![CDATA["Описание"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="29" width="254" height="110" uuid="7ef663dd-5623-49c0-8748-a947ff145e55"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="151" width="126" height="115" uuid="bc658952-9f22-4d3e-b38d-ca14cea35713"/>
+				<imageExpression><![CDATA["C:\\Users\\user\\Desktop\\121422.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="429" y="151" width="126" height="115" uuid="6bce02a2-72a0-4c61-9511-a9c2798d2577"/>
+				<imageExpression><![CDATA["C:\\Users\\user\\Desktop\\121422.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="429" y="284" width="126" height="115" uuid="ddea800c-96c9-4ad2-ba0e-8b5a03501a26"/>
+				<imageExpression><![CDATA["C:\\Users\\user\\Desktop\\121422.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="284" width="126" height="115" uuid="d9a53b11-7a26-4ba0-a76a-9e6c455b08b0"/>
+				<imageExpression><![CDATA["C:\\Users\\user\\Desktop\\121422.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

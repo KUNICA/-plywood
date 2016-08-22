@@ -1,0 +1,12 @@
+.header {
+    background-image: url(/avatars/header.jpg);
+    height: 140px;
+    position: relative;
+    width:100%;
+}
+
+td.logo {
+    width: 100%;
+    text-align: right;
+    padding-top: 55px;
+    padding-right: 55px;}
