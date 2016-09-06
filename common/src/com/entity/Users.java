@@ -1,14 +1,12 @@
 package com.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by user on 20.08.2016.
  */
 @Entity
+@Table(name = "users", schema = "plywood_work")
 public class Users {
     private String username;
     private String password;

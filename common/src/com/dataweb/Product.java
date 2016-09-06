@@ -21,6 +21,8 @@ public class Product implements Serializable {
     private Long actual;
     @JsonProperty("check")
     private Boolean check;
+    @JsonProperty("count")
+    private Long count;
 
     public Product(){
 
@@ -33,6 +35,7 @@ public class Product implements Serializable {
         this.totalAmount = shoppingCart.getTotalAmount();
         this.actual = shoppingCart.getActual();
         this.check = shoppingCart.getCheck();
+        this.count = shoppingCart.getCount();
     }
     public Product(String userName) {
         this.username = userName;
@@ -84,5 +87,13 @@ public class Product implements Serializable {
 
     public void setCheck(Boolean check) {
         this.check = check;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 }

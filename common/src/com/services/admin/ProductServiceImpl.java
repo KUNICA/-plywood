@@ -7,5 +7,7 @@ import java.util.List;
  */
 public interface ProductServiceImpl {
     List getProducts(String userName);
+    List getPlywoods(String userName);
+    List getParticleboards(String userName);
     boolean removeProduct(long productId,String userName);
 }

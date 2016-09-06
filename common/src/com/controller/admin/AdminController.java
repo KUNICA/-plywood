@@ -27,8 +27,8 @@ import java.lang.reflect.InvocationTargetException;
 @Controller
 @RequestMapping(value="/admin")
 public class AdminController {
-    private static final String fileUploadControllerURL = "upload";
-    private static final String fileSaveControllerURL = "save";
+    private static final String fileUploadControllerURL = "/admin/upload";
+    private static final String fileSaveControllerURL = "/admin/save";
 
     @Inject
     ProductExcelServiceImpl productExelService;
@@ -47,27 +47,21 @@ public class AdminController {
     @Secured({ "ROLE_ADMIN","ROLE_USER"})
     public String admin(Model model, HttpSession session) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("fileUploadControllerURL", fileUploadControllerURL);
-        model.addAttribute("fileSaveControllerURL", fileSaveControllerURL);
-        model.addAttribute("tableInformation",productServiceImpl.getProducts(userName));
-        model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
+        setDataModel(model,userName);
         return "admin";
     }
 
-    @RequestMapping(value="/upload", method = RequestMethod.POST)
+    @RequestMapping(value="/upload/{product}", method = RequestMethod.POST)
     @Secured({ "ROLE_ADMIN","ROLE_USER"})
-    public String addProduct(@RequestParam("file") MultipartFile file, Model model) {
+    public String addProduct(@PathVariable("product") String productStr,@RequestParam("file") MultipartFile file, Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("tableInformation",productServiceImpl.getProducts(userName));
-        model.addAttribute("fileUploadControllerURL", fileUploadControllerURL);
-        model.addAttribute("fileSaveControllerURL", fileSaveControllerURL);
-        model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
+        setDataModel(model,userName);
         if(file.isEmpty()){
             model.addAttribute("error","Выберите файл");
             return "admin";
         }
         try {
-            productExelService.addProduct(file.getInputStream(),userName);
+            productExelService.addProduct(file.getInputStream(),userName,productStr);
         } catch (ProductFormatExelExeption productFormatExelExeption) {
             model.addAttribute("error",productFormatExelExeption.getFildName());
             return "admin";
@@ -83,10 +77,7 @@ public class AdminController {
     @Secured({ "ROLE_ADMIN","ROLE_USER"})
     public String saveImage(@RequestParam("fileImage") MultipartFile file, Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("fileUploadControllerURL", fileUploadControllerURL);
-        model.addAttribute("fileSaveControllerURL", fileSaveControllerURL);
-        model.addAttribute("tableInformation",productServiceImpl.getProducts(userName));
-        model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
+        setDataModel(model,userName);
         if(file.isEmpty()){
             model.addAttribute("errorImage","Выберите файл");
             return "admin";
@@ -109,10 +100,6 @@ public class AdminController {
     public String remove(@PathVariable("productId") long productId,Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         productServiceImpl.removeProduct(productId,userName);
-        model.addAttribute("fileUploadControllerURL", fileUploadControllerURL);
-        model.addAttribute("fileSaveControllerURL", fileSaveControllerURL);
-        model.addAttribute("tableInformation",productServiceImpl.getProducts(userName));
-        model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
         return "admin";
     }
 
@@ -120,9 +107,16 @@ public class AdminController {
     @Secured({ "ROLE_ADMIN","ROLE_USER"})
     public String showHome( Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("tableInformation",productServiceImpl.getProducts(userName));
-        model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
+        setDataModel(model,userName);
         return "admin";
+    }
+
+    private void setDataModel(Model model,String userName){
+        model.addAttribute("fileUploadControllerURL", fileUploadControllerURL);
+        model.addAttribute("fileSaveControllerURL", fileSaveControllerURL);
+        model.addAttribute("tableParticleboard",productServiceImpl.getParticleboards(userName));
+        model.addAttribute("tablePlywood",productServiceImpl.getPlywoods(userName));
+        model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
     }
 
 }

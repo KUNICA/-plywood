@@ -37,17 +37,17 @@
     <tr>
         <td align="center">
             <form class="form-4" name="f" action="<c:url value='j_spring_security_check'/>" method="POST">
-                <h1>Форма входа</h1>
+                <h1>Login form</h1>
                 <p>
-                    <label for="login">Логин</label>
-                    <input type="text"  name='j_username' placeholder="Логин или email" required value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'>
+                    <label for="login">Login</label>
+                    <input type="text"  name='j_username' placeholder="Login or email" required value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'>
                 </p>
                 <p>
-                    <label for="password">Пароль</label>
-                    <input type="password"  name='j_password' placeholder="Пароль" required>
+                    <label for="password">Password</label>
+                    <input type="password"  name='j_password' placeholder="Password" required>
                 </p>
                 <p>
-                    <input id="ok" type="submit" name="submit" value="Продолжить">
+                    <input id="ok" type="submit" name="submit" value="Continue">
                 </p>
             </form>
         </td>

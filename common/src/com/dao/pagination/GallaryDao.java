@@ -1,5 +1,6 @@
 package com.dao.pagination;
 
+import com.dao.DaoCriteria;
 import com.dao.ObjectDaoImpl;
 import com.entity.Images;
 import org.hibernate.HibernateException;
@@ -17,18 +18,11 @@ import javax.inject.Named;
  */
 @Named("gallaryDao")
 @Component
-public class GallaryDao implements ObjectDaoImpl {
-
-    private SessionFactory sessionFactory;
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
-
+public class GallaryDao extends DaoCriteria<Images> implements ObjectDaoImpl {
 
     @Autowired
     public GallaryDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+        super(sessionFactory);
     }
 
     @Override
@@ -41,7 +35,7 @@ public class GallaryDao implements ObjectDaoImpl {
             session = currentSession();
             tx = session.beginTransaction();
 
-            image = session.createCriteria(Images.class)
+            image = createCriteria(session)
                     .add(Restrictions.eq("id",id)).add(Restrictions.isNull("operationOut"))
                     .uniqueResult();
 

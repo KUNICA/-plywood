@@ -1,4 +1,17 @@
 .ShoppingCartCheck {
-    color:darkorange;
+    color:red;
     position:absolute;
+    z-index: 2000;
+    cursor: pointer
+}
+
+.countShoppingCar{
+    font-size: 20px;
+    cursor: pointer
+}
+
+.shopingIcon{
+    background: url(/avatars/shopping-cart.png);
+    height: 145px;
+    width: 175px;
 }

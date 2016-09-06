@@ -8,65 +8,36 @@ import java.util.Map;
  */
 public class ProductExel {
 
-    private String id;
-    private String name;
-    private String city;
-    private String street;
-    private String house;
-    private String housing;
-    private String apartment;
-    private String sleeps;
-    private String countRooms;
-    private String countFloors;
-    private String countBathrooms;
-    private String price;
-    private String shortDescription;
-    private Map<String,String> photos;
-    private Map<String,String> videos;
+    protected String productId;
+    protected String thickness;
+    protected String length;
+    protected String weight;
+    protected String price;
+    protected String shortDescription;
+    protected Map<String,String> photos;
 
     public ProductExel() {
         this.photos = new HashMap<String,String>();
-        this.videos = new HashMap<String,String>();
     }
 
-    public String getName() {
-        return name;
+    public Map<String, String> getPhotos() {
+        return photos;
     }
 
-    public String getCity() {
-        return city;
+    public String getProductId() {
+        return productId;
     }
 
-    public String getStreet() {
-        return street;
+    public String getThickness() {
+        return thickness;
     }
 
-    public String getHouse() {
-        return house;
+    public String getLength() {
+        return length;
     }
 
-    public String getHousing() {
-        return housing;
-    }
-
-    public String getApartment() {
-        return apartment;
-    }
-
-    public String getSleeps() {
-        return sleeps;
-    }
-
-    public String getCountRooms() {
-        return countRooms;
-    }
-
-    public String getCountFloors() {
-        return countFloors;
-    }
-
-    public String getCountBathrooms() {
-        return countBathrooms;
+    public String getWeight() {
+        return weight;
     }
 
     public String getPrice() {
@@ -77,52 +48,20 @@ public class ProductExel {
         return shortDescription;
     }
 
-    public Map<String, String> getPhotos() {
-        return photos;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public Map<String, String> getVideos() {
-        return videos;
+    public void setThickness(String thickness) {
+        this.thickness = thickness;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLength(String length) {
+        this.length = length;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setHouse(String house) {
-        this.house = house;
-    }
-
-    public void setHousing(String housing) {
-        this.housing = housing;
-    }
-
-    public void setApartment(String apartment) {
-        this.apartment = apartment;
-    }
-
-    public void setSleeps(String sleeps) {
-        this.sleeps = sleeps;
-    }
-
-    public void setCountRooms(String countRooms) {
-        this.countRooms = countRooms;
-    }
-
-    public void setCountFloors(String countFloors) {
-        this.countFloors = countFloors;
-    }
-
-    public void setCountBathrooms(String countBathrooms) {
-        this.countBathrooms = countBathrooms;
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public void setPrice(String price) {
@@ -137,16 +76,6 @@ public class ProductExel {
         this.photos = photos;
     }
 
-    public void setVideos(Map<String, String> videos) {
-        this.videos = videos;
-    }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }
 

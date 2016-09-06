@@ -2,6 +2,7 @@ package com.services.admin;
 
 import com.entity.*;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Date;
 
@@ -12,13 +13,14 @@ import java.util.Date;
 @Named
 public class RemoveService implements RemoveServiceImpl {
 
+    @Inject
+    ImageFileServiceImpl ImageFileService;
+
     @Override
     public boolean remove(Product product,String userName) {
         for (Images image : product.getPhotos()) {
             image.setOperationOut(getOperationOut(userName));
-        }
-        for (Video video : product.getVideos()) {
-            video.setOperationOut(getOperationOut(userName));
+            ImageFileService.removeFile(image.getImg());
         }
         product.setOperOut(getOperationOut(userName));
         return true;

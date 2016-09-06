@@ -29,6 +29,15 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/home">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Product
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/home/0">Particleboard</a></li>
+                        <li><a href="/home/1">Plywood</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">

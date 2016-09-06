@@ -1,5 +1,7 @@
 package com.entity;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "images", schema = "plywood_work")
+@Where(clause = "operation_out is null" )
 public class Images {
     private Long id;
     private String img;

@@ -7,4 +7,5 @@ import com.entity.Offer;
  */
 public interface AlertServiceImpl {
     void sendAlert(final Offer offer);
+    void sendAlertAdmin(final Offer offer);
 }

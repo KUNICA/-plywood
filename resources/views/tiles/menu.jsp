@@ -1,3 +1,4 @@
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
     <link href="/css/bootstrap-slider.css" rel="stylesheet">
@@ -6,6 +7,5 @@
     <script type="text/javascript" src="/js/bootstrap-slider.js"></script>
     <script type="text/javascript" src="/js/ruler.js"></script>
 
-<div class="PanelSlide" id = "PanelSlide">
+<div class="PanelSlide" id = "PanelSlide<tiles:insertAttribute name="nameMenu" />" >
 </div>
-<script type="text/javascript" src="/js/menu.js"></script>

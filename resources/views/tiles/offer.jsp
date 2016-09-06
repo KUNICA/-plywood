@@ -10,24 +10,21 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/offer.js"></script>
 
 <div>
-    <h1>Заказ принят!</h1>
-    <p>Благодарим Вас за сделаный заказ! На Ваш email отправлено письмо. В ближайшее время мы свяжемся с Вами.</p>
+    <h1>Order is accepted!</h1>
+    <p>Thank you for your made to order! In a letter sent to your email address. In the near future we will contact you.</p>
     <table class="table" style="width:300px">
     <c:forEach items="${listOffer}" var="list_object" varStatus="counter">
         <tr>
             <th>
-                ${list_object.nameImage}
+                ${list_object.product.name}
             </th>
         </tr>
         <tr>
             <th>
-                    ${list_object.price}
+        ${list_object.count} х ${list_object.product.price}
             </th>
         </tr>
     </c:forEach>

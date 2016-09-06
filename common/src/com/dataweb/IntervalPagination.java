@@ -10,19 +10,25 @@ import java.io.Serializable;
 public class IntervalPagination implements Serializable {
 
     @JsonProperty("start")
-    private Long start;
+    protected Long start;
     @JsonProperty("end")
-    private Long end;
+    protected Long end;
     @JsonProperty("minPrice")
-    private Double minPrice;
+    protected Double minPrice;
     @JsonProperty("maxPrice")
-    private Double maxPrice;
-    @JsonProperty("persons")
-    private Long persons;
-    @JsonProperty("badrooms")
-    private Long badrooms;
-    @JsonProperty("bathrooms")
-    private Long bathrooms;
+    protected Double maxPrice;
+    @JsonProperty("minLength")
+    protected Long minLength;
+    @JsonProperty("maxLength")
+    protected Long maxLength;
+    @JsonProperty("minWidth")
+    protected Long minWidth;
+    @JsonProperty("maxWidth")
+    protected Long maxWidth;
+    @JsonProperty("minDepth")
+    protected Long minDepth;
+    @JsonProperty("maxDepth")
+    protected Long maxDepth;
 
     public Long getStart() {
         return start;
@@ -48,16 +54,28 @@ public class IntervalPagination implements Serializable {
         return maxPrice;
     }
 
-    public Long getPersons() {
-        return persons;
+    public Long getMinLength() {
+        return minLength;
     }
 
-    public Long getBadrooms() {
-        return badrooms;
+    public Long getMaxLength() {
+        return maxLength;
     }
 
-    public Long getBathrooms() {
-        return bathrooms;
+    public Long getMinWidth() {
+        return minWidth;
+    }
+
+    public Long getMaxWidth() {
+        return maxWidth;
+    }
+
+    public Long getMinDepth() {
+        return minDepth;
+    }
+
+    public Long getMaxDepth() {
+        return maxDepth;
     }
 
     public void setMinPrice(Double minPrice) {
@@ -68,15 +86,27 @@ public class IntervalPagination implements Serializable {
         this.maxPrice = maxPrice;
     }
 
-    public void setPersons(Long persons) {
-        this.persons = persons;
+    public void setMinLength(Long minLength) {
+        this.minLength = minLength;
     }
 
-    public void setBadrooms(Long badrooms) {
-        this.badrooms = badrooms;
+    public void setMaxLength(Long maxLength) {
+        this.maxLength = maxLength;
     }
 
-    public void setBathrooms(Long bathrooms) {
-        this.bathrooms = bathrooms;
+    public void setMinWidth(Long minWidth) {
+        this.minWidth = minWidth;
+    }
+
+    public void setMaxWidth(Long maxWidth) {
+        this.maxWidth = maxWidth;
+    }
+
+    public void setMinDepth(Long minDepth) {
+        this.minDepth = minDepth;
+    }
+
+    public void setMaxDepth(Long maxDepth) {
+        this.maxDepth = maxDepth;
     }
 }

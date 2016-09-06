@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,13 +36,25 @@ public class HomeController {
     @Inject
     OfferServiceImpl offerServiceImpl;
 
-    @RequestMapping("/home")
+    private static final String pageParticleboard = "particleboard";
+    private static final String pagePlywood = "plywood";
+
+    @RequestMapping( "/home")
     public String showHome(Model model, HttpSession session) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
             model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
         }
         return "home";
+    }
+
+    @RequestMapping(value = "/home/{index}",method = RequestMethod.GET)
+    public String getHome(@PathVariable("index") int index,Model model, HttpSession session) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
+            model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
+        }
+        return Page.getPage(index).getNamePage();
     }
 
     @RequestMapping("/authorize")
@@ -98,6 +111,24 @@ public class HomeController {
     public String registerSpitter( Model model) {
 
         return "registrationCompleted";
+    }
+
+    private enum Page{
+        pageParticleboard ("particleboard"),
+        pagePlywood("plywood");
+        String namePage;
+        Page(String name){
+            this.namePage = name;
+        }
+
+        public static Page getPage(int i) {
+            Page[] page =  values();
+            return (i<page.length ? page[i]: page[0]);
+        }
+
+        public String getNamePage() {
+            return namePage;
+        }
     }
 
 }

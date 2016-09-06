@@ -11,6 +11,7 @@ public class UsersFilds {
     private int id;
     private String username;
     private String compare;
+    private Type type;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -40,6 +41,17 @@ public class UsersFilds {
 
     public void setCompare(String compare) {
         this.compare = compare;
+    }
+
+    @Basic
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override

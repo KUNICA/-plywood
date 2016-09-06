@@ -34,6 +34,7 @@ public class ShopingCartService implements ShopingCartServiceIml {
         shoppingCartEntity.setActual(product.getActual());
         shoppingCartEntity.setCheck(product.getCheck());
         shoppingCartEntity.setProductId(product.getProductId());
+        shoppingCartEntity.setCount(1L);
         shoppingCartEntity.setId(product.getId());
         shoppingCartEntity.setUsername(product.getUsername());
         return saveService.inputObject(shoppingCartEntity);
@@ -50,5 +51,17 @@ public class ShopingCartService implements ShopingCartServiceIml {
 
     public List getShoppingCarts(String userName){
         return  shopingCartDao.getShoppingCarts(userName);
+    }
+
+    public Long plusProduct(ShoppingCart product){
+        product.setCount(product.getCount()+1L);
+        saveService.inputObject(product);
+        return product.getCount();
+    }
+
+    public Long minusProduct(ShoppingCart product){
+        product.setCount(product.getCount()>1 ? product.getCount()-1L : 1L);
+        saveService.inputObject(product);
+        return product.getCount();
     }
 }

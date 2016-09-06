@@ -1,5 +1,6 @@
 package com.dao.pagination;
 
+import com.dao.DaoCriteria;
 import com.entity.Images;
 import org.hibernate.*;
 import org.hibernate.Criteria;
@@ -15,24 +16,17 @@ import java.util.List;
  */
 @Named("imageDao")
 @Component
-public class ImageDao  implements ImagesDaoImpl{
-
-
-    private SessionFactory sessionFactory;
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
+public class ImageDao extends DaoCriteria<Images> implements ImagesDaoImpl{
 
     private Criteria getCriteria(Session session, Long id){
-        return session.createCriteria(Images.class)
+        return createCriteria(session)
                 .add(Restrictions.isNull("operationOut"))
-                .add(Restrictions.eq("produtcId",id));
+                .add(Restrictions.eq("productId",id));
     }
 
     @Autowired
     public ImageDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
+        super(sessionFactory);      // Конструирует DAO
     }
 
 
@@ -46,7 +40,7 @@ public class ImageDao  implements ImagesDaoImpl{
             tx = session.beginTransaction();
 
             image = getCriteria(session,id)
-                    .add(Restrictions.eq("main",true)).uniqueResult();
+                    .add(Restrictions.eq("main",true)).setMaxResults(1).uniqueResult();
 
             tx.commit();
         }

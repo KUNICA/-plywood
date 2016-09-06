@@ -12,6 +12,9 @@ $(document).on('click', '.ShoppingCar', function(e) {
     }
 
     var shop = document.getElementById("order_" + productId);
+    var plus = document.getElementById("plus_" + productId);
+    var minus = document.getElementById("minus_" + productId);
+    var countShoppingCar = document.getElementById("countCart_" + productId);
 
     if(productId!=null){
         var urlObjects = "/shoping/ischeck/" + productId;
@@ -47,6 +50,9 @@ $(document).on('click', '.ShoppingCar', function(e) {
                     id = product.id;
                     shop.classList.remove("ShoppingCartCheck");
                     shop.textContent = "add_shopping_cart";
+                    plus.style.display = 'none';
+                    minus.style.display = 'none';
+                    countShoppingCar.style.display = 'none';
                 }
                 else if(product.check == undefined && product.id!= undefined){
                     // выделить и обновить с actual == 1
@@ -54,18 +60,19 @@ $(document).on('click', '.ShoppingCar', function(e) {
                     id = product.id;
                     shop.classList.add("ShoppingCartCheck");
                     shop.textContent = "out_shopping_cart";
+                    plus.style.display = '';
+                    minus.style.display = '';
+                    countShoppingCar.style.display = '';
                 }
                 else {
                     //внести запись с actual == 1
                     actual = 1;
                     shop.classList.add("ShoppingCartCheck");
                     shop.textContent = "out_shopping_cart";
-                }
-                if(checkProduct && actual){
-                    shop.classList.remove("ShoppingCartCheck");
-                    shop.textContent = "add_shopping_cart";
-                    alert("Sorry, this product has been selected by another user");
-                    return;
+                    plus.style.display = '';
+                    minus.style.display = '';
+                    countShoppingCar.style.display = '';
+                    
                 }
 
                 var  data={
@@ -88,9 +95,7 @@ $(document).on('click', '.ShoppingCar', function(e) {
                     data:  $.toJSON(data),
                     async: false
                 }).done(function( product ) {
-                    var a=0;
-                    a++;
-
+                    countShoppingCar.textContent=product.count;
                 });
 
             }
@@ -102,6 +107,8 @@ $(document).on('click', '.ShoppingCar', function(e) {
 
     }
 });
+
+
 
 $(document).on('click', '#pay', function(e) {
 
@@ -123,12 +130,12 @@ $(document).on('click', '#pay', function(e) {
             var tr = document.createElement("tr");
             tableSumPay.appendChild(tr);
             var th = document.createElement("th");
-            th.textContent = products[i].nameImage + ': ';
+            th.textContent = products[i].name + ': ';
             tr.appendChild(th);
             var th2 = document.createElement("th");
-            th2.textContent = products[i].price + '$';
+            th2.textContent = products[i].count*products[i].price + '$';
             tr.appendChild(th2);
-            sum+=products[i].price;
+            sum+=products[i].count*products[i].price;
         }
 
         var trSum = document.createElement("tr");
@@ -191,6 +198,58 @@ $(document).on('click', '#pay', function(e) {
 
 });
 
+$(document).on('click', '.plusShoppingCart', function(e) {
+
+    e ? evt = e : evt = event;
+    var CSE = evt.target ? evt.target : evt.srcElement;
+    var productId = null;
+    if (CSE != null && CSE.id.length > 5 && CSE.id.substr(0, 5) == 'plus_') {
+        productId = CSE.id.substr(5, CSE.id.length);
+    }
+
+    var urlPlus = "/shoping/plus";
+    jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        url: urlPlus,
+        dataType:'json',
+        data:  $.toJSON(productId),
+        async: true
+    }).done(function(count) {
+        var countShoppingCar = document.getElementById("countCart_" + productId);
+        countShoppingCar.textContent = count;
+    });
+});
+
+$(document).on('click', '.minusShoppingCart', function(e) {
+
+    e ? evt = e : evt = event;
+    var CSE = evt.target ? evt.target : evt.srcElement;
+    var productId = null;
+    if (CSE != null && CSE.id.length > 6 && CSE.id.substr(0, 6) == 'minus_') {
+        productId = CSE.id.substr(6, CSE.id.length);
+    }
+
+    var urlMinus = "/shoping/minus";
+    jQuery.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        url: urlMinus,
+        dataType:'json',
+        data: $.toJSON(productId),
+        async: true
+    }).done(function(count) {
+        var countShoppingCar = document.getElementById("countCart_" + productId);
+        countShoppingCar.textContent = count;
+    });
+});
+
 $(document).on('click', '#print', function(e) {
     $('#shoppingCart').modal("hide");
     window.open("/report/print");
@@ -198,13 +257,13 @@ $(document).on('click', '#print', function(e) {
 });
 
 $(document).on('click', '#offer', function(e) {
-    var url = "offer/create";
+    var url = "/offer/create";
     $( location ).attr("href", url);
 
 });
 
 $(document).on('click', '#offerPrint', function(e) {
-    var url = "offer/print";
+    var url = "/offer/print";
     $( location ).attr("href", url);
 
 });

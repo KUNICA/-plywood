@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="userDetailsService"
           class="org.springframework.security.provisioning.JdbcUserDetailsManager">
@@ -41,6 +45,19 @@
                 <prop key="mail.smtp.auth">true</prop>
                 <prop key="mail.smtp.starttls.enable">true</prop>
             </props>
+        </property>
+    </bean>
+
+    <!-- Velocity Email Template Config Bean -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="resourceLoaderPath" value="/views/mail/"/>
+        <property name="velocityProperties">
+            <util:properties>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+                <prop key="tools.toolbox">application</prop>
+                <prop key="tools.application.esc">org.apache.velocity.tools.generic.EscapeTool</prop>
+            </util:properties>
         </property>
     </bean>
 

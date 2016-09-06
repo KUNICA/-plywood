@@ -6,8 +6,8 @@
     <definition name="baseTemplate" template="/views/tiles/layout.jsp">
         <put-attribute name="header" value="/views/tiles/header.jsp" />
         <put-attribute name="title" value="" />
-        <put-attribute name="menu" value="" />
         <put-attribute name="body" value="" />
+        <put-attribute name="panel" value="" />
         <put-attribute name="logout">
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
@@ -18,21 +18,55 @@
         <put-attribute name="footer" value="/views/tiles/footer.jsp" />
     </definition>
 
-    <definition name="baseTemplateMain" extends="baseTemplate">
-        <put-attribute name="body">
-            <definition template="/views/tiles/home.jsp">
-                <put-attribute name="galary" value="/views/tiles/galary.jsp"/>
-                <put-attribute name="video" value="/views/tiles/video.jsp"/>
+    <definition name="particleboard" extends="baseTemplate">
+        <put-attribute name="title" value="particleboard page"/>
+        <put-attribute name="panel">
+            <definition template="/views/tiles/panel.jsp">
+                <put-attribute name="type" value="Particleboard"/>
+                <put-attribute name="next_index" value="1"/>
             </definition>
         </put-attribute>
-        <put-attribute name="menu" value="/views/tiles/menu.jsp"/>
+        <put-attribute name="body">
+            <definition template="/views/tiles/home.jsp">
+                <put-attribute name="type" value="Particleboard"/>
+                <put-attribute name="menu">
+                    <definition template="/views/tiles/menu.jsp">
+                        <put-attribute name="nameMenu" value="Particleboard"/>
+                    </definition>
+                </put-attribute>
+                <put-attribute name="index" value="1"/>
+                <put-attribute name="mainData" value="Particleboard"/>
+            </definition>
+        </put-attribute>
     </definition>
 
-    <definition name="home" extends="baseTemplateMain">
+    <definition name="plywood" extends="baseTemplate">
+        <put-attribute name="title" value="plywood page"/>
+        <put-attribute name="panel">
+            <definition template="/views/tiles/panel.jsp">
+                <put-attribute name="next_index" value="0"/>
+                <put-attribute name="type" value="Plywood"/>
+            </definition>
+        </put-attribute>
+        <put-attribute name="body">
+            <definition template="/views/tiles/home.jsp">
+                <put-attribute name="type" value="Plywood"/>
+                <put-attribute name="menu">
+                    <definition template="/views/tiles/menu.jsp">
+                        <put-attribute name="nameMenu" value="Plywood"/>
+                    </definition>
+                </put-attribute>
+                <put-attribute name="index" value="2"/>
+                <put-attribute name="mainData" value="Plywood"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="home" extends="particleboard">
         <put-attribute name="title" value="home page"/>
     </definition>
 
-    <definition name="login" extends="baseTemplateMain">
+    <definition name="login" extends="home">
         <put-attribute name="title" value="login page"/>
     </definition>
 
@@ -48,9 +82,21 @@
         </put-attribute>
     </definition>
 
-    <definition name="tableCompare" extends="baseTemplate">
+    <definition name="tableCompareParticleboard" extends="baseTemplate">
+    <put-attribute name="title" value="compare page"/>
+    <put-attribute name="body" value="/views/tiles/compareTableParticleboard.jsp"/>
+    <put-attribute name="logout">
+        <definition template="/views/tiles/logo.jsp">
+            <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+            <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+            <put-attribute name="pay" value="" />
+        </definition>
+    </put-attribute>
+</definition>
+
+    <definition name="tableComparePlywood" extends="baseTemplate">
         <put-attribute name="title" value="compare page"/>
-        <put-attribute name="body" value="/views/tiles/compareTable.jsp"/>
+        <put-attribute name="body" value="/views/tiles/compareTablePlywood.jsp"/>
         <put-attribute name="logout">
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
@@ -64,6 +110,39 @@
     <definition name="offer" extends="baseTemplate">
         <put-attribute name="title" value="admin page"/>
         <put-attribute name="body" value="/views/tiles/offer.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="viewParticleboard" extends="baseTemplate">
+        <put-attribute name="title" value="view page"/>
+        <put-attribute name="body">
+                <definition template="/views/tiles/viewParticleboard.jsp">
+                    <put-attribute name="galary" value="/views/tiles/galary.jsp"/>
+                </definition>
+        </put-attribute>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="viewPlywood" extends="baseTemplate">
+        <put-attribute name="title" value="view page"/>
+        <put-attribute name="galary" value="/views/tiles/galary.jsp"/>
+        <put-attribute name="body">
+            <definition template="/views/tiles/viewPlywood.jsp">
+                <put-attribute name="galary" value="/views/tiles/galary.jsp"/>
+            </definition>
+        </put-attribute>
         <put-attribute name="logout">
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />

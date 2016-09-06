@@ -18,6 +18,7 @@ public class OfferService implements OfferServiceImpl {
     @Inject
     private ShopingCartServiceIml shopingCartServiceIml;
 
+    @Named("productDao")
     @Inject
     private ProductDaoImpl productDaoImpl;
 
@@ -34,8 +35,8 @@ public class OfferService implements OfferServiceImpl {
             ShoppingCart productCart = (ShoppingCart)iter;
             productCart.setActual(1L);
             shoppingCar.add(productCart);
-            Product product = (Product)productDaoImpl.getProduct(productCart.getProductId());
-            sumOffer+=product.getPrice();
+            Product product = productCart.getProduct();
+            sumOffer+=productCart.getCount()*product.getPrice();
         }
         offer.setShoppingCart(shoppingCar);
         offer.setOrderPrice(sumOffer);

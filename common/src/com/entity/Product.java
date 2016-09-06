@@ -1,10 +1,13 @@
 package com.entity;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,10 +15,13 @@ import java.util.Set;
  * Created by user on 20.08.2016.
  */
 @Entity
+@FetchProfile(name = "mediaProfile", fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = Product.class, association = "photos", mode = FetchMode.JOIN)})
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(
         name="type",
         discriminatorType=DiscriminatorType.STRING)
+@Table(name = "product", schema = "plywood_work")
 public class Product {
     protected Long id;
     protected Operations operOut;
@@ -24,19 +30,19 @@ public class Product {
     protected String shortDescription;
     protected String name;
     protected Long length;
+    protected Type type;
     protected Long width;
     protected Long depth;
-    protected String type;
+    protected String productId;
     protected List<Images> photos;
-    protected List<Video> videos;
 
     public Product() {
         this.photos = new ArrayList<Images>();
-        this.videos = new ArrayList<Video>();
+        this.type = Type.Product;
     }
 
     @Id
-    @Column(name = "product_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long getId() {
         return id;
@@ -44,6 +50,16 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "unic_id", length = 225)
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     @Basic
@@ -106,16 +122,6 @@ public class Product {
         this.depth = depth;
     }
 
-    @Basic
-    @Column(name = "type", nullable = false)
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="oper_in", updatable = true,insertable = true)
     public Operations getOperIn() {
@@ -138,25 +144,26 @@ public class Product {
     }
 
     @OneToMany(cascade = {CascadeType.ALL,CascadeType.PERSIST})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    @LazyCollection(LazyCollectionOption.FALSE )
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @Where(clause="operation_out is null")
     public List<Images> getPhotos() {
         return photos;
-    }
-
-    @OneToMany(cascade = {CascadeType.ALL,CascadeType.PERSIST})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    public List<Video> getVideos() {
-        return videos;
     }
 
     public void setPhotos(List<Images> photos) {
         this.photos = photos;
     }
 
-    public void setVideos(List<Video> videos) {
-        this.videos = videos;
+    @Basic
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    public Type getType() {
+        return this.type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override

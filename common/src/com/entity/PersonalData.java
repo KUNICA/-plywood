@@ -8,19 +8,22 @@ import javax.persistence.*;
 @Entity
 @Table(name = "personal_data", schema = "plywood_work")
 public class PersonalData {
-    private int id;
+    private Long id;
     private String email;
     private String lastName;
     private String midleName;
     private String firstName;
+    private String userName;
+    private Operations operationIn;
+    private Operations operationOut;
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,6 +67,36 @@ public class PersonalData {
         this.firstName = firstName;
     }
 
+    @Basic
+    @Column(name = "user_name", nullable = false, length = 50)
+    public String getUserName() {
+        return userName;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="oper_in", updatable = true,insertable = true)
+    public Operations getOperationIn() {
+        return operationIn;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="oper_out", updatable = true,insertable = true)
+    public Operations getOperationOut() {
+        return operationOut;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setOperationIn(Operations operationIn) {
+        this.operationIn = operationIn;
+    }
+
+    public void setOperationOut(Operations operationOut) {
+        this.operationOut = operationOut;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,7 +115,7 @@ public class PersonalData {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.intValue();
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (midleName != null ? midleName.hashCode() : 0);

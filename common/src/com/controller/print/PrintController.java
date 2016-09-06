@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +28,11 @@ import java.util.Map;
 public class PrintController {
 
     @Inject
-    private PrintProductsService printProductsServiceImpl;
+    @Named("printParticleboardService")
+    private PrintProductsService printParticleboardService;
+    @Inject
+    @Named("printPlywoodService")
+    private PrintProductsService printPlywoodService;
 
     @RequestMapping(value="/print",method= RequestMethod.GET)
     @Secured({ "ROLE_ADMIN","ROLE_USER"})
@@ -35,7 +40,9 @@ public class PrintController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         InputStream jasperStream = this.getClass().getResourceAsStream("/print/report1.jasper");
         Map<String,Object> params = new HashMap<String,Object>();
-        List list = printProductsServiceImpl.getListParamProducts(userName);
+        List list = printParticleboardService.getListParamProducts(userName);
+        List listPlywood = printPlywoodService.getListParamProducts(userName);
+        list.addAll(listPlywood);
         JRDataSource dataSource = new JRBeanCollectionDataSource(list);
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);

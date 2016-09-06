@@ -20,6 +20,10 @@
                 <h4 class="modal-title">Shopping cart</h4>
             </div>
             <div class="modal-body">
+                <div>
+                    <table>
+                        <tr>
+                            <td>
                 <table class = "table" id="tableSumPay" style="width:300px">
                     <tr>
                         <th>Общая сумма заказа: </th>
@@ -29,6 +33,14 @@
                         <th><button type="button" id="offer" class="btn btn-success" style="margin-left:auto; margin-right:auto;">Заказать</button></th>
                     </tr>
                 </table>
+                        </td>
+                        <td>
+                            <div class="shopingIcon">
+                            </div>
+                        </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

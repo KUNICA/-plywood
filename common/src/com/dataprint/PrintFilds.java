@@ -8,45 +8,49 @@ package com.dataprint;
 public class PrintFilds {
 
     private String name;
-    private String adress;
-    private String persons;
-    private String products;
-    private String flors;
-    private String bathrooms;
+    private String length;
+    private String width;
+    private String depth;
     private String description;
+    private String type;
     private String price;
     private String image1;
     private String image2;
     private String image3;
     private String image4;
     private String image5;
+    private String image6;
+    private String image7;
+    private String coatingPlywood;
+    private String coatingParticleboard;
+    private String laminated;
+    private String waterResistance;
+    private String sanded;
+    private String grade;
+    private String color;
 
     public String getName() {
         return name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getLength() {
+        return length;
     }
 
-    public String getPersons() {
-        return persons;
+    public String getWidth() {
+        return width;
     }
 
-    public String getProducts() {
-        return products;
-    }
-
-    public String getFlors() {
-        return flors;
-    }
-
-    public String getBathrooms() {
-        return bathrooms;
+    public String getDepth() {
+        return depth;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getPrice() {
@@ -73,32 +77,64 @@ public class PrintFilds {
         return image5;
     }
 
+    public String getImage6() {
+        return image6;
+    }
+
+    public String getImage7() {
+        return image7;
+    }
+
+    public String getCoatingPlywood() {
+        return coatingPlywood;
+    }
+
+    public String getCoatingParticleboard() {
+        return coatingParticleboard;
+    }
+
+    public String getLaminated() {
+        return laminated;
+    }
+
+    public String getWaterResistance() {
+        return waterResistance;
+    }
+
+    public String getSanded() {
+        return sanded;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setLength(String length) {
+        this.length = length;
     }
 
-    public void setPersons(String persons) {
-        this.persons = persons;
+    public void setWidth(String width) {
+        this.width = width;
     }
 
-    public void setProducts(String products) {
-        this.products = products;
-    }
-
-    public void setFlors(String flors) {
-        this.flors = flors;
-    }
-
-    public void setBathrooms(String bathrooms) {
-        this.bathrooms = bathrooms;
+    public void setDepth(String depth) {
+        this.depth = depth;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setPrice(String price) {
@@ -123,5 +159,41 @@ public class PrintFilds {
 
     public void setImage5(String image5) {
         this.image5 = image5;
+    }
+
+    public void setImage6(String image6) {
+        this.image6 = image6;
+    }
+
+    public void setImage7(String image7) {
+        this.image7 = image7;
+    }
+
+    public void setCoatingPlywood(String coatingPlywood) {
+        this.coatingPlywood = coatingPlywood;
+    }
+
+    public void setCoatingParticleboard(String coatingParticleboard) {
+        this.coatingParticleboard = coatingParticleboard;
+    }
+
+    public void setLaminated(String laminated) {
+        this.laminated = laminated;
+    }
+
+    public void setWaterResistance(String waterResistance) {
+        this.waterResistance = waterResistance;
+    }
+
+    public void setSanded(String sanded) {
+        this.sanded = sanded;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

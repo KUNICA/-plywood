@@ -15,50 +15,53 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script type="text/javascript" src="/js/jquery.json.js"></script>
 <script type="text/javascript" language="JavaScript" src="<%=JspConstants.APP_PATH%>/js/ruler.js"></script>
-<script type="text/javascript" src="/js/galary.js"></script>
-<script type="text/javascript" src="/js/video.js"></script>
+<script type="text/javascript" language="JavaScript" src="<%=JspConstants.APP_PATH%>/js/page-proofs-ruller.js"></script>
+<script type="text/javascript" language="JavaScript" src="<%=JspConstants.APP_PATH%>/js/ruller-plywood.js"></script>
+<script type="text/javascript" language="JavaScript" src="<%=JspConstants.APP_PATH%>/js/ruller-particleboard.js"></script>
+<script type="text/javascript" language="JavaScript" src="<%=JspConstants.APP_PATH%>/js/to-plug-ruller.js"></script>
 <script type="text/javascript" src="/js/shopingcart.js"></script>
 <script type="text/javascript" src="/js/compare.js"></script>
-<script>
+
+<script type="text/javascript">
 
     $(document).ready(function(){
-        initPaginationParametrs();
-        initPagination('/pagination/countActualObjects');
+        var index = <tiles:insertAttribute name='index' />;
+        var scriptRuller = new ScriptParticleboard();
+        var scriptRuller = toPlug(index);
+
+        myMapParamSearch[<tiles:insertAttribute name='index' />] = new ParamSearch(<tiles:insertAttribute name='index' />,
+                         "<tiles:insertAttribute name='mainData' />",scriptRuller);
+        initPaginationParametrs(<tiles:insertAttribute name='index' />,scriptRuller.paramsUrl);
+        initPagination(<tiles:insertAttribute name='index' />);
+
     });
 
 
 </script>
-        <div style="margin: auto; width: 700px;">
-            <div class="paginator" id="paginator2" style=" display: none"></div>
-        <div id ="mainData" class="homeCard">
+
+        <div style="margin-top: 50px; width: 700px;">
+                            <table>
+                                <tr>
+                                <td colspan = "2" style="text-align: center;">
+                                        <b style="font-size: 24px; margin-left: 300px;">
+                                            <tiles:insertAttribute name="type" />
+                                        </b>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top"><tiles:insertAttribute name="menu" /></td>
+                                    <td valign="top">
+                                        <div style="margin: auto; width: 800px;">
+                                            <div class="paginator" id="paginator1_<tiles:insertAttribute name='index' />" style=" display: none"></div>
+                                            <div id ="mainData<tiles:insertAttribute name='mainData' />" class="catalog-item-table-view">
+                                            </div>
+                                        <div class="paginator" id="paginator2_<tiles:insertAttribute name='index' />"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
         </div>
-            <div class="paginator" id="paginator1"></div>
 
-            <div id="galary" class="modal fade">
-                <div class="modal-dialog" style="width: 100%; height: 100%;">
-                    <div class="modal-content">
-                        <div class="modal-header"><button class="close btn btn-default" type="button" data-dismiss="modal" >Закрыть</button>
-                            <h4 class="modal-title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <tiles:insertAttribute name="galary" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="video" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header"><button class="close btn btn-default" type="button" data-dismiss="modal" >Закрыть</button>
-                            <h4 class="modal-title">West 17th Townhouse</h4>
-                        </div>
-                        <div class="modal-body">
-                            <tiles:insertAttribute name="video" />
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
 

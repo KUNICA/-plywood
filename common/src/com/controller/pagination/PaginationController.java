@@ -1,8 +1,6 @@
 package com.controller.pagination;
 
-import com.dataweb.IntervalPagination;
-import com.dataweb.MenuParametrs;
-import com.dataweb.UrlImage;
+import com.dataweb.*;
 import com.entity.Images;
 import com.services.pagination.ImageService;
 import com.services.pagination.ProductPaginationServiceImpl;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +24,16 @@ import java.util.List;
 public class PaginationController {
 
     @Inject
-    private ProductPaginationServiceImpl productEntityPaginationService;
+    @Named("productPaginationService")
+    private ProductPaginationServiceImpl productPaginationService;
+
+    @Inject
+    @Named("particleboardPaginationService")
+    private ProductPaginationServiceImpl particleboardPaginationService;
+
+    @Inject
+    @Named("plywoodPaginationService")
+    private ProductPaginationServiceImpl plywoodPaginationService;
 
     @Inject
     private ImageService imageService;
@@ -36,9 +44,7 @@ public class PaginationController {
             method = RequestMethod.POST,
             headers = {"Accept=text/xml, application/json"})
     public @ResponseBody Long getCount(@RequestBody IntervalPagination interval) {
-        return productEntityPaginationService.getCountObjects(interval.getStart(),interval.getEnd(),
-                interval.getMinPrice(),interval.getMaxPrice(),interval.getPersons(),
-                interval.getBadrooms(),interval.getBathrooms());
+        return productPaginationService.getCountObjects(interval);
     }
 
     @RequestMapping(value = "/objects",
@@ -46,10 +52,61 @@ public class PaginationController {
             headers = {"Accept=text/xml, application/json"})
     public @ResponseBody
     List getObjects(@RequestBody IntervalPagination interval) {
-        List list = productEntityPaginationService.getObjects(interval.getStart(),interval.getEnd(),
-                interval.getMinPrice(),interval.getMaxPrice(),interval.getPersons(),
-                interval.getBadrooms(),interval.getBathrooms());
+        List list = productPaginationService.getObjects(interval);
         return list;
+    }
+
+    @RequestMapping(value = "/parametrs", method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    Object getParametrs() {
+        return  productPaginationService.getParametrObjects();
+    }
+
+    @RequestMapping(value = "/countActualParticleboard",
+            method = RequestMethod.POST,
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody Long getCountParticleboard(@RequestBody ParticleboardIntervalPagination interval) {
+        return particleboardPaginationService.getCountObjects(interval);
+    }
+
+    @RequestMapping(value = "/particleboards",
+    method = RequestMethod.POST, consumes="application/json", produces="application/json",
+    headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List getParticleboards(@RequestBody ParticleboardIntervalPagination interval) {
+        List list = particleboardPaginationService.getObjects(interval);
+        return list;
+    }
+
+    @RequestMapping(value = "/parametrsParticleboards", method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    Object getParametrsParticleboard() {
+        return  particleboardPaginationService.getParametrObjects();
+    }
+
+    @RequestMapping(value = "/countActualPlywood",
+            method = RequestMethod.POST,
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody Long getCountPlywood(@RequestBody PlywoodIntervalPagination interval) {
+        return plywoodPaginationService.getCountObjects(interval);
+    }
+
+    @RequestMapping(value = "/plywoods",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List getPlywoods(@RequestBody PlywoodIntervalPagination interval) {
+        List list = plywoodPaginationService.getObjects(interval);
+        return list;
+    }
+
+    @RequestMapping(value = "/parametrsPlywoods", method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    Object getParametrsPlywood() {
+        return  plywoodPaginationService.getParametrObjects();
     }
 
     @ResponseBody
@@ -58,20 +115,20 @@ public class PaginationController {
         Images imagesEntity =  imageService.getImageProduct(id);
         Resource resource = null;
         if(imagesEntity!=null){
-            resource = resourceLoader.getResource("images/products/"  + imagesEntity.getImg());
+            resource = resourceLoader.getResource("images/product/"  + imagesEntity.getImg());
         }
         return resource;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/imgPatch/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/imgPatch/{id}", method = RequestMethod.GET)
     public UrlImage getImgPatch(@PathVariable("id") long id){
         Images imagesEntity =  imageService.getImageProduct(id);
         return new UrlImage(imagesEntity.getImg());
     }
 
     @ResponseBody
-    @RequestMapping(value = "/galary/imgPatch/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/galary/imgPatch/{id}", method = RequestMethod.GET)
     public UrlImage getImgGalaryPatch(@PathVariable("id") long id) throws IOException {
         Images imagesEntity =  imageService.getImageGalary(id);
         return new UrlImage(imagesEntity.getImg());
@@ -83,7 +140,7 @@ public class PaginationController {
         Images imagesEntity =  imageService.getImageGalary(id);
         Resource resource = null;
         if(imagesEntity!=null){
-            resource = resourceLoader.getResource("images/products/"  + imagesEntity.getImg());
+            resource = resourceLoader.getResource("images/product/"  + imagesEntity.getImg());
         }
         return resource;
     }
@@ -94,12 +151,6 @@ public class PaginationController {
         return imageService.getImages(id);
     }
 
-    @RequestMapping(value = "/parametrs", method = RequestMethod.POST, consumes="application/json", produces="application/json",
-            headers = {"Accept=text/xml, application/json"})
-    public @ResponseBody
-    MenuParametrs getParametrs() {
-        return  productEntityPaginationService.getParametrObjects();
-    }
 
 
 }

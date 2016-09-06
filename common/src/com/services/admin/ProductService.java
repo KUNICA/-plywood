@@ -13,8 +13,18 @@ import java.util.List;
  */
 @Named
 public class ProductService implements ProductServiceImpl {
+
+    @Named("productDao")
     @Inject
     private ProductDaoImpl productDaoImpl;
+
+    @Named("plywoodDao")
+    @Inject
+    private ProductDaoImpl plywoodDao;
+
+    @Named("particleboardDao")
+    @Inject
+    private ProductDaoImpl particleboardDao;
 
     @Inject
     protected SaveOrUpdateObjectInputServiceImpl saveOrUpdateObjectInputService;
@@ -24,6 +34,14 @@ public class ProductService implements ProductServiceImpl {
 
     public List getProducts(String userName){
         return productDaoImpl.getProducts(userName);
+    }
+
+    public List getPlywoods(String userName){
+        return plywoodDao.getProducts(userName);
+    }
+
+    public List getParticleboards(String userName){
+        return particleboardDao.getProducts(userName);
     }
 
     @Override

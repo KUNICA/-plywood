@@ -34,7 +34,7 @@ $(document).on('click', '.Galary', function(e) {
                 mainRow.appendChild(thumb);
 
                 jQuery.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: "/pagination/galary/imgPatch/" + objects[i].id,
                     async: false
                 }).done(function( m_url ) {

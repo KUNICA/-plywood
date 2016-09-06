@@ -55,11 +55,11 @@ $(document).on('click', '.buttonCompare', function(e) {
 
     e ? evt = e : evt = event;
     var CSE = evt.target ? evt.target : evt.srcElement;
-    var productId = null;
+    var type = null;
     if (CSE != null && CSE.id.length > 8 && CSE.id.substr(0, 8) == 'compare_') {
-        productId = CSE.id.substr(8, CSE.id.length);
+        type = CSE.id.substr(8, CSE.id.length);
     }
 
-    window.open("compare/table/" + productId);
+    window.open("/compare/table/" + type);
 
 });

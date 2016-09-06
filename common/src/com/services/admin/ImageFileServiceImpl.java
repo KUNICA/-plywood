@@ -8,4 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ImageFileServiceImpl {
     void validateImage(MultipartFile image) throws ImageUploadException;
     void saveFileImage(String filename, MultipartFile image) throws ImageUploadException;
+    void removeFile(String filename);
 }

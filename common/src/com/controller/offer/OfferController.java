@@ -45,10 +45,10 @@ public class OfferController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         Offer offer = (Offer)offerService.create(userName);
         saveOrUpdateObjectInputService.inputObject(offer);
-        List products = offerService.getProducts(offer.getShoppingCart());
-        model.addAttribute("listOffer",products);
+        model.addAttribute("listOffer",offer.getShoppingCart());
         model.addAttribute("totalPrice",offer.getOrderPrice());
         alertService.sendAlert(offer);
+        alertService.sendAlertAdmin(offer);
         model.addAttribute("personalData",personalDataService.getPersonalData(userName));
         return "offer";
     }
@@ -58,8 +58,7 @@ public class OfferController {
     public String getOffer(Model model, HttpSession session) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         Offer offer = (Offer)offerService.getOffer(userName);
-        List products = offerService.getProducts(offer.getShoppingCart());
-        model.addAttribute("listOffer",products);
+        model.addAttribute("listOffer",offer.getShoppingCart());
         model.addAttribute("totalPrice",offer.getOrderPrice());
         model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
         return "offer";

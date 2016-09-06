@@ -1,12 +1,12 @@
 package com.dao.shopingcart;
 
+import com.dao.DaoCriteria;
 import com.entity.Product;
 import com.entity.ShoppingCart;
+import com.entity.Type;
 import org.hibernate.*;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.hibernate.criterion.*;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,28 +14,24 @@ import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.camel.model.rest.RestParamType.query;
+
 /**
  * Created by user on 20.08.2016.
  */
 @Named
 @Component
-public class ShopingCartDao implements ShopingCartDaoIml {
-
-    private SessionFactory sessionFactory;
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
+public class ShopingCartDao extends DaoCriteria<ShoppingCart> implements ShopingCartDaoIml {
 
     private Criteria getCriteria(Session session, long productId){
-        return session.createCriteria(ShoppingCart.class)
+        return createCriteria(session)
                 .add(Restrictions.eq("productId",productId));
     }
 
 
     @Autowired
     public ShopingCartDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
+        super(sessionFactory);      // Конструирует DAO
     }
 
 
@@ -104,15 +100,23 @@ public class ShopingCartDao implements ShopingCartDaoIml {
             session = currentSession();
             tx = session.beginTransaction();
             session.enableFetchProfile("mediaProfile");
-            DetachedCriteria dc = DetachedCriteria.forClass(ShoppingCart.class)
-                    .add(Restrictions.eq("username",userName))
-                    .add(Restrictions.isNull("actual"))
-                    .add(Restrictions.isNotNull("check"))
-                    .setProjection(Projections.property("produtcId"));
 
-            list =  session.createCriteria(Product.class)
+            list =  session.createCriteria(ShoppingCart.class,"cart")
                     .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                    .add(Subqueries.propertyIn("id", dc)).list();
+                    .createAlias("cart.product", "product")
+                    .add(Restrictions.eq("cart.username",userName))
+                    .add(Restrictions.isNull("cart.actual"))
+                    .add(Restrictions.isNotNull("cart.check"))
+                    .setProjection(Projections.projectionList()
+                            .add(Projections.property("product.price"), "price")
+                            .add(Projections.property("product.shortDescription"), "shortDescription")
+                            .add(Projections.property("product.name"), "name")
+                            .add(Projections.property("cart.count"), "count")
+                            .add(Projections.property("product.length"), "length")
+                            .add(Projections.property("product.type"), "type")
+                            .add(Projections.property("product.width"), "width")
+                            .add(Projections.property("product.depth"), "depth"))
+                    .setResultTransformer(Transformers.aliasToBean(ShopingCartDto.class)).list();
 
             tx.commit();
         }
@@ -136,7 +140,7 @@ public class ShopingCartDao implements ShopingCartDaoIml {
         try {
             session = currentSession();
             tx = session.beginTransaction();
-            list =  session.createCriteria(ShoppingCart.class)
+            list =  createCriteria(session)
                     .add(Restrictions.eq("username",userName))
                     .add(Restrictions.isNull("actual"))
                     .add(Restrictions.isNotNull("check")).list();

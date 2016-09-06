@@ -8,22 +8,23 @@ import java.io.Serializable;
  * Created by user on 20.08.2016.
  */
 public class MenuParametrs implements Serializable {
+
     @JsonProperty("minPrice")
     private Double minPrice;
     @JsonProperty("maxPrice")
     private Double maxPrice;
-    @JsonProperty("minPersons")
-    private Long minPersons;
-    @JsonProperty("maxPersons")
-    private Long maxPersons;
-    @JsonProperty("minBadrooms")
-    private Long minBadrooms;
-    @JsonProperty("maxBadrooms")
-    private Long maxBadrooms;
-    @JsonProperty("minBathrooms")
-    private Long minBathrooms;
-    @JsonProperty("maxBathrooms")
-    private Long maxBathrooms;
+    @JsonProperty("minLength")
+    private Long minLength;
+    @JsonProperty("maxLength")
+    private Long maxLength;
+    @JsonProperty("minWidth")
+    private Long minWidth;
+    @JsonProperty("maxWidth")
+    private Long maxBWidth;
+    @JsonProperty("minDepth")
+    private Long minDepth;
+    @JsonProperty("maxDepth")
+    private Long maxDepth;
 
     public Double getMinPrice() {
         return minPrice;
@@ -33,28 +34,28 @@ public class MenuParametrs implements Serializable {
         return maxPrice;
     }
 
-    public Long getMinPersons() {
-        return minPersons;
+    public Long getMinLength() {
+        return minLength;
     }
 
-    public Long getMaxPersons() {
-        return maxPersons;
+    public Long getMaxLength() {
+        return maxLength;
     }
 
-    public Long getMinBadrooms() {
-        return minBadrooms;
+    public Long getMinWidth() {
+        return minWidth;
     }
 
-    public Long getMaxBadrooms() {
-        return maxBadrooms;
+    public Long getMaxBWidth() {
+        return maxBWidth;
     }
 
-    public Long getMinBathrooms() {
-        return minBathrooms;
+    public Long getMinDepth() {
+        return minDepth;
     }
 
-    public Long getMaxBathrooms() {
-        return maxBathrooms;
+    public Long getMaxDepth() {
+        return maxDepth;
     }
 
     public void setMinPrice(Double minPrice) {
@@ -65,27 +66,27 @@ public class MenuParametrs implements Serializable {
         this.maxPrice = maxPrice;
     }
 
-    public void setMinPersons(Long minPersons) {
-        this.minPersons = minPersons;
+    public void setMinLength(Long minLength) {
+        this.minLength = minLength;
     }
 
-    public void setMaxPersons(Long maxPersons) {
-        this.maxPersons = maxPersons;
+    public void setMaxLength(Long maxLength) {
+        this.maxLength = maxLength;
     }
 
-    public void setMinBadrooms(Long minBadrooms) {
-        this.minBadrooms = minBadrooms;
+    public void setMinWidth(Long minWidth) {
+        this.minWidth = minWidth;
     }
 
-    public void setMaxBadrooms(Long maxBadrooms) {
-        this.maxBadrooms = maxBadrooms;
+    public void setMaxWidth(Long maxBWidth) {
+        this.maxBWidth = maxBWidth;
     }
 
-    public void setMinBathrooms(Long minBathrooms) {
-        this.minBathrooms = minBathrooms;
+    public void setMinDepth(Long minDepth) {
+        this.minDepth = minDepth;
     }
 
-    public void setMaxBathrooms(Long maxBathrooms) {
-        this.maxBathrooms = maxBathrooms;
+    public void setMaxDepth(Long maxDepth) {
+        this.maxDepth = maxDepth;
     }
 }

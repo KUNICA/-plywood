@@ -42,8 +42,28 @@ public class ShopingCarController {
         return shoppingCartEntity!=null ? new Product(shoppingCartEntity,userName): new Product(userName) ;
     }
 
-    @RequestMapping(value = "/ischeck/{produtcId}", method = RequestMethod.GET)
-    public @ResponseBody Boolean isCheck(@PathVariable("produtcId") long id) {
+    @RequestMapping(value = "/plus",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    Long plus(@RequestBody Long productId) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        ShoppingCart shoppingCartEntity = (ShoppingCart)shopingCartService.getShoppingCart(userName,productId);
+    return shopingCartService.plusProduct(shoppingCartEntity);
+}
+
+    @RequestMapping(value = "/minus",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    Long minus(@RequestBody Long productId) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        ShoppingCart shoppingCartEntity = (ShoppingCart)shopingCartService.getShoppingCart(userName,productId);
+        return shopingCartService.minusProduct(shoppingCartEntity);
+    }
+
+    @RequestMapping(value = "/ischeck/{productId}", method = RequestMethod.GET)
+    public @ResponseBody Boolean isCheck(@PathVariable("productId") long id) {
         return shopingCartService.isProductCheck(id);
     }
 

@@ -4,5 +4,5 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <link href="/css/header.css" rel="stylesheet" type="text/css" >
 
-<td class="header">
-</td>
+<div  class="header">
+</div>

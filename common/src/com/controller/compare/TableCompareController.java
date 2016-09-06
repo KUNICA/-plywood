@@ -1,6 +1,8 @@
 package com.controller.compare;
 
 
+import com.entity.Type;
+import com.services.account.UserServiceImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.services.account.IPersonalDataService;
 import com.services.compare.CompareTableServiceImpl;
@@ -23,14 +25,16 @@ public class TableCompareController {
     private CompareTableServiceImpl compareTableService;
 
     @Inject
-    IPersonalDataService personalDataService;
+    private IPersonalDataService personalDataService;
 
-    @RequestMapping(value="/table/{productId}")
-    @Secured({ "ROLE_ADMIN","ROLE_USER"})
-    public String showHome(@PathVariable("productId") long productId , Model model) {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("tableCompare",compareTableService.getProducts(userName,productId));
+    @Inject
+    private UserServiceImpl userService;
+
+    @RequestMapping(value="/table/{type}")
+    public String showHome(@PathVariable("type") Type type , Model model) {
+        String userName = userService.getUserName();
+        model.addAttribute("tableCompare",compareTableService.getProducts(userName,type));
         model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
-        return "tableCompare";
+        return "tableCompare" + type;
     }
 }

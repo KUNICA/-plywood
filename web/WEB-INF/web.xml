@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext.xml
+        </param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.request.charset</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
+
+    <!--/Print-->
+
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- ENCODING FILTER -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>com.filter.EncodingServletFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- END ENCODING FILTER-->
+
+    <!-- LOCALE FILTER -->
+    <filter>
+        <filter-name>localeFilter</filter-name>
+        <filter-class>com.filter.LocaleServletFilter</filter-class>
+        <init-param>
+            <param-name>locale</param-name>
+            <param-value>ru_RU</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>localeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- END LOCALE FILTER-->
+
+    <filter>
+        <filter-name>requestContextFilter</filter-name>
+        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>requestContextFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--security layer.-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <!--
+    - Publishes events for session creation and destruction through the application
+    - context. Optional unless concurrent session control is being used.
+    -->
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error50x.html</location>
+    </error-page>
+
+    <session-config>
+        <session-timeout>180</session-timeout>
+    </session-config>
+
+
+</web-app>

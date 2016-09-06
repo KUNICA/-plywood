@@ -1,5 +1,6 @@
 package com.dao.account;
 
+import com.dao.DaoCriteria;
 import com.entity.PersonalData;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,18 +18,11 @@ import javax.inject.Named;
 
 @Named
 @Component
-public class PersonalDataDao implements IPersonalDataDao{
-
-
-    private SessionFactory sessionFactory;
+public class PersonalDataDao extends DaoCriteria<PersonalData> implements IPersonalDataDao{
 
     @Autowired
     public PersonalDataDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
-    }
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
+        super(sessionFactory);
     }
 
     @Override
@@ -42,7 +36,7 @@ public class PersonalDataDao implements IPersonalDataDao{
             session = currentSession();
             tx = session.beginTransaction();
 
-            personalDataEntity = (PersonalData)session.createCriteria(PersonalData.class)
+            personalDataEntity = (PersonalData)createCriteria(session)
                     .add(Restrictions.eq("userName",userName)).uniqueResult();
 
             tx.commit();

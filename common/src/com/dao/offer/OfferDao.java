@@ -1,5 +1,6 @@
 package com.dao.offer;
 
+import com.dao.DaoCriteria;
 import com.entity.Offer;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -11,22 +12,16 @@ import javax.inject.Named;
  * Created by user on 20.08.2016.
  */
 @Named
-public class OfferDao implements OfferDaoImpl{
-
-    private SessionFactory sessionFactory;
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
+public class OfferDao extends DaoCriteria<Offer> implements OfferDaoImpl{
 
     private Criteria getCriteria(Session session){
-        return session.createCriteria(Offer.class)
+        return createCriteria(session)
                 .add(Restrictions.isNull("operationOut"));
     }
 
     @Autowired
     public OfferDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
+        super(sessionFactory);      // Конструирует DAO
     }
 
     @Override

@@ -3,22 +3,56 @@
  */
 
 
-
 var current = null;
 var countP = null
-var mselect = 10;
-var parent_element_id = 'mainData';
+var mselect = 9;
 
-var Paginator = function(paginatorHolderId, pagesTotal, pagesSpan, pageCurrent, baseUrl){
-    if(!document.getElementById(paginatorHolderId) || !pagesTotal || !pagesSpan) return false;
+var myMapPaginator = {};
+var myMapParamSearch = {};
+var ParamSearch = function(index,name,scriptPlywood){
+    this.ex1 = 'ex1_' + index;
+    this.ex2 = 'ex2_' + index;
+    this.ex3 = 'ex3_' + index;
+    this.ex4 = 'ex4_' + index;
+    this.nameSlide = 'PanelSlide';
+    this.PanelSlide = this.nameSlide + name;
+
+    this.parent_element_id = 'mainData' + name;
+    //методы
+    this.initData = scriptPlywood.initData;
+    this.getObjects = scriptPlywood.getObjects;
+
+    this.initParam = scriptPlywood.initParam;
+    this.eventParam = scriptPlywood.eventParam;
+    
+}
+
+var Paginator = function(index,paginationHolderId, pagesTotal, pagesSpan, pageCurrent, baseUrl){
+    if(!document.getElementById(paginationHolderId) || !pagesTotal || !pagesSpan) return false;
     countP = pagesTotal;
     this.inputData = {
-        paginatorHolderId: paginatorHolderId,
+        paginatorHolderId: paginationHolderId,
         pagesTotal: pagesTotal,
         pagesSpan: pagesSpan < pagesTotal ? pagesSpan : pagesTotal,
         pageCurrent: pageCurrent,
         baseUrl: baseUrl ? baseUrl : '/pages/'
+        
     };
+
+    this.index = index;
+
+    this.paginator1 =  "paginator1_" + this.index;
+    this.cellCurrent = 'cellCurrent_' + this.index;
+    this.paginator2 =  "paginator2_" + this.index;
+    this.idSearchList = "idSearchList_" + this.index;
+    this.s_all = 's-all' + this.index;
+    this.countPage1 = 'countPage1_' + this.index;
+    this.countPage2 = 'countPage2_' + this.index;
+   // this.s_col1 = 's-col1_' + this.index;
+   // this.s_col2 = 's-col2_' + this.index;
+    this.s_content = 's-content_' + this.index;
+    this.scroll_bar1 = 'scroll_bar1_' + this.index;
+    this.scroll_bar2 = 'scroll_bar2_' + this.index;
 
     current = pageCurrent;
 
@@ -48,23 +82,47 @@ var Paginator = function(paginatorHolderId, pagesTotal, pagesSpan, pageCurrent, 
     document.all?document.attachEvent('onclick',chekClick):document.addEventListener('click',chekClick,false);
 }
 
+function getParent(el, className) {
+    var obj = el;
+    while (obj.className !== className) {
+        obj = obj.parentNode;
+    }
+    return obj;
+}
+
+function getPaginatorId(pId){
+    return myMapPaginator[pId];
+}
+
+function getPaginatorParrentIndex(element){
+    var paginator = getParent(element,"paginator");
+    return paginator.id.substr(11, paginator.id.length);
+}
+
+function getPaginatorParrent(element){
+    var paginatorId = getPaginatorParrentIndex(element)
+    return getPaginatorId("paginator2_" + paginatorId);
+}
+
 function chekClick(e) {
     e?evt=e:evt=event;
     var element = evt.target?evt.target:evt.srcElement;
-    if(element.id!=null && element.id.indexOf("cellCurrent")+1){
+    var paginator = getPaginatorParrent(element);
+
+    if(element.id!=null && element.id.indexOf(paginator.cellCurrent)+1){
         current = element.textContent;
         nextPage(element);
     }
-    if(element.id!=null && element.id == 'arrowleftpaginator1'){
+    if(element.id!=null && element.id == 'arrowleft' + paginator.paginator1){
         clickArrowLeft(e);
     }
-    if(element.id!=null && element.id == 'arrowrightpaginator1'){
+    if(element.id!=null && element.id == 'arrowright' + paginator.paginator1){
         clickArrowRight(e);
     }
-    if(element.id!=null && element.id == 'arrowleftpaginator2'){
+    if(element.id!=null && element.id == 'arrowleft' + paginator.paginator2){
         clickArrowLeft2(e);
     }
-    if(element.id!=null && element.id == 'arrowrightpaginator2'){
+    if(element.id!=null && element.id == 'arrowright' + paginator.paginator2){
         clickArrowRight2(e);
     }
 }
@@ -75,15 +133,16 @@ function getPosition(clientX,clientY) {
     return {x:posX, y:posY}
 }
 function clickArrowLeft(e) {
-    var pag1 = document.getElementById("paginator1");
-    var tabl = document.getElementById("tableIdpaginator1");
+    var paginator = getPaginatorParrent(e);
+    var pag1 = document.getElementById(paginator.paginator1);
+    var tabl = document.getElementById("tableId" + paginator.paginator1);
     var scrollbar = getElementsByClassName(tabl, 'div', 'scroll_bar')[0];
     var scrollthumb = getElementsByClassName(tabl, 'div', 'scroll_thumb')[0];
     var scrollmark = getElementsByClassName(tabl, 'div', 'current_page_mark')[0];
     if(pag1!=null && matchClass(pag1.paginatorBox, 'fullsize')) return;
     scrollthumb.xPos -=  scrollmark.offsetWidth*10;
     scrollthumb.style.left = scrollthumb.xPos + "px";
-    mselect = document.getElementById("idSearchList");
+    mselect = document.getElementById(paginator.idSearchList);
     var percentFromLeft = scrollthumb.xPos/(tabl.offsetWidth);
     var cellFirstValue = Math.round(percentFromLeft * countP);
 
@@ -108,17 +167,18 @@ function clickArrowLeft(e) {
     for(var i=0; i<tdsPages.length; i++){
         var cellCurrentValue = cellFirstValue + i;
         if(cellCurrentValue == current){
-            html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen;    cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen;    cursor:pointer;'>" + cellCurrentValue  + "</span>";
         } else {
-            html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
         }
         tdsPages[i].innerHTML = html;
     }
-    this.srollDisabled();
+   // this.srollDisabled();
 }
 function clickArrowRight(e) {
-    var pag1 = document.getElementById("paginator1");
-    var tabl = document.getElementById("tableIdpaginator1");
+    var paginator = getPaginatorParrent(e);
+    var pag1 = document.getElementById(paginator.paginator1);
+    var tabl = document.getElementById("tableId" + paginator.paginator1);
     var scrollbar = getElementsByClassName(tabl, 'div', 'scroll_bar')[0];
     var scrollthumb = getElementsByClassName(tabl, 'div', 'scroll_thumb')[0];
     var scrollmark = getElementsByClassName(tabl, 'div', 'current_page_mark')[0];
@@ -151,20 +211,21 @@ function clickArrowRight(e) {
         for(var i=0; i<tdsPages.length; i++){
             var cellCurrentValue = cellFirstValue + i;
             if(cellCurrentValue == current){
-                html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;   cursor:pointer;'>" + cellCurrentValue  + "</span>";
+                html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;   cursor:pointer;'>" + cellCurrentValue  + "</span>";
             } else {
-                html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
+                html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
             }
             tdsPages[i].innerHTML = html;
         }
 
     }
 
-    this.srollDisabled();
+    //this.srollDisabled();
 }
 function clickArrowLeft2(e) {
-    var pag1 = document.getElementById("paginator2");
-    var tabl = document.getElementById("tableIdpaginator2");
+    var paginator = getPaginatorParrent(e);
+    var pag1 = document.getElementById(paginator.paginator2);
+    var tabl = document.getElementById("tableId" + paginator.paginator2);
     var scrollbar = getElementsByClassName(tabl, 'div', 'scroll_bar')[0];
     var scrollthumb = getElementsByClassName(tabl, 'div', 'scroll_thumb')[0];
     var scrollmark = getElementsByClassName(tabl, 'div', 'current_page_mark')[0];
@@ -195,17 +256,18 @@ function clickArrowLeft2(e) {
     for(var i=0; i<tdsPages.length; i++){
         var cellCurrentValue = cellFirstValue + i;
         if(cellCurrentValue == current){
-            html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;   cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;   cursor:pointer;'>" + cellCurrentValue  + "</span>";
         } else {
-            html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
         }
         tdsPages[i].innerHTML = html;
     }
     this.srollDisabled();
 }
 function clickArrowRight2(e) {
-    var pag1 = document.getElementById("paginator2");
-    var tabl = document.getElementById("tableIdpaginator2");
+    var paginator = getPaginatorParrent(e);
+    var pag1 = document.getElementById(paginator.paginator2);
+    var tabl = document.getElementById("tableId" + paginator.paginator2);
     var scrollbar = getElementsByClassName(tabl, 'div', 'scroll_bar')[0];
     var scrollthumb = getElementsByClassName(tabl, 'div', 'scroll_thumb')[0];
     var scrollmark = getElementsByClassName(tabl, 'div', 'current_page_mark')[0];
@@ -238,9 +300,9 @@ function clickArrowRight2(e) {
         for(var i=0; i<tdsPages.length; i++){
             var cellCurrentValue = cellFirstValue + i;
             if(cellCurrentValue == current){
-                html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;   cursor:pointer;'>" + cellCurrentValue  + "</span>";
+                html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;   cursor:pointer;'>" + cellCurrentValue  + "</span>";
             } else {
-                html = "<span id=" + "'cellCurrent" + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
+                html = "<span id='" + paginator.cellCurrent + pag1.id + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
             }
             tdsPages[i].innerHTML = html;
         }
@@ -269,12 +331,10 @@ Paginator.prototype.prepareHtml = function(){
 
 Paginator.prototype.srollDisabled = function(){
     if(this.inputData.pagesTotal<=this.inputData.pagesSpan){
-        var scroll = document.getElementsByClassName("scroll_bar")[0];
-        var arrowRight = document.getElementsByClassName("arrow_right")[0];
-        var arrowLeft = document.getElementsByClassName("arrow_left")[0];
-        scroll.style.display = 'none';
-        arrowRight.style.display = 'none';
-        arrowLeft.style.display = 'none';
+        var scroll1 = document.getElementById(this.scroll_bar1);
+        if(scroll1 != undefined){scroll1.style.display = 'none';}
+        var scroll2 = document.getElementById(this.scroll_bar2);
+        if(scroll2 != undefined){scroll2.style.display = 'none';}
     } 
 }
 
@@ -284,46 +344,64 @@ Paginator.prototype.srollDisabled = function(){
 Paginator.prototype.makePagesTableHtml = function(){
     var tdWidth = (100 / this.inputData.pagesSpan) + '%';
     var htmlPols =
-        '<table id = "tableId' + this.inputData.paginatorHolderId +  '"style="float:left"; width="100%">' + '<tr>'  ;
+        '<table id = "tableId' + this.inputData.paginatorHolderId +  '" style="float:left "; width="100%">' + '<tr>'  ;
 
     for (var i=1; i<=this.inputData.pagesSpan; i++){
         htmlPols += '<td width="' + tdWidth + '"></td>';
     }
-    htmlPols += ''  +
-        '</tr>' +
-        '<tr>' +
-        '<td colspan="' + this.inputData.pagesSpan + '">' +
-        '<div class="scroll_bar">' +
-        '<div class="scroll_trough"></div>' +
-        '<div style="display:block;"  class="scroll_thumb">' +
-        '<div class="scroll_knob"></div>' +
-        '</div>' +
-        '<div class="current_page_mark"></div>' +
-        '</div>' +
-        '</td>' +
-        '</tr>' +
-        '</table>';
+
     var html = null;
-    if(this.inputData.paginatorHolderId == 'paginator1'){
-        html =  '' +  '<div id="s-all">' +
-            '<div id="countPage1"></div>' +
+    if(this.inputData.paginatorHolderId == this.paginator1){
+
+        htmlPols += ''  +
+            '</tr>' +
+            '<tr>' +
+            '<td colspan="' + this.inputData.pagesSpan + '">' +
+            '<div class="scroll_bar" id = "' + this.scroll_bar1 + '">' +
+            '<div class="scroll_trough"></div>' +
+            '<div style="display:block;"  class="scroll_thumb">' +
+            '<div class="scroll_knob"></div>' +
+            '</div>' +
+            '<div class="current_page_mark"></div>' +
+            '</div>' +
+            '</td>' +
+            '</tr>' +
+            '</table>';
+
+        html =  '' +  '<div class = "s-all" id="' + this.s_all + '"' + '>' +
+            '<div id=' + this.countPage1 + '></div>' +
             '<div style="clear:both;">'   +
-            '<div id="s-col1"><div class="arrow_left" style="height:20px; width:20px; margin-top: 25px;margin-left: 42px;" id="arrowleft' + this.inputData.paginatorHolderId + '"></div></div>' +
-            '<div id="s-col2"><div class="arrow_right" style="height:20px; width:20px; margin-top: 25px;" id="arrowright' + this.inputData.paginatorHolderId + '"></div></div>' +
-            '<div id="s-content">' + htmlPols + '</div>' +
+            //'<div class = "s-col1" id=' + s_col1 + '><div class="arrow_left" style="height:20px; width:20px; margin-top: 25px;margin-left: 42px;" id="arrowleft' + this.inputData.paginatorHolderId + '"></div></div>' +
+          //  '<div class = "s-col2" id="' + s_col2 + '"><div class="arrow_right" style="height:20px; width:20px; margin-top: 25px;" id="arrowright' + this.inputData.paginatorHolderId + '"></div></div>' +
+            '<div class = "s-content" id="' + this.s_content + '">' + htmlPols + '</div>' +
             '<div style="clear:both;">' +
             //  '<div id="footer">дно</div>'+
             '</div> ';
     }
     else{
-        html =  '' +  '<div id="s-all">' +
+        htmlPols += ''  +
+            '</tr>' +
+            '<tr>' +
+            '<td colspan="' + this.inputData.pagesSpan + '">' +
+            '<div class="scroll_bar" id = "' + this.scroll_bar2 + '">' +
+            '<div class="scroll_trough"></div>' +
+            '<div style="display:block;"  class="scroll_thumb">' +
+            '<div class="scroll_knob"></div>' +
+            '</div>' +
+            '<div class="current_page_mark"></div>' +
+            '</div>' +
+            '</td>' +
+            '</tr>' +
+            '</table>';
+
+        html =  '' +  '<div class = "s-all" id="' + this.s_all + '">' +
             // '<div id="s-header">шапка</div>' +
             '<div style="clear:both;">'   +
-            '<div id="s-col1"><div class="arrow_left" style="height:20px; width:20px; margin-top: 25px; margin-left: 42px;" id="arrowleft' + this.inputData.paginatorHolderId + '"></div></div>' +
-            '<div id="s-col2"><div class="arrow_right" style="height:20px; width:20px; margin-top: 25px;" id="arrowright' + this.inputData.paginatorHolderId + '"></div></div>' +
-            '<div id="s-content">' + htmlPols + '</div>' +
+           // '<div class = "s-col1" id="' + s_col1 + '"><div class="arrow_left" style="height:20px; width:20px; margin-top: 25px; margin-left: 42px;" id="arrowleft' + this.inputData.paginatorHolderId + '"></div></div>' +
+           // '<div class = "s-col2" id="' + s_col2 + '"><div class="arrow_right" style="height:20px; width:20px; margin-top: 25px;" id="arrowright' + this.inputData.paginatorHolderId + '"></div></div>' +
+            '<div class = "s-content" id="' + this.s_content + '">' + htmlPols + '</div>' +
             '<div style="clear:both;">' +
-            '<div id="countPage2"></div>'+
+            '<div id="' + this.countPage2 + '"></div>'+
             '</div> ';
     }
     return html;
@@ -472,9 +550,9 @@ Paginator.prototype.drawPages = function(){
     for(var i=0; i<this.html.tdsPages.length; i++){
         var cellCurrentValue = cellFirstValue + i;
         if(cellCurrentValue == current){
-            html = "<span id=" + "'cellCurrent" + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;  cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<span id='" + this.cellCurrent + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;  cursor:pointer;'>" + cellCurrentValue  + "</span>";
         } else {
-            html = "<span id=" + "'cellCurrent" + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<span id='" + this.cellCurrent + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
         }
         this.html.tdsPages[i].innerHTML = html;
     }
@@ -616,150 +694,136 @@ function destroyChildren(node)
         node.removeChild(node.firstChild);
 }
 
-function initPagination(urlCount) {
+function initPaginationPage(count,index){
 
-    var elementPrice = document.getElementById("ex2");
+    var params = myMapParamSearch[index];
+    var p1 = document.getElementById("paginator1_" + index);
+    var p2 = document.getElementById("paginator2_" + index);
+    if(p1!=undefined)destroyChildren(p1);
+    if(p2!=undefined)destroyChildren(p2);
+    //var mselect = 10;
+    var coutnPage;
+    if (mselect != null && mselect != '' && mselect != '0') {
+        coutnPage = count / mselect;
+    }
+    if (Math.ceil(coutnPage) > 0) {
+        myMapPaginator["paginator1_" + index] = new Paginator(index,"paginator1_" + index, Math.ceil(coutnPage), 5, 1, "");
+        myMapPaginator["paginator2_" + index] = new Paginator(index,"paginator2_" + index, Math.ceil(coutnPage), 5, 1, "");
+        var pag1 = myMapPaginator["paginator1_" + index];
+        var pag2 = myMapPaginator["paginator2_" + index];
+
+        var pCount1 = document.getElementById(pag1.countPage1);
+        var pCount2 = document.getElementById(pag1.countPage2);
+        // if (pCount1 != null) {
+        //     pCount1.textContent = "pages:" + Math.ceil(coutnPage);
+        // }
+        if (pCount2 != null) {
+            pCount2.textContent = "pages:" + Math.ceil(coutnPage);
+        }
+    }
+    //pag1.srollDisabled();
+    myMapPaginator["paginator2_" + index].srollDisabled();
+var element = document.getElementById(myMapPaginator["paginator2_" + index].cellCurrent + myMapPaginator["paginator2_" + index].paginator2 + 1);
+if (element != undefined) {
+    nextPage(element);
+}else{
+    var parentElement = document.getElementById(params.parent_element_id);
+    parentElement.textContent = '';
+}
+}
+
+function initPagination(index) {
+    
+    var params = myMapParamSearch[index];
+    var paginations = getPaginatorId("paginator2_" + index);
+
+    
+    var elementPrice = document.getElementById(params.ex2);
     var priceList = elementPrice.value.split(",");
     var minPrice = priceList[0];
     var maxPrice = priceList[1];
-    var elementPersons = document.getElementById("ex1");
-    var persons =  elementPersons.value;
-    var elementBadrooms = document.getElementById("ex3");
-    var badrooms =  elementBadrooms.value;
-    var elementBathrooms = document.getElementById("ex4");
-    var bathrooms =  elementBathrooms.value;
 
-    var  data={
-        "start": 0,
-        "end": 0,
-        "minPrice": minPrice,
-        "maxPrice": maxPrice,
-        "persons": persons,
-        "badrooms": badrooms,
-        "bathrooms":bathrooms
-    };
+    var elementLength = document.getElementById(params.ex1);
+    var lengthList = elementLength.value.split(",");
+    var minLength = lengthList[0];
+    var maxLength = lengthList[1];
 
-    jQuery.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: urlCount,
-        dataType:'json',
-        data:  $.toJSON(data),
-        async: false
-    }).done(function( count ) {
+    var elementWidth = document.getElementById(params.ex3);
+    var widthList = elementWidth.value.split(",");
+    var minWidth  = widthList[0];
+    var maxWidth  = widthList[1];
 
-                var element = document.getElementById(parent_element_id);
+    var elementDepth = document.getElementById(params.ex4);
+    var depthList = elementDepth.value.split(",");
+    var minDepth  = depthList[0];
+    var maxDepth  = depthList[1];
 
-                var p1 = document.getElementById("paginator1");
-                var p2 = document.getElementById("paginator2");
-                destroyChildren(p1);
-                destroyChildren(p2);
-                //var mselect = 10;
-                var coutnPage;
-                if (mselect != null && mselect != '' && mselect != '0') {
-                    coutnPage = count / mselect;
-                }
-                if (Math.ceil(coutnPage) > 0) {
-                    pag1 = new Paginator("paginator1", Math.ceil(coutnPage), 5, 1, "");
-                    pag2 = new Paginator("paginator2", Math.ceil(coutnPage), 5, 1, "");
-                    var pCount1 = document.getElementById("countPage1");
-                    var pCount2 = document.getElementById("countPage2");
-                   // if (pCount1 != null) {
-                   //     pCount1.textContent = "pages:" + Math.ceil(coutnPage);
-                   // }
-                    if (pCount2 != null) {
-                        pCount2.textContent = "pages:" + Math.ceil(coutnPage);
-                    }
-                }
-                pag1.srollDisabled();
-                pag2.srollDisabled();
-                if (element != undefined) {
-                    nextPage(element);
-                }
-            });
-}
-
-function getObjects(urlObjects,element,start,end,minPrice,maxPrice,persons,badrooms,bathrooms) {
-    var  data={
-        "start": start,
-        "end": end,
-        "minPrice": minPrice,
-        "maxPrice": maxPrice,
-        "persons": persons,
-        "badrooms": badrooms,
-        "bathrooms":bathrooms
-    };
-
-    jQuery.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: urlObjects,
-        dataType:'json',
-        data:  $.toJSON(data),
-        async: false
-    }).done(function( objects ) {
-        var parentElement = document.getElementById(parent_element_id);
-        // стираем данные
-
-        parentElement.textContent = "";
-        addData(objects,parentElement);
-
-    });
+    params.initData(index,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth);
 }
 
     function nextPage(cellCurrentValue) {
         var cellFirstValue = 0;
+        var paginator = getPaginatorParrent(cellCurrentValue);
+        var index =getPaginatorParrentIndex(cellCurrentValue);
+        var params = myMapParamSearch[index];
 
-        var pag = document.getElementById("paginator1");
+        var pag = document.getElementById(paginator.paginator1);
         for (var i = 1; i <= countP; i++) {
-            var el1 = document.getElementById("cellCurrent" + "paginator1" + i);
+            var el1 = document.getElementById(paginator.cellCurrent + paginator.paginator1 + i);
             if (el1 != null && el1.style != null) {
-                el1.style.background = '#ffffff';
+                el1.style.background =  '#f3edeb';
                 el1.style.color = 'black';
             }
         }
-        var pag2 = document.getElementById("paginator2");
+        var pag2 = document.getElementById(paginator.paginator2);
         for (var j = 1; j <= countP; j++) {
-            var el = document.getElementById("cellCurrent" + "paginator2" + j);
+            var el = document.getElementById(paginator.cellCurrent + paginator.paginator2 + j);
             if (el != null && el.style != null) {
-                el.style.background = '#ffffff';
+                el.style.background = '#f3edeb';
                 el.style.color = 'black';
             }
         }
-        var id1 = cellCurrentValue.id.substr(21, cellCurrentValue.id.length - 1);
-        var mel1 = document.getElementById("cellCurrent" + "paginator1" + id1);
-        var mel2 = document.getElementById("cellCurrent" + "paginator2" + id1);
-        if (mel1 != null) {
-            mel1.style.color  = 'yellowgreen';
-        }
-        if (mel2 != null) {
-            mel2.style.color  = 'yellowgreen';
+        if(cellCurrentValue.id != params.parent_element_id ) {
+            var id1 = cellCurrentValue.id.substr(25, cellCurrentValue.id.length - 1);
+            var mel1 = document.getElementById(paginator.cellCurrent + paginator.paginator1 + id1);
+            var mel2 = document.getElementById(paginator.cellCurrent + paginator.paginator2 + id1);
+            if (mel1 != null) {
+                mel1.style.color = 'yellowgreen';
+            }
+            if (mel2 != null) {
+                mel2.style.color = 'yellowgreen';
+            }
         }
 
 
         // методы добавления, очистки и получения данных
-
+        
         var dataList = null;
         var start = id1 * mselect - mselect;
         var end = mselect;
-        var elementPrice = document.getElementById("ex2");
+        var elementPrice = document.getElementById(params.ex2);
         var priceList = elementPrice.value.split(",");
         var minPrice = priceList[0];
         var maxPrice = priceList[1];
-        var elementPersons = document.getElementById("ex1");
-        var persons =  elementPersons.value;
-        var elementBadrooms = document.getElementById("ex3");
-        var badrooms =  elementBadrooms.value;
-        var elementBathrooms = document.getElementById("ex4");
-        var bathrooms =  elementBathrooms.value;
 
-        getObjects("/pagination/objects",$(".homeCard"),start,end,minPrice,maxPrice,persons,badrooms,bathrooms);
+        var elementLength = document.getElementById(params.ex1);
+        var lengthList = elementLength.value.split(",");
+        var minLength = lengthList[0];
+        var maxLength = lengthList[1];
+
+        var elementWidth = document.getElementById(params.ex3);
+        var widthList = elementWidth.value.split(",");
+        var minWidth  = widthList[0];
+        var maxWidth  = widthList[1];
+
+        var elementDepth = document.getElementById(params.ex4);
+        var depthList = elementDepth.value.split(",");
+        var minDepth  = depthList[0];
+        var maxDepth  = depthList[1];
+
+        var parentElement = document.getElementById(params.parent_element_id);
+
+        params.getObjects(parentElement,$(".homeCard"),start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth);
 
 }
 
@@ -781,304 +845,76 @@ function makePreview(image, a) {
     return img;
 }
 
-
-function addData(objects,parentElement) {
-    for (var i = 0; i < objects.length; i++) {
-
-        var ref = document.createElement("div");
-        ref.classList.add( "homeCardLink", "searchItemsItem" );
-        ref.href = "#";
-        ref.id = "idRef" + objects[i].id;
-        parentElement.appendChild(ref);
-
-        var homeCardImage = document.createElement("div"); 
-            homeCardImage.classList.add( "homeCardImage" );
-        ref.appendChild(homeCardImage);
-
-
-        jQuery.ajax({
-            type: "POST",
-            url: "/pagination/imgPatch/" + objects[i].id,
-            async: false
-        }).done(function( m_url ) {
-            var responsiveImageImage = document.createElement("img");
-            responsiveImageImage.classList.add( "responsiveImageImage" );
-            //responsiveImageImage.src = "/pagination/img/" + objects[i].id;
-            responsiveImageImage.src = "/images/product/" + m_url.img;
-            var imgPreview = makePreview(responsiveImageImage, 512);
-            homeCardImage.appendChild(imgPreview);
-        });
-
-
-        var homeCardInfo = document.createElement("div");
-        homeCardInfo.classList.add("homeCardInfo");
-        ref.appendChild(homeCardInfo);
-
-        var homeCardTitle = document.createElement("h3");
-        homeCardTitle.classList.add( "homeCardTitle" );
-        homeCardTitle.textContent = objects[i].nameImage;
-        homeCardInfo.appendChild(homeCardTitle);
-
-        var homeCardSubtitle = document.createElement("h5");
-        homeCardSubtitle.classList.add( "homeCardSubtitle" );
-        homeCardSubtitle.textContent = objects[i].adress.remark;
-        homeCardInfo.appendChild(homeCardSubtitle);
-
-        var homeCardFeatures = document.createElement("div");
-        homeCardFeatures.classList.add( "homeCardFeatures" );
-        homeCardInfo.appendChild(homeCardFeatures);
-
-        var homeCardFeaturePersons = document.createElement("div");
-        homeCardFeaturePersons.classList.add( "homeCardFeature" );
-        homeCardFeatures.appendChild(homeCardFeaturePersons);
-
-        var persons = document.createElement("i");
-        persons.classList.add( "material-icons");
-        persons.textContent = "group";
-        persons.setAttribute('data-toggle', 'tooltip');
-        persons.setAttribute('data-placement', 'tooltip');
-        persons.setAttribute('title', 'Persons');
-        homeCardFeaturePersons.appendChild(persons);
-        var personsSpan = document.createElement("span");
-        personsSpan.textContent = objects[i].slleeps;
-        homeCardFeaturePersons.appendChild(personsSpan);
-
-
-        var homeCardFeatureBedrooms = document.createElement("div");
-        homeCardFeatureBedrooms.classList.add( "homeCardFeature" );
-        homeCardFeatures.appendChild(homeCardFeatureBedrooms);
-
-        var bedrooms = document.createElement("i");
-        bedrooms.classList.add( "material-icons");
-        bedrooms.textContent = "airline_seat_individual_suite";
-        bedrooms.setAttribute('data-toggle', 'tooltip');
-        bedrooms.setAttribute('data-placement', 'tooltip');
-        bedrooms.setAttribute('title', 'Bedrooms');
-        homeCardFeatureBedrooms.appendChild(bedrooms);
-        var bedroomsSpan = document.createElement("span");
-        bedroomsSpan.textContent = objects[i].countRoums;
-        homeCardFeatureBedrooms.appendChild(bedroomsSpan);
-
-        var homeCardFeatureBathrooms = document.createElement("div");
-        homeCardFeatureBathrooms.classList.add( "homeCardFeature" );
-        homeCardFeatures.appendChild(homeCardFeatureBathrooms);
-
-        var bathrooms = document.createElement("i");
-        bathrooms.classList.add( "material-icons");
-        bathrooms.textContent = "hot_tub";
-        bathrooms.setAttribute('data-toggle', 'tooltip');
-        bathrooms.setAttribute('data-placement', 'tooltip');
-        bathrooms.setAttribute('title', 'Bathrooms');
-        homeCardFeatureBathrooms.appendChild(bathrooms);
-        var bathroomsSpan = document.createElement("span");
-        bathroomsSpan.textContent = objects[i].bathrooms;
-        homeCardFeatureBathrooms.appendChild(bathroomsSpan);
-
-        var homeCardPrice = document.createElement("div");
-        homeCardPrice.classList.add( "homeCardPrice");
-        homeCardInfo.appendChild(homeCardPrice);
-
-        var span = document.createElement("span");
-        homeCardPrice.appendChild(span);
-
-        var span2 = document.createElement("span");
-        span2.textContent = "from";
-        span.appendChild(span2);
-
-        var span3 = document.createElement("span");
-        span.appendChild(span3);
-
-        var homeCardPriceValue = document.createElement("span");
-        homeCardPriceValue.classList.add( "homeCardPriceValue");
-        homeCardPriceValue.textContent = objects[i].price + "$ ";
-        span.appendChild(homeCardPriceValue);
-
-        var span4 = document.createElement("span");
-        homeCardPrice.appendChild(span4);
-
-        var span5 = document.createElement("span");
-        span5.textContent = "/night";
-        homeCardPrice.appendChild(span5);
-
-        addDataCompare(homeCardInfo,objects[i]);
-
-        var homeCardFeatureGalary = document.createElement("div");
-        homeCardFeatureGalary.classList.add( "homeCardFeature", "homeCardGalary","Galary");
-        homeCardInfo.appendChild(homeCardFeatureGalary);
-
-        var homeCardGalary = document.createElement("i");
-        homeCardGalary.classList.add( "material-icons");
-        homeCardGalary.textContent = "camera_alt";
-        homeCardGalary.setAttribute('data-toggle', 'tooltip');
-        homeCardGalary.setAttribute('data-placement', 'tooltip');
-        homeCardGalary.setAttribute('title', 'galary');
-        homeCardGalary.id = "galary_" + objects[i].id;
-        homeCardFeatureGalary.appendChild(homeCardGalary);
-
-        var homeCardFeatureVideo= document.createElement("div");
-        homeCardFeatureVideo.classList.add( "homeCardFeature", "homeCardGalary","Video");
-        homeCardInfo.appendChild(homeCardFeatureVideo);
-
-        var homeCardVideo = document.createElement("i");
-        homeCardVideo.classList.add( "material-icons");
-        homeCardVideo.textContent = "local_movies";
-        homeCardVideo.setAttribute('data-toggle', 'tooltip');
-        homeCardVideo.setAttribute('data-placement', 'tooltip');
-        homeCardVideo.setAttribute('title', 'video');
-        homeCardVideo.id = "video_" + objects[i].id;
-        homeCardFeatureVideo.appendChild(homeCardVideo);
-
-        addDataShoping(homeCardInfo,objects[i]);
-
-    }
-
-}
-
-
-function addDataShoping(parentElement,object){
-
-    urlObjects = "/shoping/cart/" + object.id;
-
+function initPaginationParametrs(index,url){
     jQuery.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         type: "POST",
-        url: urlObjects,
-        dataType:'json',
-        async: false
-    }).done(function(product) {
-        var homeCardFeatureShoppingCar= document.createElement("div");
-        homeCardFeatureShoppingCar.classList.add( "homeCardFeature", "homeCardGalary","ShoppingCar");
-        parentElement.appendChild(homeCardFeatureShoppingCar);
-
-        var homeCardShoppingCar = document.createElement("i");
-        if(product!= undefined && product.check){
-            homeCardShoppingCar.classList.add("ShoppingCartCheck");
-            homeCardShoppingCar.textContent = "out_shopping_cart";
-        }
-        else{
-            homeCardShoppingCar.textContent = "add_shopping_cart";
-        }
-        homeCardShoppingCar.classList.add( "material-icons");
-        homeCardShoppingCar.setAttribute('data-toggle', 'tooltip');
-        homeCardShoppingCar.setAttribute('data-placement', 'tooltip');
-        homeCardShoppingCar.setAttribute('title', 'to order');
-        homeCardShoppingCar.id = "order_" + object.id;
-        homeCardFeatureShoppingCar.appendChild(homeCardShoppingCar);
-    });
-
-
-}
-
-function addDataCompare(homeCardInfo,object){
-
-    var urlObjects = "/compare/isproduct/" + object.id;
-    jQuery.ajax({
-        type: "GET",
-        url: urlObjects,
-        dataType:'json',
-        async: false
-    }).done(function(checkProduct) {
-        var checkBoxCompare = document.createElement("div");
-        checkBoxCompare.classList.add( "checkbox", "checkBoxCompare");
-        homeCardInfo.appendChild(checkBoxCompare);
-
-        var divCompr = document.createElement("div");
-        checkBoxCompare.appendChild(divCompr);
-
-        var inputCheckBoxCompare = document.createElement("input");
-        inputCheckBoxCompare.type = "checkbox";
-        inputCheckBoxCompare.classList.add( "checkBoxField");
-        if(checkProduct!= undefined && checkProduct){
-            inputCheckBoxCompare.checked = "checked";
-        } else{
-            inputCheckBoxCompare.checked = "";
-        }
-        inputCheckBoxCompare.id = "check_compare_" + object.id;
-
-        divCompr.appendChild(inputCheckBoxCompare);
-
-        var labelCompare = document.createElement("label");
-        labelCompare.classList.add( "labelCompare");
-        labelCompare.textContent = "select";
-        divCompr.appendChild(labelCompare);
-
-
-        var buttonCompare = document.createElement("button");
-        buttonCompare.id = "compare_" + object.id;
-        buttonCompare.classList.add( "btn","btn-info","buttonCompare");
-        buttonCompare.textContent = "compare";
-        divCompr.appendChild(buttonCompare);
-    });
-
-}
-
-function initPaginationParametrs(){
-    jQuery.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: "/pagination/parametrs",
+        url: url,
         dataType:'json',
         async: false
     }).done(function( parametrs ) {
+        
+        var params = myMapParamSearch[index];
 
-        var panelSlide = document.getElementById("PanelSlide");
+        var panelSlide = document.getElementById(params.PanelSlide);
 
         panelSlide.innerHTML =
             '<div class="panelPrice">' +
-            '<b>price </b>' +
+            '<b>Price </b>' +
             '<b id="minPrice">' + '$' + parametrs.minPrice + '</b>' +
-            '<input  id="ex2" type="text" class="span2" data-slider-id="ex2Slider" value="" data-slider-min="' + parametrs.minPrice +'" data-slider-max="' + parametrs.maxPrice + '" data-slider-step="5" data-slider-value="[' + parametrs.minPrice + ',' + parametrs.maxPrice +']" title=""/>' +
+            '<input  id="' + params.ex2 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex2 + 'Slider" value="" data-slider-min="' + parametrs.minPrice +'" data-slider-max="' + parametrs.maxPrice + '" data-slider-step="5" data-slider-value="[' + parametrs.minPrice + ',' + parametrs.maxPrice +']" title=""/>' +
             '<b id="maxPrice">' + '$' +parametrs.maxPrice + '</b>' +
             '</div>' +
             '<div class="panelElement">' +
-            '<i data-toggle="tooltip" data-placement="tooltip" title="" class="material-icons" data-original-title="Persons">group</i>' +
-            '<b id="minPersons">' + parametrs.minPersons + '</b>' +
-            '<input style="width: 100px;" id="ex1" data-slider-id="ex1Slider"   type="text" data-slider-min="' + parametrs.minPersons + '" data-slider-max="' + parametrs.maxPersons + '" data-slider-step="1" data-slider-value="' + parametrs.maxPersons + '"/>' +
-            '<b id="maxPersons">' + parametrs.maxPersons + '</b>' +
+            '<b>Length </b>' +
+            '<b id="minLength">' + parametrs.minLength + '</b>' +
+            '<input style="width: 100px;" id="' + params.ex1 + '" class="span2 exSlider" data-slider-id="' + params.ex1 + 'Slider" data-slider-min="' + parametrs.minLength + '" data-slider-max="' + parametrs.maxLength + '" data-slider-step="1" data-slider-value="[' + parametrs.minLength + ',' + parametrs.maxLength + ']" title=""/>' +
+            '<b id="maxLength">' + parametrs.maxLength + '</b>' +
             '</div>' +
             '<div class="panelElement">' +
-            '<i data-toggle="tooltip" data-placement="tooltip" title="" class="material-icons" data-original-title="Badrooms">airline_seat_individual_suite</i>' +
-            '<b id="minBadrooms">' + parametrs.minBadrooms + '</b>' +
-            '<input style="width: 100px;" id="ex3" data-slider-id="ex3Slider" type="text" data-slider-min="' + parametrs.minBadrooms + '" data-slider-max="' + parametrs.maxBadrooms + '" data-slider-step="1" data-slider-value="' + parametrs.maxBadrooms + '"/>' +
-            '<b id="maxBadrooms">' + parametrs.maxBadrooms + '</b>' +
+            '<b>Width </b>' +
+            '<b id="minWidth">' + parametrs.minWidth + '</b>' +
+            '<input style="width: 100px;" id="' + params.ex3 + '" class="span2 exSlider" data-slider-id="' + params.ex3 + 'Slider" type="text" data-slider-min="' + parametrs.minWidth + '" data-slider-max="' + parametrs.maxWidth + '" data-slider-step="1" data-slider-value="[' + parametrs.minWidth + ',' + parametrs.maxWidth + ']" title=""/>' +
+            '<b id="maxWidth">' + parametrs.maxWidth + '</b>' +
             '</div>' +
             '<div class="panelElement">' +
-            '<i data-toggle="tooltip" data-placement="tooltip" title="" class="material-icons" data-original-title="Bathrooms">hot_tub</i>' +
-            '<b id="minBathrooms">' + parametrs.minBathrooms + '</b>' +
-            '<input style="width: 100px;" id="ex4" data-slider-id="ex4Slider" type="text" data-slider-min="' + parametrs.minBathrooms  + '" data-slider-max="' + parametrs.maxBathrooms  + '" data-slider-step="1" data-slider-value="' + parametrs.maxBathrooms  + '"/>' +
-            '<b id="maxBathrooms">' + parametrs.maxBathrooms + '</b>' +
+            '<b>Depth </b>' +
+            '<b id="minDepth">' + parametrs.minDepth + '</b>' +
+            '<input style="width: 100px;" id="' + params.ex4 + '" class="span2 exSlider" data-slider-id="ex4' + params.ex4 + 'Slider" type="text" data-slider-min="' + parametrs.minDepth  + '" data-slider-max="' + parametrs.maxDepth  + '" data-slider-step="1" data-slider-value="[' + parametrs.minDepth + ',' + parametrs.maxDepth  + ']" title=""/>' +
+            '<b id="maxDepth">' + parametrs.maxDepth + '</b>' +
             '</div>';
 
-        $("#ex2").slider({
+        panelSlide.innerHTML = params.initParam(panelSlide.innerHTML,parametrs);
+        
+        $("#" + params.ex2).slider({
             formatter: function(value) {
                 return 'Current value: ' + value;
             }});
-        $('#ex1').slider({
+        $('#' + params.ex1).slider({
             formatter: function(value) {
-                return 'Persons: ' + value;
+                return 'Current value: ' + value;
             }
         });
-        $('#ex3').slider({
+        $('#' + params.ex3).slider({
             formatter: function(value) {
-                return 'Badrooms: ' + value;
+                return 'Current value: ' + value;
             }
         });
-        $('#ex4').slider({
+        $('#' + params.ex4).slider({
             formatter: function(value) {
-                return 'Bathrooms: ' + value;
+                return 'Current value: ' + value;
             }
         });
 
+        params.eventParam();
+        
         $(".slider-handle").mouseup(function()   {
-            initPagination('/pagination/countActualObjects');
+            initPagination(index);
         });
-
-
+        
+        
     });
 }

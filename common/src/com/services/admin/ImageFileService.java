@@ -14,7 +14,7 @@ import java.io.*;
 public class ImageFileService implements ImageFileServiceImpl {
 
     static String LOCATION = "c:\\Users\\user\\IdeaProjects\\Plywood\\resources\\images\\product\\";
-    static String LOCATION_TARGET = "c:\\Users\\user\\IdeaProjects\\Plywood_war\\images\\product\\";
+    static String LOCATION_TARGET = "c:\\Users\\user\\IdeaProjects\\out\\plywood\\images\\product\\";
 
     public void validateImage(MultipartFile image) throws ImageUploadException {
         if(!image.getContentType().equals("image/jpeg")) {
@@ -32,6 +32,17 @@ public class ImageFileService implements ImageFileServiceImpl {
             throw new ImageUploadException("Unable to save image");
         }
 
+    }
+
+    public void removeFile(String filename){
+        try {
+            File file = new File(LOCATION + filename);
+            if (file.isFile()) file.delete();
+            File fileT = new File(LOCATION_TARGET + filename);
+            if (fileT.isFile()) fileT.delete();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

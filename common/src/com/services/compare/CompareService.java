@@ -1,6 +1,8 @@
 package com.services.compare;
 
 import com.dao.compare.CompareDaoImpl;
+import com.dao.product.ProductDao;
+import com.entity.Product;
 import com.entity.UsersFilds;
 import com.services.SaveOrUpdateObjectInputServiceImpl;
 import com.services.compare.ui.SearchFields;
@@ -19,6 +21,10 @@ public class CompareService  implements CompareServiceImpl{
     private CompareDaoImpl compareDao;
 
     @Inject
+    @Named("productDao")
+    private ProductDao productDao;
+
+    @Inject
     private SaveOrUpdateObjectInputServiceImpl saveService;
 
     private boolean isProductCompare(UsersFilds usersFilds, Long productId){
@@ -27,17 +33,20 @@ public class CompareService  implements CompareServiceImpl{
 
     @Override
     public boolean isProductId(String userName, Long productId) {
-        UsersFilds usersFildsEntity = (UsersFilds)compareDao.getCompare(userName);
+        Product product = (Product)productDao.getProduct(productId);
+        UsersFilds usersFildsEntity = (UsersFilds)compareDao.getCompare(userName,product.getType());
         return isProductCompare(usersFildsEntity, productId);
     }
 
     @Override
     public boolean setCompareProduct(String userName, Long productId) {
-        UsersFilds usersFildsEntity = (UsersFilds)compareDao.getCompare(userName);
+        Product product = (Product)productDao.getProduct(productId);
+        UsersFilds usersFildsEntity = (UsersFilds)compareDao.getCompare(userName,product.getType());
         if( usersFildsEntity==null){
             usersFildsEntity = new UsersFilds();
             usersFildsEntity.setCompare(productId.toString());
             usersFildsEntity.setUsername(userName);
+            usersFildsEntity.setType(product.getType());
             saveService.inputObject(usersFildsEntity);
         }else if(!isProductCompare(usersFildsEntity,productId)){
             if(usersFildsEntity.getCompare().length()>0) {
@@ -51,7 +60,8 @@ public class CompareService  implements CompareServiceImpl{
     }
 
     public boolean removeCompareProduct(String userName, Long productId) {
-        UsersFilds usersFildsEntity = (UsersFilds)compareDao.getCompare(userName);
+        Product product = (Product)productDao.getProduct(productId);
+        UsersFilds usersFildsEntity = (UsersFilds)compareDao.getCompare(userName,product.getType());
         if( usersFildsEntity!=null && isProductCompare(usersFildsEntity,productId)){
             if(usersFildsEntity.getCompare().contains(" ")) {
                 String[] fields = usersFildsEntity.getCompare().split(" ");
@@ -69,11 +79,4 @@ public class CompareService  implements CompareServiceImpl{
         return true;
     }
 
-    public void setCompareDao(CompareDaoImpl compareDao) {
-        this.compareDao = compareDao;
-    }
-
-    public void setSaveService(SaveOrUpdateObjectInputServiceImpl saveService) {
-        this.saveService = saveService;
-    }
 }

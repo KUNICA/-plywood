@@ -1,5 +1,7 @@
 package com.dao.video;
 
+import com.dao.DaoCriteria;
+import com.entity.Product;
 import com.entity.Video;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -14,22 +16,17 @@ import java.util.List;
  */
 @Named
 @Component
-public class VideoDao implements VideoDaoImpl{
-
-    private SessionFactory sessionFactory;
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
+public class VideoDao extends DaoCriteria<Video> implements VideoDaoImpl{
 
     private Criteria getCriteria(Session session){
-        return session.createCriteria(Video.class).add(Restrictions.isNull("operationOut"));
+        return createCriteria(session)
+                .add(Restrictions.isNull("operationOut"));
 
     }
 
     @Autowired
     public VideoDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
+        super(sessionFactory);      // Конструирует DAO
     }
 
     @Override

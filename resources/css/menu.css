@@ -1,10 +1,10 @@
-#ex1Slider .slider-selection {
+.exSlider .slider-selection {
     background: #BABABA;
 }
 
 .PanelSlide{
     position: relative;
-    left: 40px;
+    left: 20px;
     top: 20px;
 }
 
@@ -14,10 +14,31 @@
 }
 
 .panelElement{
-    width: 200px;
+   /* width: 200px;*/
     height: 60px;
 }
 
 .inputElement{
     width: 100px;
+}
+
+.navbar-inverse {
+    background-color: #333;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
+    background-color: #333;
+}
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    background-color: #333;
+}
+
+.slider-handle {
+    background-color: #333;
+    background-image: linear-gradient(to bottom, #333 0%, #777 100%);
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #777;
+    border-color: #777;
 }

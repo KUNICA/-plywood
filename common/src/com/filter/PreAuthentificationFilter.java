@@ -18,8 +18,6 @@ public class PreAuthentificationFilter extends UsernamePasswordAuthenticationFil
 
     protected static final Logger log = Logger.getLogger(PreAuthentificationFilter.class);
 
-    @Autowired
-    private IUserStatusService userStatusService;
 
     /**
      * Выполняет проверку перед аутентификацией, запрещен ли доступ для пользователя.
@@ -43,13 +41,5 @@ public class PreAuthentificationFilter extends UsernamePasswordAuthenticationFil
             throw e;
         }
         return auth;
-    }
-
-    public IUserStatusService getUserStatusService() {
-        return userStatusService;
-    }
-
-    public void setUserStatusService(IUserStatusService userStatusService) {
-        this.userStatusService = userStatusService;
     }
 }

@@ -15,6 +15,9 @@ public class ShoppingCart {
     private Long actual;
     private Boolean check;
     private Long offerId;
+    private Long count;
+    private Product product;
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -85,6 +88,26 @@ public class ShoppingCart {
 
     public void setOfferId(Long offerId) {
         this.offerId = offerId;
+    }
+
+    @Basic
+    @Column(name = "count", nullable = true,columnDefinition = "bigint(10)")
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="product", updatable = false,insertable = false)
+    public Product getProduct() {
+        return product;
     }
 
     @Override

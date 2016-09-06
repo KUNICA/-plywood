@@ -9,4 +9,5 @@ public interface ProductDaoImpl {
     List getProducts(List productsIdList);
     Object getProduct(Long productsId);
     List getProducts(String userName);
+    Object getProduct(String productId);
 }

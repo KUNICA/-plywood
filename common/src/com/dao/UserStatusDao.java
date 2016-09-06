@@ -12,20 +12,12 @@ import org.springframework.stereotype.Component;
  * Created by user on 20.08.2016.
  */
 @Component
-public class UserStatusDao implements IUserStatusDao{
-
-    private SessionFactory sessionFactory;
+public class UserStatusDao extends DaoCriteria<Object> implements IUserStatusDao{
 
     @Autowired
     public UserStatusDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
+        super(sessionFactory);      // Конструирует DAO
     }
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
-
-
 
     @Override
     public UserStatus get(String username) {

@@ -1,5 +1,7 @@
 package com.dao.compare;
 
+import com.dao.DaoCriteria;
+import com.entity.Type;
 import com.entity.UsersFilds;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -16,21 +18,15 @@ import javax.inject.Named;
  */
 @Named
 @Component
-public class CompareDao implements CompareDaoImpl{
-
-    private SessionFactory sessionFactory;
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
-    }
+public class CompareDao extends DaoCriteria<UsersFilds> implements CompareDaoImpl{
 
     @Autowired
     public CompareDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
+        super(sessionFactory);
     }
 
     @Override
-    public Object getCompare(String userName) {
+    public Object getCompare(String userName, Type type) {
         Session session = null;
         Transaction tx = null;
         Object compare = null;
@@ -38,8 +34,9 @@ public class CompareDao implements CompareDaoImpl{
         try {
             session = currentSession();
             tx = session.beginTransaction();
-            compare = session.createCriteria(UsersFilds.class)
+            compare = createCriteria(session)
                     .add(Restrictions.eq("username",userName))
+                    .add(Restrictions.eq("type",type))
                     .uniqueResult();
 
             tx.commit();

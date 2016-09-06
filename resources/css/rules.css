@@ -6,7 +6,7 @@
     text-align: right;
     margin-left: auto;
     margin-right: 10px;
-    border: ridge;
+   /* border: ridge;*/
 }
 .paginator table {
     border-collapse:collapse;
@@ -111,7 +111,7 @@
     cursor:pointer; cursor:hand;
 }
 
-div#s-all {font-size:12px; width:100%;  margin-left: -25px;}
-div#s-col1 {float:left; width:10px;}
-div#s-col2 {float:right; width:10px;}
-div#s-content {margin:0 10px 0 60px;}
+.s-all {font-size:12px; width:100%;  margin-left: -25px;}
+.s-col1 {float:left; width:10px;}
+.s-col2 {float:right; width:10px;}
+.s-content {margin:0 10px 0 60px;}

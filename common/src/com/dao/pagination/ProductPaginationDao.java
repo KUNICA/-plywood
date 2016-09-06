@@ -1,5 +1,8 @@
 package com.dao.pagination;
 
+import com.dao.DaoCriteria;
+import com.dataweb.IntervalPagination;
+import com.entity.Images;
 import com.entity.Product;
 import com.entity.Product;
 import org.hibernate.*;
@@ -13,29 +16,35 @@ import java.util.List;
 /**
  * Created by user on 20.08.2016.
  */
-@Named
-public class ProductPaginationDao implements ProductPaginationDaoImpl {
+@Named("productPaginationDao")
+public class ProductPaginationDao extends DaoCriteria<Product> implements ProductPaginationDaoImpl {
 
-    private SessionFactory sessionFactory;
 
-    private Criteria getCriteriaProducts(Session session){
+    protected Criteria getCriteriaProducts(Session session){
         session.enableFetchProfile("mediaProfile");
-        return session.createCriteria(Product.class)
+        return createCriteria(session)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .add(Restrictions.isNull("operationOut"));
+                .add(Restrictions.isNull("operOut"));
+    }
+
+    protected Criteria getWereCriteriaParam(Criteria criteria,IntervalPagination data){
+        return criteria.add(Restrictions.ge("price",data.getMinPrice()))
+                .add(Restrictions.le("price",data.getMaxPrice()))
+                .add(Restrictions.ge("length",data.getMinLength()))
+                .add(Restrictions.le("length",data.getMaxLength()))
+                .add(Restrictions.ge("width",data.getMinWidth()))
+                .add(Restrictions.le("width",data.getMaxWidth()))
+                .add(Restrictions.ge("depth",data.getMinDepth()))
+                .add(Restrictions.le("depth",data.getMaxDepth()));
     }
 
     @Autowired
     public ProductPaginationDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;      // Конструирует DAO
-    }
-
-    private Session currentSession() {           // Извлекает текущий
-        return sessionFactory.getCurrentSession(); // сеанс из фабрики
+        super(sessionFactory);      // Конструирует DAO
     }
 
     @Override
-    public List getObjects(int start, int end,double minPrice,double maxPrice,Long persons,Long badrooms,Long bathrooms) {
+    public List getObjects(IntervalPagination data) {
 
         Session session = null;
         Transaction tx = null;
@@ -46,15 +55,11 @@ public class ProductPaginationDao implements ProductPaginationDaoImpl {
             tx = session.beginTransaction();
 
             session.enableFetchProfile("mediaProfile");
-            Query query = session.createQuery("from Product product where product.operOut is null and " +
-                    "product.price >= :priceMin and product.price <= :priceMax  " )
-                    .setFirstResult(start)
-                    .setMaxResults(end);
 
-            query.setDouble("priceMin", minPrice);
-            query.setDouble("priceMax", maxPrice);
-
-            productsEntityList = query.list();
+            Criteria criteria = getCriteriaProducts(session);
+            criteria = getWereCriteriaParam(criteria,data);
+            productsEntityList  = criteria.setFirstResult(data.getStart().intValue())
+                 .setMaxResults(data.getEnd().intValue()).list();
 
             // productsEntityList = getCriteriaProducts(session)
             //       .setFirstResult(start)
@@ -76,7 +81,7 @@ public class ProductPaginationDao implements ProductPaginationDaoImpl {
     }
 
     @Override
-    public Long getCountObjects(int start, int end,double minPrice,double maxPrice,Long persons,Long badrooms,Long bathrooms) {
+    public Long getCountObjects(IntervalPagination data) {
         Session session = null;
         Transaction tx = null;
         Long count =0L;
@@ -84,10 +89,11 @@ public class ProductPaginationDao implements ProductPaginationDaoImpl {
         try {
             session = currentSession();
             tx = session.beginTransaction();
-            count = (Long)getCriteriaProducts(session)
-                    .add(Restrictions.ge("price",minPrice))
-                    .add(Restrictions.le("price",maxPrice))
-                    .setProjection(Projections.rowCount()).uniqueResult();
+            session.enableFetchProfile("mediaProfile");
+
+            Criteria criteria = getCriteriaProducts(session);
+            criteria = getWereCriteriaParam(criteria,data);
+            count = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
             tx.commit();
         }
         catch (HibernateException e) {
@@ -106,7 +112,7 @@ public class ProductPaginationDao implements ProductPaginationDaoImpl {
     public Object getCountMin(String field) {
         Session session = null;
         Transaction tx = null;
-        Object count =0f;
+        Object count = null;
 
         try {
             session = currentSession();
