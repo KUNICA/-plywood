@@ -109,6 +109,33 @@ public class ProductPaginationDao extends DaoCriteria<Product> implements Produc
     }
 
     @Override
+    public Long getCountAllObjects() {
+        Session session = null;
+        Transaction tx = null;
+        Long count =0L;
+
+        try {
+            session = currentSession();
+            tx = session.beginTransaction();
+            session.enableFetchProfile("mediaProfile");
+
+            Criteria criteria = getCriteriaProducts(session);
+            count = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return count;
+    }
+
+    @Override
     public Object getCountMin(String field) {
         Session session = null;
         Transaction tx = null;

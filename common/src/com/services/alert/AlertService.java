@@ -52,32 +52,37 @@ public class AlertService  implements AlertServiceImpl{
 
     // Отправляет сообщение об оферте админу
     public void sendAlertAdmin(final Offer offer) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            @SuppressWarnings({"rawtypes", "unchecked"})
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                String encodingOptions = "text/html; charset=UTF-8";
-                mimeMessage.setHeader("Content-Type", encodingOptions);
-                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                PersonalData person = personalDataService.getPersonalData(offer.getOperationIn().getUserName());
-                message.setFrom(emailAdmin);
-                message.setTo(emailAdmin);
-                message.setSubject(MimeUtility.encodeText("Message " + offer.getOperationIn().getUserName(),"UTF-8","Q"));
-                Map<String, Object> model = new HashMap<>();
-                model.put("totalPrice", offer.getOrderPrice());
-                model.put("listOffer", offer.getShoppingCart());
-                model.put("person", person);
-                String text = VelocityEngineUtils.mergeTemplateIntoString(
-                        velocityEngine, templateAdmin, "UTF-8", model);
-                message.setText(MimeUtility.encodeText(text,"UTF-8","Q"));
-                message.setText(text,true);
+        try {
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({"rawtypes", "unchecked"})
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    String encodingOptions = "text/html; charset=UTF-8";
+                    mimeMessage.setHeader("Content-Type", encodingOptions);
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    PersonalData person = personalDataService.getPersonalData(offer.getOperationIn().getUserName());
+                    message.setFrom(emailAdmin);
+                    message.setTo(emailAdmin);
+                    message.setSubject(MimeUtility.encodeText("Message " + offer.getOperationIn().getUserName(), "UTF-8", "Q"));
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("totalPrice", offer.getOrderPrice());
+                    model.put("listOffer", offer.getShoppingCart());
+                    model.put("person", person);
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, templateAdmin, "UTF-8", model);
+                    message.setText(MimeUtility.encodeText(text, "UTF-8", "Q"));
+                    message.setText(text, true);
+                }
+            };
+            mailSender.send(preparator);
+        }catch(Exception e){
+                e.printStackTrace();
             }
-        };
-        mailSender.send(preparator);
     }
 
 
     // Отправляет сообщение об оферте клиенту
     public void sendAlert(final Offer offer) {
+        try{
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             @SuppressWarnings({"rawtypes", "unchecked"})
             public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -95,6 +100,9 @@ public class AlertService  implements AlertServiceImpl{
             }
         };
         mailSender.send(preparator);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 

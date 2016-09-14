@@ -8,7 +8,7 @@ import java.util.Set;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "offer", schema = "plywood_work")
+@Table(name = "offer")
 public class Offer {
     private Long id;
     private double orderPrice;

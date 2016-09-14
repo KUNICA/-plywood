@@ -31,4 +31,9 @@ public class PlywoodPaginationService extends ProductPaginationService implement
         MenuParametrs param = new MenuParametrs();
         return getParametr(param);
     }
+
+    @Override
+    public Long getCountAllObjects() {
+        return productPaginationDao.getCountAllObjects();
+    }
 }

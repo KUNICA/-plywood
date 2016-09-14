@@ -21,7 +21,7 @@ import java.util.Set;
 @DiscriminatorColumn(
         name="type",
         discriminatorType=DiscriminatorType.STRING)
-@Table(name = "product", schema = "plywood_work")
+@Table(name = "product")
 public class Product {
     protected Long id;
     protected Operations operOut;

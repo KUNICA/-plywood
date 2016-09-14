@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface CompareTableServiceImpl {
     List getProducts(String userName, Type type);
+    int getCompareCount(String userName, Type type);
 }

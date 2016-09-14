@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "images", schema = "plywood_work")
+@Table(name = "images")
 @Where(clause = "operation_out is null" )
 public class Images {
     private Long id;

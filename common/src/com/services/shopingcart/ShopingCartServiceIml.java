@@ -16,5 +16,6 @@ public interface ShopingCartServiceIml {
     List getShoppingCarts(String userName);
     Long plusProduct(ShoppingCart product);
     Long minusProduct(ShoppingCart product);
+    Double getTotalPrice(List list);
 }
 

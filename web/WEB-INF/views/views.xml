@@ -152,6 +152,18 @@
         </put-attribute>
     </definition>
 
+    <definition name="viewCart" extends="baseTemplate">
+        <put-attribute name="title" value="shoping cart page"/>
+        <put-attribute name="body" value="/views/tiles/shopingcart.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
 
 
 </tiles-definitions>

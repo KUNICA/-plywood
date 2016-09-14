@@ -35,4 +35,9 @@ public class ParticleboardPaginationService extends ProductPaginationService imp
         param.setMaxLaminated((Long)productPaginationDao.getCountMax("laminated"));
         return getParametr(param);
     }
+
+    @Override
+    public Long getCountAllObjects() {
+        return productPaginationDao.getCountAllObjects();
+    }
 }

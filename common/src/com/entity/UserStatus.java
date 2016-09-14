@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "user_status", schema = "plywood_work")
+@Table(name = "user_status")
 public class UserStatus {
     private String username;
     private Integer authFailureCount;

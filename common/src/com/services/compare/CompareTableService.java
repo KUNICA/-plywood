@@ -49,4 +49,13 @@ public class CompareTableService  implements CompareTableServiceImpl{
             list.add(ProductsEntity);
         }*/
     }
+
+    @Override
+    public int getCompareCount(String userName, Type type) {
+        UsersFilds compare = (UsersFilds)compareDaoImpl.getCompare(userName,type);
+        List productsArray =  SearchFields.getProductsList(compare);
+        return productsArray.size();
+    }
+
+
 }

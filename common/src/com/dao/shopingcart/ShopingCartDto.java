@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class ShopingCartDto {
 
+    private Long id;
     private Double price;
     private String shortDescription;
     private String name;
@@ -21,6 +22,14 @@ public class ShopingCartDto {
     protected Long width;
     protected Long depth;
     protected List<Images> photos;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Double getPrice() {
         return price;

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "plywood", schema = "plywood_work")
+@Table(name = "plywood")
 public class Plywood extends Product{
 
     private Boolean coating;

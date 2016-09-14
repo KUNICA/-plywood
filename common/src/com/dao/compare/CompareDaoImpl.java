@@ -7,4 +7,5 @@ import com.entity.Type;
  */
 public interface CompareDaoImpl {
     Object getCompare(String userName, Type type);
+    Object getCompareCount(String userName, Type type);
 }

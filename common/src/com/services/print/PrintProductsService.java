@@ -6,12 +6,15 @@ import com.entity.Product;
 import com.entity.Images;
 import com.google.common.base.Strings;
 import com.services.shopingcart.ShopingCartServiceIml;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -22,6 +25,11 @@ import java.util.List;
  */
 @Named("printProductsService")
 public class PrintProductsService implements PrintProductsServiceImpl {
+
+    @Autowired
+    ServletContext context;
+
+    static String LOCATION = "//images//product//";
 
     protected static final int IMAGE_MAIN = 0;
     protected static final int IMAGE_2 = 1;
@@ -60,10 +68,11 @@ public class PrintProductsService implements PrintProductsServiceImpl {
 
         for (Object iter :product.getPhotos()) {
             Images photo = (Images) iter;
-            Resource resourceImage = resourceLoader.getResource("images/product/" + photo.getImg());
-            if(resourceImage.exists())
+            File file = new File(context.getRealPath(File.separator) + LOCATION,photo.getImg());
+            //  Resource resourceImage = resourceLoader.getResource("images/product/" + photo.getImg());
+            if(file.exists())
                 if(photo.getMain()!=null && photo.getMain() && photo.getOperationOut() == null){
-                    setImage(resourceImage,fild,0);
+                    setImage(file,fild,0);
                     break;
                 }
         }
@@ -71,7 +80,8 @@ public class PrintProductsService implements PrintProductsServiceImpl {
         int i=1;
         for (Object iter :product.getPhotos()) {
             Images photo = (Images) iter;
-            Resource resourceImage = resourceLoader.getResource("images/product/" + photo.getImg());
+            //Resource resourceImage = resourceLoader.getResource("images/product/" + photo.getImg());
+            File resourceImage = new File(context.getRealPath(File.separator) + LOCATION,photo.getImg());
             if(resourceImage.exists())
                 if(photo.getMain()==null && photo.getOperationOut() == null){
                     setImage(resourceImage,fild,i);
@@ -110,33 +120,29 @@ public class PrintProductsService implements PrintProductsServiceImpl {
         return fild;
     }
 
-    protected void setImage(Resource resourceImage,PrintFilds fild, int i){
-        try {
-            switch(i){
-                case IMAGE_MAIN:
-                    fild.setImage1(resourceImage.getFile().getPath());
-                    break;
-                case IMAGE_2:
-                    fild.setImage2(resourceImage.getFile().getPath());
-                    break;
-                case IMAGE_3:
-                    fild.setImage3(resourceImage.getFile().getPath());
-                    break;
-                case IMAGE_4:
-                    fild.setImage4(resourceImage.getFile().getPath());
-                    break;
-                case IMAGE_5:
-                    fild.setImage5(resourceImage.getFile().getPath());
-                    break;
-                case IMAGE_6:
-                    fild.setImage6(resourceImage.getFile().getPath());
-                    break;
-                case IMAGE_7:
-                    fild.setImage7(resourceImage.getFile().getPath());
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    protected void setImage(File resourceImage,PrintFilds fild, int i){
+        switch(i){
+            case IMAGE_MAIN:
+                fild.setImage1(resourceImage.getPath());
+                break;
+            case IMAGE_2:
+                fild.setImage2(resourceImage.getPath());
+                break;
+            case IMAGE_3:
+                fild.setImage3(resourceImage.getPath());
+                break;
+            case IMAGE_4:
+                fild.setImage4(resourceImage.getPath());
+                break;
+            case IMAGE_5:
+                fild.setImage5(resourceImage.getPath());
+                break;
+            case IMAGE_6:
+                fild.setImage6(resourceImage.getPath());
+                break;
+            case IMAGE_7:
+                fild.setImage7(resourceImage.getPath());
+                break;
         }
     }
 }

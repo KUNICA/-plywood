@@ -115,6 +115,7 @@ public class ShopingCartDao extends DaoCriteria<ShoppingCart> implements Shoping
                             .add(Projections.property("product.length"), "length")
                             .add(Projections.property("product.type"), "type")
                             .add(Projections.property("product.width"), "width")
+                            .add(Projections.property("product.id"), "id")
                             .add(Projections.property("product.depth"), "depth"))
                     .setResultTransformer(Transformers.aliasToBean(ShopingCartDto.class)).list();
 

@@ -12,4 +12,5 @@ public interface ProductPaginationDaoImpl {
     Long getCountObjects(IntervalPagination data);
     Object getCountMax(String field);
     Object getCountMin(String field);
+    Long getCountAllObjects();
 }

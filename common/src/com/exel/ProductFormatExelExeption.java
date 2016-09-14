@@ -4,11 +4,11 @@ package com.exel;
  * Created by user on 20.08.2016.
  */
 public class ProductFormatExelExeption extends Exception {
-    private String fildName = "Ошибка! Не правильно сформированы данные в exel поле:";
+    private String fildName = "Error! Malformed data in excel field:";
     private int sheet;
 
     public ProductFormatExelExeption(int sheet, String fildName) {
-        this.fildName += fildName + " страница:" + sheet;
+        this.fildName += fildName + " page:" + sheet;
     }
 
     public String getFildName() {

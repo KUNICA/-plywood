@@ -4,6 +4,8 @@ import com.services.print.PrintProductsService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.SimpleFileResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +35,21 @@ public class PrintController {
     @Named("printPlywoodService")
     private PrintProductsService printPlywoodService;
 
+    @Autowired
+    ServletContext context;
+
+    static String LOCATION = "//avatars//";
+
     @RequestMapping(value="/print",method= RequestMethod.GET)
     @Secured({ "ROLE_ADMIN","ROLE_USER"})
     public void getReport(HttpServletResponse response) throws JRException, IOException {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        InputStream jasperStream = this.getClass().getResourceAsStream("/print/report1.jasper");
+        FileInputStream jasperStream = new FileInputStream (context.getRealPath("/print/report1.jasper"));
         Map<String,Object> params = new HashMap<String,Object>();
+       // params.put("patch",  (new File(context.getRealPath("/")).getPath()));
+       // File file = new File(context.getRealPath(File.separator) + LOCATION,"PlywoodTitle.jpg");
+       // params.put("patchTitle",  (file.getPath()));
+      //  params.put("patchFont",  (new File(context.getRealPath("/")).getPath() + "\\TIMES.TTF"));
         List list = printParticleboardService.getListParamProducts(userName);
         List listPlywood = printPlywoodService.getListParamProducts(userName);
         list.addAll(listPlywood);

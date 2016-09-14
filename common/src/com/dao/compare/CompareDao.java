@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,4 +53,33 @@ public class CompareDao extends DaoCriteria<UsersFilds> implements CompareDaoImp
         }
         return compare;
     }
+
+    @Override
+    public Object getCompareCount(String userName, Type type) {
+        Session session = null;
+        Transaction tx = null;
+        Object compare = null;
+
+        try {
+            session = currentSession();
+            tx = session.beginTransaction();
+            compare = createCriteria(session)
+                    .add(Restrictions.eq("username",userName))
+                    .add(Restrictions.eq("type",type)).setProjection(Projections.rowCount())
+                    .uniqueResult();
+
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return compare;
+    }
+
 }

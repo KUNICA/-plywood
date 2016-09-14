@@ -12,4 +12,5 @@ public interface ProductPaginationServiceImpl {
     List getObjects(IntervalPagination data);
     Long getCountObjects(IntervalPagination data);
     Object getParametrObjects();
+    Long getCountAllObjects();
 }

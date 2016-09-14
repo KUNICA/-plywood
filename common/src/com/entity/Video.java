@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "video", schema = "plywood_work")
+@Table(name = "video")
 public class Video {
     private Long id;
     private String link;

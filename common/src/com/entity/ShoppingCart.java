@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "shopping_cart", schema = "plywood_work")
+@Table(name = "shopping_cart")
 public class ShoppingCart {
     private Long id;
     private String username;

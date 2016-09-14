@@ -15,6 +15,11 @@
     </listener>
 
     <context-param>
+        <param-name>ImagesProduct</param-name>
+        <param-value>/images/product/</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>javax.servlet.jsp.jstl.fmt.request.charset</param-name>
         <param-value>UTF-8</param-value>
     </context-param>

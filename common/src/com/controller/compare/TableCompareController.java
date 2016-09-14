@@ -3,14 +3,13 @@ package com.controller.compare;
 
 import com.entity.Type;
 import com.services.account.UserServiceImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import com.services.account.IPersonalDataService;
 import com.services.compare.CompareTableServiceImpl;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.inject.Inject;
@@ -36,5 +35,12 @@ public class TableCompareController {
         model.addAttribute("tableCompare",compareTableService.getProducts(userName,type));
         model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
         return "tableCompare" + type;
+    }
+
+    @RequestMapping(value="/count/{type}")
+    public @ResponseBody
+    int getCountParticleboard(@PathVariable("type") Type type) {
+        String userName = userService.getUserName();
+        return compareTableService.getCompareCount(userName,type);
     }
 }

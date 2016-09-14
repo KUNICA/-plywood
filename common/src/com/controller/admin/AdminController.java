@@ -57,7 +57,7 @@ public class AdminController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         setDataModel(model,userName);
         if(file.isEmpty()){
-            model.addAttribute("error","Выберите файл");
+            model.addAttribute("error","select a file");
             return "admin";
         }
         try {
@@ -69,7 +69,7 @@ public class AdminController {
             model.addAttribute("error",e.fillInStackTrace());
             return "admin";
         }
-        model.addAttribute("error","Файл добавлен");
+        model.addAttribute("error","File added");
         return "redirect:/admin/run";
     }
 
@@ -79,7 +79,7 @@ public class AdminController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         setDataModel(model,userName);
         if(file.isEmpty()){
-            model.addAttribute("errorImage","Выберите файл");
+            model.addAttribute("errorImage","select a file");
             return "admin";
         }
         try {
@@ -91,7 +91,7 @@ public class AdminController {
             model.addAttribute("errorImage",e.fillInStackTrace());
             return "admin";
         }
-        model.addAttribute("errorImage","Файл добавлен");
+        model.addAttribute("errorImage","File added");
         return "admin";
     }
 

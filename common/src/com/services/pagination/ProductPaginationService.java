@@ -34,6 +34,11 @@ public class ProductPaginationService implements ProductPaginationServiceImpl {
         return getParametr(param);
     }
 
+    @Override
+    public Long getCountAllObjects() {
+        return productsEntityPaginationDao.getCountAllObjects();
+    }
+
     public Object getParametr(MenuParametrs param) {
         param.setMinPrice((Double)productsEntityPaginationDao.getCountMin("price"));
         param.setMaxPrice((Double)productsEntityPaginationDao.getCountMax("price"));

@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by user on 20.08.2016.
  */
 @Entity
-@Table(name = "operations", schema = "plywood_work")
+@Table(name = "operations")
 public class Operations {
     private Long id;
     private OperationType typeOper;

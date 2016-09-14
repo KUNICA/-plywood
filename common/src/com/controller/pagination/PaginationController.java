@@ -70,6 +70,13 @@ public class PaginationController {
         return particleboardPaginationService.getCountObjects(interval);
     }
 
+    @RequestMapping(value = "/countAllParticleboard",
+            method = RequestMethod.POST,
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody Long getCountAllParticleboard() {
+        return particleboardPaginationService.getCountAllObjects();
+    }
+
     @RequestMapping(value = "/particleboards",
     method = RequestMethod.POST, consumes="application/json", produces="application/json",
     headers = {"Accept=text/xml, application/json"})
@@ -91,6 +98,13 @@ public class PaginationController {
             headers = {"Accept=text/xml, application/json"})
     public @ResponseBody Long getCountPlywood(@RequestBody PlywoodIntervalPagination interval) {
         return plywoodPaginationService.getCountObjects(interval);
+    }
+
+    @RequestMapping(value = "/countAllPlywood",
+            method = RequestMethod.POST,
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody Long getCountAllPlywood() {
+        return plywoodPaginationService.getCountAllObjects();
     }
 
     @RequestMapping(value = "/plywoods",

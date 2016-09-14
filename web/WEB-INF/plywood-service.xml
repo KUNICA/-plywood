@@ -34,8 +34,8 @@
     </bean>
 
     <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
-        <property name="username" value="atikonstanta.kunickiy@gmail.com" />
-        <property name="password" value="bes1234z" />
+        <property name="username" value="kunickiy.eftech@gmail.com" />
+        <property name="password" value="mA:4wT!+aV" />
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.user" />
