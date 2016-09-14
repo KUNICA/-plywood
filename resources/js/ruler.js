@@ -18,6 +18,7 @@ var ParamSearch = function(index,name,scriptPlywood){
     this.PanelSlide = this.nameSlide + name;
 
     this.parent_element_id = 'mainData' + name;
+    this.parent_elementList_id = 'mainDataList' + name;
     //методы
     this.initData = scriptPlywood.initData;
     this.getObjects = scriptPlywood.getObjects;
@@ -27,7 +28,7 @@ var ParamSearch = function(index,name,scriptPlywood){
     
 }
 
-var Paginator = function(index,paginationHolderId, pagesTotal, pagesSpan, pageCurrent, baseUrl){
+var Paginator = function(index,paginationHolderId, pagesTotal, pagesSpan, pageCurrent, baseUrl,count){
     if(!document.getElementById(paginationHolderId) || !pagesTotal || !pagesSpan) return false;
     countP = pagesTotal;
     this.inputData = {
@@ -40,6 +41,7 @@ var Paginator = function(index,paginationHolderId, pagesTotal, pagesSpan, pageCu
     };
 
     this.index = index;
+    this.count = count;
 
     this.paginator1 =  "paginator1_" + this.index;
     this.cellCurrent = 'cellCurrent_' + this.index;
@@ -48,8 +50,8 @@ var Paginator = function(index,paginationHolderId, pagesTotal, pagesSpan, pageCu
     this.s_all = 's-all' + this.index;
     this.countPage1 = 'countPage1_' + this.index;
     this.countPage2 = 'countPage2_' + this.index;
-   // this.s_col1 = 's-col1_' + this.index;
-   // this.s_col2 = 's-col2_' + this.index;
+    this.s_col1 = 's-col1_' + this.index;
+    this.s_col2 = 's-col2_' + this.index;
     this.s_content = 's-content_' + this.index;
     this.scroll_bar1 = 'scroll_bar1_' + this.index;
     this.scroll_bar2 = 'scroll_bar2_' + this.index;
@@ -160,8 +162,8 @@ function clickArrowLeft(e) {
         scrollthumb.xPos = tabl.offsetWidth - scrollthumb.offsetWidth;
         scrollthumb.style.left = scrollthumb.xPos + "px";
     }
-    var trPages = tabl.getElementsByTagName('tr')[0];
-    var tdsPages = trPages.getElementsByTagName('td');
+    var trPages = tabl.getElementsByTagName('ul')[0];
+    var tdsPages = trPages.getElementsByTagName('li');
 
 
     for(var i=0; i<tdsPages.length; i++){
@@ -182,8 +184,8 @@ function clickArrowRight(e) {
     var scrollbar = getElementsByClassName(tabl, 'div', 'scroll_bar')[0];
     var scrollthumb = getElementsByClassName(tabl, 'div', 'scroll_thumb')[0];
     var scrollmark = getElementsByClassName(tabl, 'div', 'current_page_mark')[0];
-    var trPages = tabl.getElementsByTagName('tr')[0];
-    var tdsPages = trPages.getElementsByTagName('td');
+    var trPages = tabl.getElementsByTagName('ul')[0];
+    var tdsPages = trPages.getElementsByTagName('li');
 
     if(pag1!=null && matchClass(pag1.paginatorBox, 'fullsize')) return;
     scrollthumb.xPos +=  scrollmark.offsetWidth*10;
@@ -249,8 +251,8 @@ function clickArrowLeft2(e) {
         scrollthumb.xPos = tabl.offsetWidth - scrollthumb.offsetWidth;
         scrollthumb.style.left = scrollthumb.xPos + "px";
     }
-    var trPages = tabl.getElementsByTagName('tr')[0];
-    var tdsPages = trPages.getElementsByTagName('td');
+    var trPages = tabl.getElementsByTagName('ul')[0];
+    var tdsPages = trPages.getElementsByTagName('li');
 
 
     for(var i=0; i<tdsPages.length; i++){
@@ -271,8 +273,8 @@ function clickArrowRight2(e) {
     var scrollbar = getElementsByClassName(tabl, 'div', 'scroll_bar')[0];
     var scrollthumb = getElementsByClassName(tabl, 'div', 'scroll_thumb')[0];
     var scrollmark = getElementsByClassName(tabl, 'div', 'current_page_mark')[0];
-    var trPages = tabl.getElementsByTagName('tr')[0];
-    var tdsPages = trPages.getElementsByTagName('td');
+    var trPages = tabl.getElementsByTagName('ul')[0];
+    var tdsPages = trPages.getElementsByTagName('li');
 
     if(pag1!=null && matchClass(pag1.paginatorBox, 'fullsize')) return;
     scrollthumb.xPos +=  scrollmark.offsetWidth*10;
@@ -318,10 +320,10 @@ Paginator.prototype.prepareHtml = function(){
     this.html.holder = document.getElementById(this.inputData.paginatorHolderId);
     this.html.holder.innerHTML = this.makePagesTableHtml();
 
-    this.html.table = this.html.holder.getElementsByTagName('table')[0];
+    this.html.table = this.html.holder.getElementsByTagName('div')[0];
 
-    var trPages = this.html.table.getElementsByTagName('tr')[0];
-    this.html.tdsPages = trPages.getElementsByTagName('td');
+    var trPages = this.html.table.getElementsByTagName('ul')[0];
+    this.html.tdsPages = trPages.getElementsByTagName('li');
 
     this.html.scrollBar = getElementsByClassName(this.html.table, 'div', 'scroll_bar')[0];
     this.html.scrollThumb = getElementsByClassName(this.html.table, 'div', 'scroll_thumb')[0];
@@ -344,64 +346,64 @@ Paginator.prototype.srollDisabled = function(){
 Paginator.prototype.makePagesTableHtml = function(){
     var tdWidth = (100 / this.inputData.pagesSpan) + '%';
     var htmlPols =
-        '<table id = "tableId' + this.inputData.paginatorHolderId +  '" style="float:left "; width="100%">' + '<tr>'  ;
+        '<div class="" id = "tableId' + this.inputData.paginatorHolderId +  '">' + '<ul class="pagination ">'  ;
 
     for (var i=1; i<=this.inputData.pagesSpan; i++){
-        htmlPols += '<td width="' + tdWidth + '"></td>';
+        htmlPols += '<li class="title"></li>';
     }
 
     var html = null;
     if(this.inputData.paginatorHolderId == this.paginator1){
 
         htmlPols += ''  +
-            '</tr>' +
-            '<tr>' +
-            '<td colspan="' + this.inputData.pagesSpan + '">' +
+            '</ul>' +
+            '<ul>' +
+            '<li class="current" colspan="' + this.inputData.pagesSpan + '">' +
             '<div class="scroll_bar" id = "' + this.scroll_bar1 + '">' +
             '<div class="scroll_trough"></div>' +
             '<div style="display:block;"  class="scroll_thumb">' +
-            '<div class="scroll_knob"></div>' +
+            '<div class="slider-handle round"></div>' +
             '</div>' +
             '<div class="current_page_mark"></div>' +
             '</div>' +
-            '</td>' +
-            '</tr>' +
-            '</table>';
+            '</li>' +
+            '</ul>' +
+            '</div>';
 
         html =  '' +  '<div class = "s-all" id="' + this.s_all + '"' + '>' +
             '<div id=' + this.countPage1 + '></div>' +
             '<div style="clear:both;">'   +
-            //'<div class = "s-col1" id=' + s_col1 + '><div class="arrow_left" style="height:20px; width:20px; margin-top: 25px;margin-left: 42px;" id="arrowleft' + this.inputData.paginatorHolderId + '"></div></div>' +
-          //  '<div class = "s-col2" id="' + s_col2 + '"><div class="arrow_right" style="height:20px; width:20px; margin-top: 25px;" id="arrowright' + this.inputData.paginatorHolderId + '"></div></div>' +
             '<div class = "s-content" id="' + this.s_content + '">' + htmlPols + '</div>' +
+           // '<div class = "s-col1" id="' + this.s_col1 + '"><ul class="pagination"> <li class="current title"><a class="arrow_left" id="arrowleft' + this.inputData.paginatorHolderId + '">Back</a></li></ul></div>' +
+          //  '<div class = "s-col2" id="' + this.s_col2 + '"><ul class="pagination"> <li class="current title"><a class="arrow_right"  id="arrowright' + this.inputData.paginatorHolderId + '">Next</a></li></ul></div>' +
             '<div style="clear:both;">' +
             //  '<div id="footer">дно</div>'+
             '</div> ';
     }
     else{
         htmlPols += ''  +
-            '</tr>' +
-            '<tr>' +
-            '<td colspan="' + this.inputData.pagesSpan + '">' +
+            '</ul>' +
+            '<ul>' +
+            '<li colspan="' + this.inputData.pagesSpan + '">' +
             '<div class="scroll_bar" id = "' + this.scroll_bar2 + '">' +
             '<div class="scroll_trough"></div>' +
             '<div style="display:block;"  class="scroll_thumb">' +
-            '<div class="scroll_knob"></div>' +
+            '<div class="slider-handle round" ></div>' +
             '</div>' +
             '<div class="current_page_mark"></div>' +
             '</div>' +
-            '</td>' +
-            '</tr>' +
-            '</table>';
+            '</li>' +
+            '</ul>' +
+            '</div>';
 
         html =  '' +  '<div class = "s-all" id="' + this.s_all + '">' +
             // '<div id="s-header">шапка</div>' +
             '<div style="clear:both;">'   +
-           // '<div class = "s-col1" id="' + s_col1 + '"><div class="arrow_left" style="height:20px; width:20px; margin-top: 25px; margin-left: 42px;" id="arrowleft' + this.inputData.paginatorHolderId + '"></div></div>' +
-           // '<div class = "s-col2" id="' + s_col2 + '"><div class="arrow_right" style="height:20px; width:20px; margin-top: 25px;" id="arrowright' + this.inputData.paginatorHolderId + '"></div></div>' +
             '<div class = "s-content" id="' + this.s_content + '">' + htmlPols + '</div>' +
+           // '<div class = "s-col1" id="' + this.s_col1 + '"><ul class="pagination"> <li class="current title"><a  class="arrow_left" id="arrowleft' + this.inputData.paginatorHolderId + '">Back</a></li></ul></div>' +
+           // '<div class = "s-col2" id="' + this.s_col2 + '"><ul class="pagination"> <li class="current title"><a class="arrow_right"  id="arrowright' + this.inputData.paginatorHolderId + '">Next</a></li></ul></div>' +
             '<div style="clear:both;">' +
-            '<div id="' + this.countPage2 + '"></div>'+
+            '<div style="display: none" id="' + this.countPage2 + '"></div>'+
             '</div> ';
     }
     return html;
@@ -550,9 +552,9 @@ Paginator.prototype.drawPages = function(){
     for(var i=0; i<this.html.tdsPages.length; i++){
         var cellCurrentValue = cellFirstValue + i;
         if(cellCurrentValue == current){
-            html = "<span id='" + this.cellCurrent + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='color: yellowgreen; font-weight: bold;  cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<a id='" + this.cellCurrent + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='cursor:pointer;'>" + cellCurrentValue  + "</a>";
         } else {
-            html = "<span id='" + this.cellCurrent + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style='color: black; cursor:pointer;'>" + cellCurrentValue  + "</span>";
+            html = "<a id='" + this.cellCurrent + this.inputData.paginatorHolderId + cellCurrentValue + "'" + "style=' cursor:pointer;'>" + cellCurrentValue  + "</a>";
         }
         this.html.tdsPages[i].innerHTML = html;
     }
@@ -696,6 +698,7 @@ function destroyChildren(node)
 
 function initPaginationPage(count,index){
 
+    
     var params = myMapParamSearch[index];
     var p1 = document.getElementById("paginator1_" + index);
     var p2 = document.getElementById("paginator2_" + index);
@@ -707,8 +710,8 @@ function initPaginationPage(count,index){
         coutnPage = count / mselect;
     }
     if (Math.ceil(coutnPage) > 0) {
-        myMapPaginator["paginator1_" + index] = new Paginator(index,"paginator1_" + index, Math.ceil(coutnPage), 5, 1, "");
-        myMapPaginator["paginator2_" + index] = new Paginator(index,"paginator2_" + index, Math.ceil(coutnPage), 5, 1, "");
+        myMapPaginator["paginator1_" + index] = new Paginator(index,"paginator1_" + index, Math.ceil(coutnPage), 5, 1, "",count);
+        myMapPaginator["paginator2_" + index] = new Paginator(index,"paginator2_" + index, Math.ceil(coutnPage), 5, 1, "",count);
         var pag1 = myMapPaginator["paginator1_" + index];
         var pag2 = myMapPaginator["paginator2_" + index];
 
@@ -729,6 +732,8 @@ if (element != undefined) {
 }else{
     var parentElement = document.getElementById(params.parent_element_id);
     parentElement.textContent = '';
+     parentElementList = document.getElementById(params.parent_elementList_id);
+    parentElementList.textContent = '';
 }
 }
 
@@ -783,7 +788,7 @@ function initPagination(index) {
                 el.style.color = 'black';
             }
         }
-        if(cellCurrentValue.id != params.parent_element_id ) {
+        if(cellCurrentValue.id != params.parent_element_id && cellCurrentValue.id != params.parent_elementList_id  ) {
             var id1 = cellCurrentValue.id.substr(25, cellCurrentValue.id.length - 1);
             var mel1 = document.getElementById(paginator.cellCurrent + paginator.paginator1 + id1);
             var mel2 = document.getElementById(paginator.cellCurrent + paginator.paginator2 + id1);
@@ -822,8 +827,9 @@ function initPagination(index) {
         var maxDepth  = depthList[1];
 
         var parentElement = document.getElementById(params.parent_element_id);
+        var parentListElement = document.getElementById(params.parent_elementList_id);
 
-        params.getObjects(parentElement,$(".homeCard"),start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth);
+        params.getObjects(parentElement,parentListElement,$(".homeCard"),start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth,paginator.count);
 
 }
 
@@ -861,6 +867,48 @@ function initPaginationParametrs(index,url){
 
         var panelSlide = document.getElementById(params.PanelSlide);
 
+        panelSlide.innerHTML = 
+                                            '<div class="price-filter">' +
+                                                  '<h2>Price</h2>' +
+                                                  '<hr>' +
+                                                  '<input  id="' + params.ex2 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex2 + 'Slider" value="' + parametrs.minPrice + ',' + parametrs.maxPrice +'" data-slider-min="' + parametrs.minPrice +'" data-slider-max="' + parametrs.maxPrice + '" data-slider-step="5" data-slider-value="[' + parametrs.minPrice + ',' + parametrs.maxPrice +']" title=""/>' +
+                                            '</div>' +
+                                            '<span class="min-max">' +
+                                                    'Price: $' + parametrs.minPrice +  '- $' + parametrs.maxPrice +
+                                            '</span>' +
+
+
+                                            '<div class="price-filter">' +
+                                            '<hr>' +
+                                            '<h2>Length</h2>' +
+                                            '<hr>' +
+                                            '<input  id="' + params.ex1 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex1 + 'Slider" value="' + parametrs.minLength + ',' + parametrs.maxLength +'" data-slider-min="' + parametrs.minLength +'" data-slider-max="' + parametrs.maxLength + '" data-slider-step="5" data-slider-value="[' + parametrs.minLength + ',' + parametrs.maxLength +']" title=""/>' +
+                                            '</div>' +
+                                            '<span class="min-max">' +
+                                            'Length: ' + parametrs.minLength +  '- ' + parametrs.maxLength +
+                                            '</span>' +
+
+                                            '<div class="price-filter">' +
+                                            '<hr>' +
+                                            '<h2>Width</h2>' +
+                                            '<hr>' +
+                                            '<input  id="' + params.ex3 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex3 + 'Slider" value="' + parametrs.minWidth + ',' + parametrs.maxWidth +'" data-slider-min="' + parametrs.minWidth +'" data-slider-max="' + parametrs.maxWidth + '" data-slider-step="5" data-slider-value="[' + parametrs.minWidth + ',' + parametrs.maxWidth +']" title=""/>' +
+                                            '</div>' +
+                                            '<span class="min-max">' +
+                                            'Width: ' + parametrs.minWidth +  '- ' + parametrs.maxWidth +
+                                            '</span>' +
+
+                                            '<div class="price-filter">' +
+                                            '<hr>' +
+                                            '<h2>Depth</h2>' +
+                                            '<hr>' +
+                                            '<input  id="' + params.ex4 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex4 + 'Slider" value="' + parametrs.minDepth + ',' + parametrs.maxDepth +'" data-slider-min="' + parametrs.minDepth +'" data-slider-max="' + parametrs.maxDepth + '" data-slider-step="5" data-slider-value="[' + parametrs.minDepth + ',' + parametrs.maxDepth +']" title=""/>' +
+                                            '</div>' +
+                                            '<span class="min-max">' +
+                                            'Depth: ' + parametrs.minDepth +  '- ' + parametrs.maxDepth +
+                                            '</span>';
+
+        /*
         panelSlide.innerHTML =
             '<div class="panelPrice">' +
             '<b>Price </b>' +
@@ -886,13 +934,15 @@ function initPaginationParametrs(index,url){
             '<input style="width: 100px;" id="' + params.ex4 + '" class="span2 exSlider" data-slider-id="ex4' + params.ex4 + 'Slider" type="text" data-slider-min="' + parametrs.minDepth  + '" data-slider-max="' + parametrs.maxDepth  + '" data-slider-step="1" data-slider-value="[' + parametrs.minDepth + ',' + parametrs.maxDepth  + ']" title=""/>' +
             '<b id="maxDepth">' + parametrs.maxDepth + '</b>' +
             '</div>';
+            */
 
         panelSlide.innerHTML = params.initParam(panelSlide.innerHTML,parametrs);
-        
+
         $("#" + params.ex2).slider({
             formatter: function(value) {
                 return 'Current value: ' + value;
             }});
+
         $('#' + params.ex1).slider({
             formatter: function(value) {
                 return 'Current value: ' + value;
@@ -909,12 +959,12 @@ function initPaginationParametrs(index,url){
             }
         });
 
+
         params.eventParam();
-        
+
         $(".slider-handle").mouseup(function()   {
             initPagination(index);
         });
-        
-        
+
     });
 }

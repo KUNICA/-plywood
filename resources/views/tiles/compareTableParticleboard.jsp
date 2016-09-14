@@ -1,40 +1,65 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 08.08.2016
-  Time: 10:56
-  To change this template use File | Settings | File Templates.
---%>
-
+<%@ page import="com.ui.JspConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+
+<!-- Meta -->
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.json.js"></script>
-    <link href="/css/compare.css" rel="stylesheet" type="text/css" >
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keywords" content="MediaCenter, Template, eCommerce">
+<meta name="robots" content="all">
+<!-- Bootstrap Core CSS -->
+
+<!-- Customizable CSS -->
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/main.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/green.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/owl.carousel.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/owl.transitions.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/animate.min.css">
+
+<!-- Demo Purpose Only. Should be removed in production -->
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/config.css">
+
+<link href="<%=JspConstants.APP_PATH%>/css/green.css" rel="alternate stylesheet" title="Green color">
+<link href="<%=JspConstants.APP_PATH%>/css/blue.css" rel="alternate stylesheet" title="Blue color">
+<link href="<%=JspConstants.APP_PATH%>/css/red.css" rel="alternate stylesheet" title="Red color">
+<link href="<%=JspConstants.APP_PATH%>/css/orange.css" rel="alternate stylesheet" title="Orange color">
+<link href="<%=JspConstants.APP_PATH%>/css/navy.css" rel="alternate stylesheet" title="Navy color">
+<link href="<%=JspConstants.APP_PATH%>/css/dark-green.css" rel="alternate stylesheet" title="Darkgreen color">
+<link href="<%=JspConstants.APP_PATH%>/less/sidebar.less" rel="alternate stylesheet">
+<!-- Demo Purpose Only. Should be removed in production : END -->
+
+<!-- Fonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+
+<!-- Icons/Glyphs -->
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/font-awesome.min.css">
+
+<!-- HTML5 elements and media queries Support for IE8 : HTML5 shim and Respond.js -->
+<!--[if lt IE 9]>
+<script src="/js/html5shiv.js"></script>
+<script src="/js/respond.min.js"></script>
+<![endif]-->
+
+<link href="<%=JspConstants.APP_PATH%>/css/rules.css" rel="stylesheet" type="text/css" >
+<link href="<%=JspConstants.APP_PATH%>/css/shoping.css" rel="stylesheet" type="text/css" >
+<link href="<%=JspConstants.APP_PATH%>/css/compare.css" rel="stylesheet" type="text/css" >
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- JavaScripts placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="<%=JspConstants.APP_PATH%>/js/shopingcart.js"></script>
+<script type="text/javascript" src="<%=JspConstants.APP_PATH%>/js/compare.js"></script>
     <script type="text/javascript">
-
-        function remove(index){
-            document.getElementById("remove" + index).style.display = 'none';
-            document.getElementById("name" + index).style.display = 'none';
-            document.getElementById("image" + index).style.display = 'none';
-            document.getElementById("price" + index).style.display = 'none';
-            document.getElementById("description" + index).style.display = 'none';
-            document.getElementById("length" + index).style.display = 'none';
-            document.getElementById("width" + index).style.display = 'none';
-            document.getElementById("depth" + index).style.display = 'none';
-            document.getElementById("laminated" + index).style.display = 'none';
-            document.getElementById("coating" + index).style.display = 'none';
-            document.getElementById("grade" + index).style.display = 'none';
-
-        }
 
         function setImageName(id,element) {
             jQuery.ajax({
@@ -49,99 +74,177 @@
     </script>
 </head>
 <body>
-    <table class="table table-bordered tableCompare" >
-            <tr>
-                <td>remove</td>
-                <% int counterRemove = 0; %>
-            <c:forEach items="${tableCompare}" var="list_remove" >
-                <td id="remove<%=counterRemove%>" style="text-align:center;"><button class="btn" onclick="remove(<%=counterRemove%>)">remove</button></td>
-                <%  counterRemove++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>name</td>
-                <% int counterName = 0; %>
-                <c:forEach items="${tableCompare}" var="list_name" varStatus="counterName">
-                    <td id="name<%=counterName%>" style="text-align:center;">${list_name.name}</td>
-                    <%  counterName++; %>
-                </c:forEach>
-            </tr>
-            <tr>
-                <td>photo</td>
-                <% int counterImage = 0; %>
-            <c:forEach items="${tableCompare}" var="list_image" varStatus="counterImage">
-                <td id="image<%=counterImage%>" style="text-align:center;"><img width = "100" height="80" id="responsiveImageImage_${list_image.id}" class="responsiveImageImage" src=""></td>
-                <script>
-                    var el = document.getElementById("responsiveImageImage_${list_image.id}");
-                    setImageName(${list_image.id},el);
-                </script>
-                <%  counterImage++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>price</td>
-                <% int counterPrice = 0; %>
-            <c:forEach items="${tableCompare}" var="list_price" varStatus="counterPrice">
-                    <td id="price<%=counterPrice%>" style="text-align:center;">${list_price.price}</td>
-                <%  counterPrice++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>description</td>
-                <% int counterDescription = 0; %>
-                <c:forEach items="${tableCompare}" var="list_description" varStatus="counterDescription">
-                    <td id="description<%=counterDescription%>" style="text-align:center;">${list_description.shortDescription}</td>
-                    <%  counterDescription++; %>
-                </c:forEach>
-            </tr>
-            <tr>
-                <td>length</td>
-                <% int counterLength = 0; %>
-             <c:forEach items="${tableCompare}" var="list_length" varStatus="counterLength">
-                <td id="length<%=counterLength%>" style="text-align:center;">${list_length.length}</td>
-                 <%  counterLength++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>width</td>
-                <% int counterWidth = 0; %>
-            <c:forEach items="${tableCompare}" var="list_width" varStatus="counterWidth">
-                    <td id="width<%=counterWidth%>" style="text-align:center;">${list_width.width}</td>
-                <%  counterWidth++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>depth</td>
-                <% int counterDepth = 0; %>
-            <c:forEach items="${tableCompare}" var="list_depth" varStatus="counterDepth">
-                    <td id="depth<%=counterDepth%>" style="text-align:center;">${list_depth.depth}</td>
-                <%  counterDepth++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>laminated</td>
-                <% int counterLaminated = 0; %>
-            <c:forEach items="${tableCompare}" var="list_laminated" varStatus="counterLaminated">
-                    <td id="laminated<%=counterLaminated%>" style="text-align:center;">${list_laminated.laminated}</td>
-                <%  counterLaminated++; %>
-            </c:forEach>
-            </tr>
-            <tr>
-                <td>coating</td>
-                <% int counterCoating = 0; %>
-            <c:forEach items="${tableCompare}" var="list_coating" varStatus="counterCoating">
-                    <td id="coating<%=counterCoating%>" style="text-align:center;">${list_coating.coating}</td>
-                <%  counterCoating++; %>
-            </c:forEach>
-            </tr>
-        <tr>
-            <td>grade</td>
-            <% int counterGrade = 0; %>
-            <c:forEach items="${tableCompare}" var="list_grade" varStatus="counterGrade">
-                <td id="grade<%=counterGrade%>" style="text-align:center;">${list_grade.grade.nameField}</td>
-                <%  counterGrade++; %>
-            </c:forEach>
-        </tr>
-    </table>
+
+<div class="main-content" id="main-content">
+    <div class="container">
+        <div class="inner-xs">
+            <div class="page-header">
+                <h2 class="page-title">
+                    Product Comparison
+                </h2>
+            </div>
+        </div><!-- /.section-page-title -->
+
+        <div class="table-responsive inner-bottom-xs inner-top-xs">
+
+            <table class="table table-bordered table-striped compare-list">
+                <thead>
+                <tr>
+                    <td>&nbsp;</td>
+                    <% int counterImage = 0; %>
+                    <c:forEach items="${tableCompare}" var="list_image" varStatus="counterImage">
+                    <td class="text-center" id="image<%=counterImage%>">
+                        <div class="image-wrap">
+                            <div data-product_id="39" class="remove-link" onclick="removeLink(<%=counterImage%>)"><i class="fa fa-times-circle"></i></div>
+                            <img width="220" id="responsiveImageImage_${list_image.id}" height="154"  class="attachment-yith-woocompare-image responsiveImageImage" src="">
+                        </div>
+                        <p><strong>${list_image.name}</strong></p>
+                    </td>
+                        <script>
+                            var el = document.getElementById("responsiveImageImage_${list_image.id}");
+                            setImageName(${list_image.id},el);
+
+                            function removeLink(index){
+                                document.getElementById("image" + index).style.display = 'none';
+                                document.getElementById("price" + index).style.display = 'none';
+                                document.getElementById("price2" + index).style.display = 'none';
+                                document.getElementById("description" + index).style.display = 'none';
+                                document.getElementById("length" + index).style.display = 'none';
+                                document.getElementById("width" + index).style.display = 'none';
+                                document.getElementById("depth" + index).style.display = 'none';
+                                document.getElementById("laminated" + index).style.display = 'none';
+                                document.getElementById("coating" + index).style.display = 'none';
+                                document.getElementById("grade" + index).style.display = 'none';
+                                document.getElementById("stock" + index).style.display = 'none';
+                                document.getElementById("shop" + index).style.display = 'none';
+                            }
+
+
+                        </script>
+                        <%  counterImage++; %>
+                    </c:forEach>
+                </tr>
+                <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
+                <tr class="tr-add-to-cart">
+                    <td>&nbsp;</td>
+                    <% int counterShop = 0; %>
+                    <c:forEach items="${tableCompare}" var="list_shop" varStatus="counterShop">
+                    <td class="text-center" id="shop<%=counterShop%>">
+                        <div class="add-cart-button">
+                            <a class="le-button add_to_cart_button  product_type_simple" href="/viewproduct/product/${list_shop.id}">Add to cart</a>
+                        </div>
+                    </td>
+                        <%  counterShop++; %>
+                    </c:forEach>
+                </tr>
+                </sec:authorize>
+                </thead>
+                <tbody>
+
+                <tr class="comparison-item price">
+                    <th>Price</th>
+                        <% int counterPrice = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_price" varStatus="counterPrice">
+                            <td id="price<%=counterPrice%>" class="comparison-item-cell odd">
+                                <span class="amount">$${list_price.price}</span>
+                            </td>
+                            <%  counterPrice++; %>
+                        </c:forEach>
+                </tr>
+
+                <tr class="comparison-item description">
+                    <th>Description</th>
+                        <% int counterDescription = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_description" varStatus="counterDescription">
+                            <td id="description<%=counterDescription%>" class="comparison-item-cell odd">
+                                <p>${list_description.shortDescription}</p>
+                            </td>
+                            <%  counterDescription++; %>
+                        </c:forEach>
+                </tr>
+
+                <tr class="comparison-item stock">
+                    <th>Availability</th>
+                    <% int counterstock = 0; %>
+                    <c:forEach items="${tableCompare}" var="list_stock" varStatus="counterstock">
+                    <td class="comparison-item-cell odd" id="stock<%=counterstock%>">
+                        <span class="label label-success"><span class="">In stock</span></span>
+                    </td>
+                        <%  counterstock++; %>
+                    </c:forEach>
+                </tr>
+
+                <tr class="price repeated">
+                    <th>Price</th>
+                        <%  counterPrice = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_price" varStatus="counterPrice">
+                            <td id="price2<%=counterPrice%>" class="odd "><span class="amount">$${list_price.price}</span></td>
+                            <%  counterPrice++; %>
+                        </c:forEach>
+                </tr>
+                <tr class="comparison-item">
+                        <th>Width</th>
+                        <% int counterWidth = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_width" varStatus="counterWidth">
+                            <td class="odd " id="width<%=counterWidth%>"><span class="amount">${list_width.width}</span></td>
+                            <%  counterWidth++; %>
+                        </c:forEach>
+                </tr>
+                <tr class="comparison-item">
+                        <th>Length</th>
+                        <% int counterLength = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_length" varStatus="counterLength">
+                            <td class="odd " id="length<%=counterLength%>"><span class="amount">${list_length.length}</span></td>
+                            <%  counterLength++; %>
+                        </c:forEach>
+                </tr>
+                <tr class="comparison-item">
+                        <th>Depth</th>
+                        <% int counterDepth = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_depth" varStatus="counterDepth">
+                            <td class="odd " id="depth<%=counterDepth%>"><span class="amount">${list_depth.depth}</span></td>
+                            <%  counterDepth++; %>
+                        </c:forEach>
+                </tr>
+                <tr class="comparison-item">
+                        <th>Laminated</th>
+                        <% int counterLaminated = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_laminated" varStatus="counterLaminated">
+                            <td class="odd " id="laminated<%=counterLaminated%>"><span class="amount">${list_laminated.laminated}</span></td>
+                            <%  counterLaminated++; %>
+                        </c:forEach>
+                </tr>
+                        <tr class="comparison-item">
+                        <th>Coating</th>
+                        <% int counterCoating = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_coating" varStatus="counterCoating">
+                            <td class="odd " id="coating<%=counterCoating%>"><span class="amount">
+                                                            <c:choose>
+                                                                <c:when test="${list_coating.coating}">
+                                                                    yes
+                                                                </c:when>
+                                                                <c:when test="${!list_coating.coating}">
+                                                                    no
+                                                                </c:when>
+                                                            </c:choose>
+                            </span></td>
+                            <%  counterCoating++; %>
+                        </c:forEach>
+                </tr>
+                <tr class="comparison-item">
+                        <th>Grade</th>
+                        <% int counterGrade = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_grade" varStatus="counterGrade">
+                            <td class="odd " id="grade<%=counterGrade%>"><span class="amount">${list_grade.grade}</span></td>
+                            <%  counterGrade++; %>
+                        </c:forEach>
+                </tr>
+
+                        </tbody>
+            </table>
+        </div><!-- /.table-responsive -->
+    </div><!-- /.container -->
+</div>
+
 </body>
 </html>

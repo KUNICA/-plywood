@@ -16,19 +16,24 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Ef Tech</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/home">Home</a></li>
+
+<nav class="top-bar animate-dropdown">
+    <div class="container">
+        <div class="col-xs-12 col-sm-6 no-margin">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Ef Tech</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#change-colors">Change Colors</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a role="menuitem" class="changecolor green-text" tabindex="-1" href="#" title="Green color">Green</a></li>
+                        <li role="presentation"><a role="menuitem" class="changecolor blue-text" tabindex="-1" href="#" title="Blue color">Blue</a></li>
+                        <li role="presentation"><a role="menuitem" class="changecolor red-text" tabindex="-1" href="#" title="Red color">Red</a></li>
+                        <li role="presentation"><a role="menuitem" class="changecolor orange-text" tabindex="-1" href="#" title="Orange color">Orange</a></li>
+                        <li role="presentation"><a role="menuitem" class="changecolor navy-text" tabindex="-1" href="#" title="Navy color">Navy</a></li>
+                        <li role="presentation"><a role="menuitem" class="changecolor dark-green-text" tabindex="-1" href="#" title="Darkgreen color">Dark Green</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         Product
@@ -38,19 +43,22 @@
                         <li><a href="/home/1">Plywood</a></li>
                     </ul>
                 </li>
+
             </ul>
+        </div><!-- /.col -->
+
+        <div class="col-xs-12 col-sm-6 no-margin">
             <ul class="nav navbar-nav navbar-right">
-                <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
-                    <tiles:insertAttribute name="pay" />
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
                     <li>
                         <a id="adminRun" href="/admin/run">
-                        <span class="glyphicon glyphicon-user"></span>
-                        admin
+                            <span class="glyphicon glyphicon-user"></span>
+                            admin
                         </a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>Register</a></li>
                 </sec:authorize>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <sec:authorize access="isAuthenticated()">
@@ -71,11 +79,8 @@
                     </ul>
                 </li>
             </ul>
-
-        </div>
-    </div>
-
-
+        </div><!-- /.col -->
+    </div><!-- /.container -->
 </nav>
 </body>
 </html>

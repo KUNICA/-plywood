@@ -8,6 +8,53 @@ var ScriptPlywood = function(){
 
 
 ScriptPlywood.prototype.initParam = function(innerHtml,parametrs){
+
+
+    innerHtml +=  '<div class="price-filter">' +
+        '<hr>' +
+        '<h2>Color</h2>' +
+        '<hr>' +
+        '<input  id="' + 'coatingPlywood' + '" type="text" class="span2 exSlider" data-slider-id="' + 'coatingPlywoodSlider' + 'Slider" value="' + 0 + ',' + 225 +'" data-slider-min="' + 0 +'" data-slider-max="' + 225 + '" data-slider-step="1" data-slider-value="[' + 0 + ',' + 225 +']" title=""/>' +
+        '</div>' +
+        '<span class="min-max">' +
+        'Color: ' + 0 +  '- ' + 225 +
+        '</span>' +
+
+        '<hr>' +
+        '<div class="category-filter">' +
+        '<h2>Coating</h2>' +
+        '<hr>' +
+        '<ul>' +
+        '<li><input checked="checked" class="le-checkbox" type="radio" id ="radioAllColor" name="colorPlywood"><i class="fake-box"></i> <label>All</label> <span class="pull-right">(choose all)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioNoColor" name="colorPlywood"><i class="fake-box"></i> <label>no</label> <span class="pull-right">(no color)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioTheColor" name="colorPlywood" ><i class="fake-box"></i> <label>yes</label> <span class="pull-right">(is the color)</span></li>' +
+        '</ul>' +
+        '</div>'  +
+
+        '<hr>' +
+        '<div class="category-filter">' +
+        '<h2>Sanded</h2>' +
+        '<hr>' +
+        '<ul>' +
+        '<li><input checked="checked" class="le-checkbox" type="radio" id ="radioAll" name="optradio"><i class="fake-box"></i> <label>All</label> <span class="pull-right">(sanded all)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioUnsanded" name="optradio"><i class="fake-box"></i> <label>no</label> <span class="pull-right">(unsanded)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioSanded" name="optradio" ><i class="fake-box"></i> <label>yes</label> <span class="pull-right">(sanded)</span></li>' +
+        '</ul>' +
+        '</div>' +
+
+        '<hr>' +
+        '<div class="category-filter">' +
+        '<h2>water resistance</h2>' +
+        '<hr>' +
+        '<ul>' +
+        '<li><input checked="checked" class="le-checkbox" type="radio" id ="radioAllResistance" name="radioRes"><i class="fake-box"></i> <label>All</label> <span class="pull-right">(all)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioUnresistance" name="radioRes"><i class="fake-box"></i> <label>no</label> <span class="pull-right">(no water resistance)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioResistance" name="radioRes" ><i class="fake-box"></i> <label>yes</label> <span class="pull-right">(water resistance)</span></li>' +
+        '</ul>' +
+        '</div>' ;
+
+
+    /*
     innerHtml +=
         '<div class="panelElement">' +
         '<b>Color </b>' +
@@ -52,6 +99,7 @@ ScriptPlywood.prototype.initParam = function(innerHtml,parametrs){
     '<label><input type="radio" id ="radioAllResistance" name="radioRes" checked><b>all<b/></label>' +
     '</div>' +
     '</div>';
+    */
 
 
     return innerHtml;
@@ -121,7 +169,7 @@ ScriptPlywood.prototype.initData = function(index,minPrice,maxPrice,minLength,ma
         "resistance":resistance,
         "coating":coating
     };
-    var urlCount = '/pagination/countActualPlywood';
+    var urlCount = '/pagination/countAllPlywood';
 
 
     jQuery.ajax({
@@ -139,7 +187,8 @@ ScriptPlywood.prototype.initData = function(index,minPrice,maxPrice,minLength,ma
     });
 }
 
-ScriptPlywood.prototype.getObjects = function(parentElement,element,start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth) {
+ScriptPlywood.prototype.getObjects = function(parentElement,parentListElement,element,start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth,count) {
+    
     var  data={
         "start": start,
         "end": end,
@@ -150,7 +199,7 @@ ScriptPlywood.prototype.getObjects = function(parentElement,element,start,end,mi
         "minWidth":minWidth,
         "maxWidth":maxWidth,
         "minDepth":minDepth,
-        "maxDepth":maxDepth
+        "maxDepth":maxDepth,
     };
 
     var urlObjects = '/pagination/plywoods';
@@ -170,36 +219,33 @@ ScriptPlywood.prototype.getObjects = function(parentElement,element,start,end,mi
     }).done(function( objects ) {
         // стираем данные
         parentElement.textContent = "";
-        ScriptPlywood.prototype.addData(objects,parentElement);
+        parentListElement.textContent = "";
+        ScriptPlywood.prototype.addData(objects,parentElement,parentListElement,start,end,count);
 
     });
 }
 
-ScriptPlywood.prototype.addData = function(objects,parentElement) {
+ScriptPlywood.prototype.addData = function(objects,parentElement,parentListElement,start,end,count) {
     for (var i = 0; i < objects.length; i++) {
-
-        var ref = document.createElement("div");
-        ref.classList.add( "homeCardLink", "searchItemsItem" );
-        ref.href = "#";
-        ref.id = "idRef" + objects[i].id;
-        parentElement.appendChild(ref);
-
-        var homeCardImage = document.createElement("div");
-        homeCardImage.classList.add( "homeCardImage" );
-        ref.appendChild(homeCardImage);
-
-
 
         var homeCardInfo = document.createElement("div");
         homeCardInfo.classList.add("catalog-item-table-view");
-        ref.appendChild(homeCardInfo);
+        parentElement.appendChild(homeCardInfo);
 
-        addDataMainPage(homeCardInfo,objects[i]);
+        var homeCardInfoList = document.createElement("div");
+        parentListElement.appendChild(homeCardInfoList);
+
+        addDataMainPage(homeCardInfo,homeCardInfoList,objects[i]);
+
         ScriptPlywood.prototype.addDataCompare(homeCardInfo,objects[i]);
         ScriptPlywood.prototype.addDataShoping(homeCardInfo,objects[i]);
 
         
     }
+    var resultCounter = document.getElementById("result-counter" + 2);
+    end = (start+end >= count) ? count:start+end;
+    start = start + 1;
+    resultCounter.innerHTML = 'Showing <span>' + start  + '-' + end + '</span> of <span>' + count +  '</span> results';
 
 }
 

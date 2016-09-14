@@ -1,12 +1,59 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 08.08.2016
-  Time: 12:45
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.ui.JspConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keywords" content="MediaCenter, Template, eCommerce">
+<meta name="robots" content="all">
+
+<!-- Bootstrap Core CSS -->
+
+<!-- Customizable CSS -->
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/main.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/green.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/owl.carousel.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/owl.transitions.css">
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/animate.min.css">
+
+<!-- Demo Purpose Only. Should be removed in production -->
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/config.css">
+
+<link href="<%=JspConstants.APP_PATH%>/css/green.css" rel="alternate stylesheet" title="Green color">
+<link href="<%=JspConstants.APP_PATH%>/css/blue.css" rel="alternate stylesheet" title="Blue color">
+<link href="<%=JspConstants.APP_PATH%>/css/red.css" rel="alternate stylesheet" title="Red color">
+<link href="<%=JspConstants.APP_PATH%>/css/orange.css" rel="alternate stylesheet" title="Orange color">
+<link href="<%=JspConstants.APP_PATH%>/css/navy.css" rel="alternate stylesheet" title="Navy color">
+<link href="<%=JspConstants.APP_PATH%>/css/dark-green.css" rel="alternate stylesheet" title="Darkgreen color">
+<link href="<%=JspConstants.APP_PATH%>/less/sidebar.less" rel="alternate stylesheet">
+<!-- Demo Purpose Only. Should be removed in production : END -->
+
+<!-- Fonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+
+<!-- Icons/Glyphs -->
+<link rel="stylesheet" href="<%=JspConstants.APP_PATH%>/css/font-awesome.min.css">
+
+<!-- HTML5 elements and media queries Support for IE8 : HTML5 shim and Respond.js -->
+<!--[if lt IE 9]>
+<script src="/js/html5shiv.js"></script>
+<script src="/js/respond.min.js"></script>
+<![endif]-->
+
+<link href="<%=JspConstants.APP_PATH%>/css/rules.css" rel="stylesheet" type="text/css" >
+<link href="<%=JspConstants.APP_PATH%>/css/shoping.css" rel="stylesheet" type="text/css" >
+<link href="<%=JspConstants.APP_PATH%>/css/compare.css" rel="stylesheet" type="text/css" >
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script type="text/javascript" src="/js/admin.js"></script>
 
 <script>
@@ -73,7 +120,7 @@ function setImageName(id,element) {
                         <%--@elvariable id="tableButtonType" type="java.lang.String"--%>
                         <tr id="tr_${list_object.id}">
                             <td style="text-align:center;">${list_object.productId}</td>
-                            <td style="text-align:center;"><img width = "100" height="80" id="responsiveImageImage_${list_object.id}" class="responsiveImageImage" src="/pagination/imgPatch/${list_object.id}"></td>
+                            <td style="text-align:center;"><img width = "100" style="max-width: 100px;" height="80" id="responsiveImageImage_${list_object.id}" class="responsiveImageImage" src="/pagination/imgPatch/${list_object.id}"></td>
                             <td style="text-align:center;">${list_object.coating}</td>
                             <c:if test="${list_object.grade!=null}">
                                 <td style="text-align:center;">${list_object.grade.nameField}</td>
@@ -174,7 +221,7 @@ function setImageName(id,element) {
                         <%--@elvariable id="tableButtonType" type="java.lang.String"--%>
                         <tr id="tr_${list_object.id}">
                             <td style="text-align:center;">${list_object.productId}</td>
-                            <td style="text-align:center;"><img width = "100" height="80" id="responsiveImageImage_${list_object.id}" class="responsiveImageImage" src="/pagination/imgPatch/${list_object.id}"></td>
+                            <td style="text-align:center;"><img width = "100" style="max-width: 100px;"  height="80" id="responsiveImageImage_${list_object.id}" class="responsiveImageImage" src="/pagination/imgPatch/${list_object.id}"></td>
                             <td style="text-align:center;">${list_object.coating}</td>
                             <td style="text-align:center;">${list_object.colorCoating}</td>
                             <c:choose>

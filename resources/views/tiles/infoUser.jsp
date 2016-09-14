@@ -30,17 +30,17 @@
         });
     });
 </script>
-<div>
+<div class="container" style="max-width: 350px;">
     <sec:authorize access="isAuthenticated()">
 <table class = "table" style="width:300px">
     <tr>
-        <th>Имя: ${personalData.firstName}</th>
+        <th>First Name: ${personalData.firstName}</th>
     </tr>
     <tr>
-        <th>Фамилия: ${personalData.lastName}</th>
+        <th>Last Name: ${personalData.lastName}</th>
     </tr>
     <tr>
-        <th>Отчество: ${personalData.midleName}</th>
+        <th>Midle Name: ${personalData.midleName}</th>
     </tr>
     <tr>
         <th>email: ${personalData.email}</th>

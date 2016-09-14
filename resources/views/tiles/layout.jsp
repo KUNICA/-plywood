@@ -13,10 +13,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.json.js"></script>
-    <script type="text/javascript" src="/js/admin.js"></script>
+    <script type="text/javascript" src="<%=JspConstants.APP_PATH%>/js/jquery.json.js"></script>
+    <script type="text/javascript" src="<%=JspConstants.APP_PATH%>/js/admin.js"></script>
+
 
 
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
@@ -56,15 +58,48 @@
 <div>
     <tiles:insertAttribute name="panel" />
 </div>
-<div>
-    <table>
-        <tr>
-            <td valign="top"><tiles:insertAttribute name="body" /></td>
-        </tr>
-    </table>
+<div class="wrapper">
+<tiles:insertAttribute name="body" />
 </div>
 <div>
     <tiles:insertAttribute name="footer" />
 </div>
 </body>
+
+<script src="<%=JspConstants.APP_PATH%>/js/jquery-migrate-1.2.1.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/gmap3.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/bootstrap-hover-dropdown.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/owl.carousel.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/css_browser_selector.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/echo.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/jquery.easing-1.3.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/bootstrap-slider.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/jquery.raty.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/jquery.prettyPhoto.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/jquery.customSelect.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/wow.min.js"></script>
+<script src="<%=JspConstants.APP_PATH%>/js/scripts.js"></script>
+
+<!-- For demo purposes – can be removed on production -->
+
+<script src="<%=JspConstants.APP_PATH%>/js/switchstylesheet.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $(".changecolor").switchstylesheet( { seperator:"color"} );
+        $('.show-theme-options').click(function(){
+            $(this).parent().toggleClass('open');
+            return false;
+        });
+    });
+
+    $(window).bind("load", function() {
+        $('.show-theme-options').delay(2000).trigger('click');
+    });
+</script>
+<!-- For demo purposes – can be removed on production : End -->
+
+<script src="http://w.sharethis.com/button/buttons.js"></script>
+
 </html>

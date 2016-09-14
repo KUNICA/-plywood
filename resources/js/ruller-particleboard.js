@@ -7,6 +7,32 @@ var ScriptParticleboard = function(){
 }
 
 ScriptParticleboard.prototype.initParam = function(innerHtml,parametrs){
+
+
+    innerHtml +=
+        '<hr>' +
+        '<div class="price-filter">' +
+                  '<hr>' +
+                  '<h2>Depth</h2>' +
+                  '<hr>' +
+                  '<input  id="' + 'laminatedParticleboard' + '" type="text" class="span2 exSlider" data-slider-id="' + 'laminatedParticleboard' + 'Slider" value="' + parametrs.minLaminated + ',' + parametrs.maxLaminated +'" data-slider-min="' + parametrs.minLaminated +'" data-slider-max="' + parametrs.maxLaminated + '" data-slider-step="5" data-slider-value="[' + parametrs.minLaminated + ',' + parametrs.maxLaminated +']" title=""/>' +
+                  '</div>' +
+                  '<span class="min-max">' +
+                  'Laminated: ' + parametrs.minLaminated +  '- ' + parametrs.maxLaminated +
+        '</span>' +
+
+        '<hr>' +
+        '<div class="category-filter">' +
+        '<h2>Coating</h2>' +
+        '<hr>' +
+        '<ul>' +
+        '<li><input checked="checked" class="le-checkbox" type="radio" id ="radioTheCoatingParticleboard" name="coatingParticleboard"><i class="fake-box"></i> <label>All</label> <span class="pull-right">(choose all)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioNoCoatingParticleboard" name="coatingParticleboard"><i class="fake-box"></i> <label>no</label> <span class="pull-right">(no coating)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioAllCoatingParticleboard" name="coatingParticleboard" ><i class="fake-box"></i> <label>yes</label> <span class="pull-right">(is the coating)</span></li>' +
+        '</ul>' +
+        '</div>' ;
+
+    /*
     innerHtml +=
         '<div class="panelElement">' +
         '<b>Laminated </b>' +
@@ -26,6 +52,7 @@ ScriptParticleboard.prototype.initParam = function(innerHtml,parametrs){
         '<label><input type="radio" id ="radioAllCoatingParticleboard" name="coatingParticleboard" checked><b>all<b/></label>' +
         '</div>' +
         '</div>';
+        */
 
     return innerHtml;
 }
@@ -40,6 +67,7 @@ ScriptParticleboard.prototype.eventParam = function(){
             return 'Current value: ' + value;
         }
     });
+
 }
 
 ScriptParticleboard.prototype.initData = function(index,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth){
@@ -59,7 +87,7 @@ ScriptParticleboard.prototype.initData = function(index,minPrice,maxPrice,minLen
     var maxLaminated = laminatedParticleboardList[1];
 
 
-        var urlCount = '/pagination/countActualParticleboard';
+        var urlCount = '/pagination/countAllParticleboard';
     var  data={
         "start": 0,
         "end": 0,
@@ -88,11 +116,14 @@ ScriptParticleboard.prototype.initData = function(index,minPrice,maxPrice,minLen
         data:  $.toJSON(data),
         async: false
     }).done(function( count ) {
+        
         initPaginationPage(count,index);
     });
 }
 
-ScriptParticleboard.prototype.getObjects = function(parentElement,element,start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth) {
+ScriptParticleboard.prototype.getObjects = function(parentElement,parentListElement,element,start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth,count) {
+
+
     var  data={
         "start": start,
         "end": end,
@@ -103,7 +134,7 @@ ScriptParticleboard.prototype.getObjects = function(parentElement,element,start,
         "minWidth":minWidth,
         "maxWidth":maxWidth,
         "minDepth":minDepth,
-        "maxDepth":maxDepth
+        "maxDepth":maxDepth,
     };
 
     var urlObjects = '/pagination/particleboards';
@@ -122,23 +153,32 @@ ScriptParticleboard.prototype.getObjects = function(parentElement,element,start,
     }).done(function( objects ) {
         // стираем данные
         parentElement.textContent = "";
-        ScriptParticleboard.prototype.addData(objects,parentElement);
+        parentListElement.textContent = "";
+        ScriptParticleboard.prototype.addData(objects,parentElement,parentListElement,start,end,count);
 
     });
 }
 
-ScriptParticleboard.prototype.addData = function(objects,parentElement) {
+ScriptParticleboard.prototype.addData = function(objects,parentElement,parentListElement,start,end,count) {
     for (var i = 0; i < objects.length; i++) {
         
         var homeCardInfo = document.createElement("div");
         homeCardInfo.classList.add("catalog-item-table-view");
         parentElement.appendChild(homeCardInfo);
 
-        addDataMainPage(homeCardInfo,objects[i]);
-        ScriptParticleboard.prototype.addDataCompare(homeCardInfo,objects[i]);
+        var homeCardInfoList = document.createElement("div");
+        parentListElement.appendChild(homeCardInfoList);
+
+        addDataMainPage(homeCardInfo,homeCardInfoList,objects[i]);
+
+       ScriptParticleboard.prototype.addDataCompare(homeCardInfo,objects[i]);
         ScriptParticleboard.prototype.addDataShoping(homeCardInfo,objects[i]);
 
     }
+    var resultCounter = document.getElementById("result-counter" + 1);
+    end = (start+end >= count)? count :start+end;
+    start = start + 1;
+    resultCounter.innerHTML = 'Showing <span>' + start + '-' + end + '</span> of <span>' + count + '</span> results';
 
 }
 

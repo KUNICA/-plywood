@@ -16,7 +16,7 @@
 <div id="shoppingCart" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header"><button class="close btn btn-default" type="button" data-dismiss="modal" >Закрыть</button>
+            <div class="modal-header"><button class="close btn btn-default" type="button" data-dismiss="modal" >Close</button>
                 <h4 class="modal-title">Shopping cart</h4>
             </div>
             <div class="modal-body">
@@ -26,11 +26,11 @@
                             <td>
                 <table class = "table" id="tableSumPay" style="width:300px">
                     <tr>
-                        <th>Общая сумма заказа: </th>
+                        <th>Total amount: </th>
                         <th id="sumPay">1000</th>
                     </tr>
                     <tr>
-                        <th><button type="button" id="offer" class="btn btn-success" style="margin-left:auto; margin-right:auto;">Заказать</button></th>
+                        <th><button type="button" id="offer" class="btn btn-success" style="margin-left:auto; margin-right:auto;">To order</button></th>
                     </tr>
                 </table>
                         </td>

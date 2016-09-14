@@ -8,11 +8,11 @@ var ScriptRuller = function(index){
 }
 
 
-function addDataMainPage(homeCardInfo,object){
+function addDataMainPage(homeCardInfo,parentListElement,object){
 
 
     var urlImg = "/images/product/";
-
+/*
     homeCardInfo.innerHTML =
                     '<div class="catalog-item-card">' +
                             '<div class="catalog-item-info">' +
@@ -45,6 +45,76 @@ function addDataMainPage(homeCardInfo,object){
                                              '</div>' + 
                                     '</div>' +
                     '</div>';
+                    */
+
+    homeCardInfo.innerHTML =
+                '<div class="col-xs-12 col-sm-4 no-margin product-item-holder hover">' +
+                        '<div class="product-item">' +
+                                //'<div class="ribbon red"><span>sale</span></div>' +
+                                        '<div class="image">' +
+                                                '<img style=" width: 200px; height: 200px;" id = "item_img' + object.id + '" alt="" src="/viewproduct/product/' + object.id + '">' +
+                                        '</div>' +
+                                '<div class="body">' +
+                                       // '<div class="label-discount green">-50% sale</div>' +
+                                        '<div class="title">' +
+                                                '<a href="/viewproduct/product/' + object.id + '">' + object.name + '</a>' +
+                                        '</div>' +
+                                '<div class="item-all-title" id = "params' + object.id + '">' +
+                                '</div>' + 
+                        '</div>' +
+                        '<div class="prices">' +
+                                '<div class="price-prev">$' + object.price + '</div>' +
+                                '<div class="price-current pull-right">$' + object.price + '</div>' +
+                        '</div>' +
+                        '<div class="hover-area">' +
+                                '<div class="add-cart-button" id="shop' + object.id + '" style="display: none">' +
+                                        '<a href="/viewproduct/product/' + object.id + '" class="le-button">add to cart</a>' +
+                                '</div>' +
+                                '<div class="wish-compare">' +
+                                        '<div class="item-all-title" id = "compare' + object.id + '">' +
+                                        '</div>' +
+                                '</div>' +
+                        '</div>' +
+                '</div>' +
+                '</div>';
+
+
+
+    parentListElement.innerHTML = '<div class="product-item product-item-holder">' +
+                                 // '<div class="ribbon red"><span>sale</span></div>' +
+                                 // '<div class="ribbon blue"><span>new!</span></div>' +
+                                        '<div class="row">' +
+                                            '<div class="no-margin col-xs-12 col-sm-4 image-holder">' +
+                                                    '<div class="image">' +
+                                                            '<img id = "item_imgList' + object.id + '" alt="" src="/viewproduct/product/' + object.id + '">' +
+                                                    '</div>' +
+                                            '</div>' +
+                                            '<div class="no-margin col-xs-12 col-sm-5 body-holder">' +
+                                                '<div class="body">' +
+                                                   // '<div class="label-discount green">-50% sale</div>' +
+                                                    '<div class="title">' +
+                                                        '<a href="/viewproduct/product/' + object.id + '">'+ object.name +'</a>' +
+                                                    '</div>' +
+                                                   // '<div class="brand">sony</div>' +
+                                                    '<div class="excerpt" id = "paramsList' + object.id + '">' +
+                                                    '</div>' +
+                                                    '<div class="addto-compare">' +
+                                                            '<div class="item-all-title" id = "compareList' + object.id + '">' +
+                                                            '</div>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                        '</div>' +
+                                        '<div class="no-margin col-xs-12 col-sm-3 price-area" >' +
+                                                '<div class="right-clmn">' +
+                                                        '<div class="price-current">$' + object.price + '</div>' +
+                                                        '<div class="price-prev">$' + object.price + '</div>' +
+                                                        '<div class="availability"><label>availability:</label><span class="available">  in stock</span></div>' +
+                                                        '<a style="display:none" id="shopList' + object.id + '" class="le-button" href="/viewproduct/product/' + object.id + '">add to cart</a>' +
+                                                       // '<a class="btn-add-to-wishlist" href="#">add to wishlist</a>' +
+                                                '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                    '</div>';
 
     var urlImgPatch = '/pagination/imgPatch/';
     var urlImg = "/images/product/";
@@ -55,6 +125,8 @@ function addDataMainPage(homeCardInfo,object){
     }).done(function( m_url ){
         var img = document.getElementById("item_img" + object.id);
         img.src = urlImg + m_url.img;
+        var imgList = document.getElementById("item_imgList" + object.id);
+        imgList.src = urlImg + m_url.img;
     });
 
 
@@ -114,6 +186,68 @@ function addDataMainPage(homeCardInfo,object){
     var depthSpan = document.createElement("span");
     depthSpan.textContent = object.depth;
     params.appendChild(depthSpan);
+
+
+
+
+    var paramsList = document.getElementById('paramsList' + object.id);
+
+    var lengthList = document.createElement("i");
+    lengthList.classList.add( "material-icons");
+    lengthList.textContent = "L";
+    lengthList.style.cursor =  "pointer";
+    lengthList.setAttribute('data-toggle', 'tooltip');
+    length.setAttribute('data-placement', 'tooltip');
+    lengthList.setAttribute('title', 'Length');
+    paramsList.appendChild(lengthList);
+    var lengthSpanList = document.createElement("span");
+    lengthSpanList.textContent = object.length;
+    paramsList.appendChild(lengthSpanList);
+
+    var cross1List = document.createElement("i");
+    cross1List.classList.add( "material-icons");
+    cross1List.textContent = " ";
+    cross1List.style.cursor =  "pointer";
+    cross1List.setAttribute('data-toggle', 'tooltip');
+    cross1List.setAttribute('data-placement', 'tooltip');
+    cross1List.setAttribute('title', 'Width');
+    paramsList.appendChild(cross1List);
+
+
+    var widthList = document.createElement("i");
+    widthList.classList.add( "material-icons");
+    widthList.textContent = "W";
+    widthList.setAttribute('data-toggle', 'tooltip');
+    widthList.setAttribute('data-placement', 'tooltip');
+    widthList.setAttribute('title', 'Width');
+    widthList.style.cursor =  "pointer";
+    paramsList.appendChild(widthList);
+    var widthSpanList = document.createElement("span");
+    widthSpanList.textContent = object.width;
+    paramsList.appendChild(widthSpanList);
+
+    var cross2List = document.createElement("i");
+    cross2List.classList.add( "material-icons");
+    cross2List.textContent = " ";
+    cross2List.style.cursor =  "pointer";
+    cross2List.setAttribute('data-toggle', 'tooltip');
+    cross2List.setAttribute('data-placement', 'tooltip');
+    cross2List.setAttribute('title', 'Width');
+    paramsList.appendChild(cross2List);
+
+    var depthList = document.createElement("i");
+    depthList.classList.add( "material-icons");
+    depthList.textContent = "D";
+    depthList.style.cursor =  "pointer";
+    depthList.setAttribute('data-toggle', 'tooltip');
+    depthList.setAttribute('data-placement', 'tooltip');
+    depthList.setAttribute('title', 'Depth');
+    paramsList.appendChild(depthList);
+    var depthSpanList = document.createElement("span");
+    depthSpanList.textContent = object.depth;
+    paramsList.appendChild(depthSpanList);
+
+
     
 }
 
@@ -123,10 +257,13 @@ function addDataComparePage(homeCardInfo,object,checkProduct){
     checkBoxCompare.classList.add( "checkbox", "checkBoxCompare");
     parentCheck.appendChild(checkBoxCompare);
 
+
     var divCompr = document.createElement("div");
+    divCompr.style = "height: 20px;";
     checkBoxCompare.appendChild(divCompr);
 
     var inputCheckBoxCompare = document.createElement("input");
+    inputCheckBoxCompare.style = "margin-top: -10px; margin-left: 50px;";
     inputCheckBoxCompare.type = "checkbox";
     inputCheckBoxCompare.classList.add( "checkBoxField");
     if(checkProduct!= undefined && checkProduct){
@@ -139,23 +276,51 @@ function addDataComparePage(homeCardInfo,object,checkProduct){
     divCompr.appendChild(inputCheckBoxCompare);
 
     var labelCompare = document.createElement("label");
+    labelCompare.style="margin-top: -15px;";
     labelCompare.classList.add( "labelCompare");
     labelCompare.textContent = "compare";
     divCompr.appendChild(labelCompare);
 
-/*
-    var buttonCompare = document.createElement("button");
-    buttonCompare.id = "compare_" + object.id;
-    buttonCompare.classList.add( "btn","btn-info","buttonCompare");
-    buttonCompare.textContent = "compare";
-    divCompr.appendChild(buttonCompare);
-    */
+
+
+    var parentCheckList = document.getElementById('compareList' + object.id);
+    var checkBoxCompareList = document.createElement("div");
+    checkBoxCompareList.classList.add( "checkbox", "checkBoxCompare");
+    parentCheckList.appendChild(checkBoxCompareList);
+
+    var divComprList = document.createElement("div");
+    checkBoxCompareList.appendChild(divComprList);
+
+    var inputCheckBoxCompareList = document.createElement("input");
+    inputCheckBoxCompareList.type = "checkbox";
+    inputCheckBoxCompareList.classList.add( "checkBoxField");
+    if(checkProduct!= undefined && checkProduct){
+        inputCheckBoxCompareList.checked = "checked";
+    } else{
+        inputCheckBoxCompareList.checked = "";
+    }
+    inputCheckBoxCompareList.id = "check_compareList_" + object.id;
+
+    divComprList.appendChild(inputCheckBoxCompareList);
+
+    var labelCompareList = document.createElement("label");
+    labelCompareList.classList.add( "labelCompare");
+    labelCompareList.textContent = "compare";
+    divComprList.appendChild(labelCompareList);
+    
+
 }
 
 
 function addDataShopingPage(parentElement,object,product){
 
+    var parentShop = document.getElementById('shop' + object.id);
+    parentShop.style.display = "block";
+    var parentShopList = document.getElementById('shopList' + object.id);
+    parentShopList.style.display = "block";
 
+
+    /*
 
     var parentShop = document.getElementById('shop' + object.id);
     var homeCardFeatureShoppingCar= document.createElement("div");
@@ -218,4 +383,5 @@ function addDataShopingPage(parentElement,object,product){
     homeCardShoppingCar.setAttribute('title', 'to order');
     homeCardShoppingCar.id = "order_" + object.id;
     homeCardFeatureShoppingCar.appendChild(homeCardShoppingCar);
+    */
 }

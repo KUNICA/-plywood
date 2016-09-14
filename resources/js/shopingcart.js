@@ -7,13 +7,15 @@ $(document).on('click', '.ShoppingCar', function(e) {
     e ? evt = e : evt = event;
     var CSE = evt.target ? evt.target : evt.srcElement;
     var productId = null;
-    if (CSE != null && CSE.id.length > 6 && CSE.id.substr(0, 6) == 'order_') {
-        productId = CSE.id.substr(6, CSE.id.length);
+    if (CSE != null && CSE.id.length > 10 && CSE.id.substr(0, 10) == 'addto-cart') {
+        productId = CSE.id.substr(10, CSE.id.length);
     }
 
-    var shop = document.getElementById("order_" + productId);
+    var shop = document.getElementById("addto-cart" + productId);
+    var viewShop = document.getElementById("viewShop_" + productId);
     var plus = document.getElementById("plus_" + productId);
     var minus = document.getElementById("minus_" + productId);
+    var quant = document.getElementById("le-quantity" + productId);
     var countShoppingCar = document.getElementById("countCart_" + productId);
 
     if(productId!=null){
@@ -49,29 +51,26 @@ $(document).on('click', '.ShoppingCar', function(e) {
                     actual = null;
                     id = product.id;
                     shop.classList.remove("ShoppingCartCheck");
-                    shop.textContent = "add_shopping_cart";
-                    plus.style.display = 'none';
-                    minus.style.display = 'none';
-                    countShoppingCar.style.display = 'none';
+                    shop.textContent = "Add to cart";
+                    quant.style.display = 'none';
+                    viewShop.style.display = 'none';
                 }
                 else if(product.check == undefined && product.id!= undefined){
                     // выделить и обновить с actual == 1
                     actual = 1;
                     id = product.id;
                     shop.classList.add("ShoppingCartCheck");
-                    shop.textContent = "out_shopping_cart";
-                    plus.style.display = '';
-                    minus.style.display = '';
-                    countShoppingCar.style.display = '';
+                    shop.textContent = "Remove to cart";
+                    quant.style.display = 'block';
+                    viewShop.style.display = 'block';
                 }
                 else {
                     //внести запись с actual == 1
                     actual = 1;
                     shop.classList.add("ShoppingCartCheck");
-                    shop.textContent = "out_shopping_cart";
-                    plus.style.display = '';
-                    minus.style.display = '';
-                    countShoppingCar.style.display = '';
+                    viewShop.style.display = 'block';
+                    shop.textContent = "Remove to cart";
+                    quant.style.display = 'block';
                     
                 }
 
@@ -95,7 +94,7 @@ $(document).on('click', '.ShoppingCar', function(e) {
                     data:  $.toJSON(data),
                     async: false
                 }).done(function( product ) {
-                    countShoppingCar.textContent=product.count;
+                    countShoppingCar.value=product.count;
                 });
 
             }
