@@ -12,6 +12,15 @@ public class Users {
     private String password;
     private byte enabled;
 
+    public Users(String username, String password, byte enabled) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+    }
+
+    public Users() {
+    }
+
     @Id
     @Column(name = "username", nullable = false, length = 50)
     public String getUsername() {

@@ -14,11 +14,18 @@ public class PersonalData {
     private String midleName;
     private String firstName;
     private String userName;
+    private String fullName;
+    private String companyName;
+    private String adress;
+    private String town;
+    private String zip;
+    private String phone;
     private Operations operationIn;
     private Operations operationOut;
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -73,6 +80,10 @@ public class PersonalData {
         return userName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="oper_in", updatable = true,insertable = true)
     public Operations getOperationIn() {
@@ -85,9 +96,6 @@ public class PersonalData {
         return operationOut;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public void setOperationIn(Operations operationIn) {
         this.operationIn = operationIn;
@@ -97,29 +105,63 @@ public class PersonalData {
         this.operationOut = operationOut;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PersonalData that = (PersonalData) o;
-
-        if (id != that.id) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (midleName != null ? !midleName.equals(that.midleName) : that.midleName != null) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "full_name", nullable = false, length = 45)
+    public String getFullName() {
+        return fullName;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id.intValue();
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (midleName != null ? midleName.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        return result;
+    @Basic
+    @Column(name = "company_name", nullable = true, length = 45)
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    @Basic
+    @Column(name = "adress", nullable = false, length = 45)
+    public String getAdress() {
+        return adress;
+    }
+
+    @Basic
+    @Column(name = "town", nullable = true, length = 45)
+    public String getTown() {
+        return town;
+    }
+
+    @Basic
+    @Column(name = "zip", nullable = false, length = 45)
+    public String getZip() {
+        return zip;
+    }
+
+    @Basic
+    @Column(name = "phone", nullable = false, length = 45)
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

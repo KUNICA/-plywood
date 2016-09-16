@@ -58,7 +58,7 @@
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>Register</a></li>
+                    <li><a href="/registration/form"><span class="glyphicon glyphicon-user"></span>Register</a></li>
                 </sec:authorize>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <sec:authorize access="isAuthenticated()">

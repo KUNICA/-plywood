@@ -12,7 +12,6 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="/views/tiles/pay.jsp" />
             </definition>
         </put-attribute>
         <put-attribute name="footer" value="/views/tiles/footer.jsp" />
@@ -77,7 +76,6 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="" />
             </definition>
         </put-attribute>
     </definition>
@@ -89,7 +87,6 @@
         <definition template="/views/tiles/logo.jsp">
             <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
             <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-            <put-attribute name="pay" value="" />
         </definition>
     </put-attribute>
 </definition>
@@ -101,7 +98,6 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="" />
             </definition>
         </put-attribute>
     </definition>
@@ -114,7 +110,6 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="" />
             </definition>
         </put-attribute>
     </definition>
@@ -130,7 +125,6 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="" />
             </definition>
         </put-attribute>
     </definition>
@@ -147,7 +141,6 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="" />
             </definition>
         </put-attribute>
     </definition>
@@ -159,7 +152,51 @@
             <definition template="/views/tiles/logo.jsp">
                 <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
                 <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
-                <put-attribute name="pay" value="" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="registration" extends="baseTemplate">
+        <put-attribute name="title" value="registration page"/>
+        <put-attribute name="body" value="/views/tiles/registration.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="complete" extends="baseTemplate">
+        <put-attribute name="title" value="registration page"/>
+        <put-attribute name="body" value="/views/tiles/complete_registration.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="change" extends="baseTemplate">
+        <put-attribute name="title" value="registration page"/>
+        <put-attribute name="body" value="/views/tiles/registration_change.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
+            </definition>
+        </put-attribute>
+    </definition>
+
+
+    <definition name="passwordComplete" extends="baseTemplate">
+        <put-attribute name="title" value="registration page"/>
+        <put-attribute name="body" value="/views/tiles/passwordComplete.jsp"/>
+        <put-attribute name="logout">
+            <definition template="/views/tiles/logo.jsp">
+                <put-attribute name="info" value="/views/tiles/infoUser.jsp" />
+                <put-attribute name="body" value="/views/tiles/signinsignup.jsp" />
             </definition>
         </put-attribute>
     </definition>

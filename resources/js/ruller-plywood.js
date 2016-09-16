@@ -185,6 +185,8 @@ ScriptPlywood.prototype.initData = function(index,minPrice,maxPrice,minLength,ma
     }).done(function( count ) {
         initPaginationPage(count,index);
     });
+    
+    
 }
 
 ScriptPlywood.prototype.getObjects = function(parentElement,parentListElement,element,start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth,count) {

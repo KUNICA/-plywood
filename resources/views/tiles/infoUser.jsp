@@ -34,19 +34,18 @@
     <sec:authorize access="isAuthenticated()">
 <table class = "table" style="width:300px">
     <tr>
-        <th>First Name: ${personalData.firstName}</th>
-    </tr>
-    <tr>
-        <th>Last Name: ${personalData.lastName}</th>
-    </tr>
-    <tr>
-        <th>Midle Name: ${personalData.midleName}</th>
+        <th>First Name: ${personalData.fullName}</th>
     </tr>
     <tr>
         <th>email: ${personalData.email}</th>
     </tr>
     <tr>
-        <th><button type="button" id="exit" class="btn btn-success" style="margin-left:auto; margin-right:auto;">Exit</button></th>
+        <th>
+            <button type="button" id="exit" class="btn btn-success" style="margin-left:auto; margin-right:auto;">Exit</button>
+            <div class="buttons-holder">
+                <a class="simple-link block" href="/registration/change">change password</a>
+            </div>
+        </th>
     </tr>
 </table>
     </sec:authorize>

@@ -6,16 +6,25 @@
 <div>
         <table style="width:300px">
             <tr>
-                <th>First Name: $person.firstName</th>
+                <th>Full Name: $person.fullName</th>
             </tr>
             <tr>
-                <th>Last Name: $person.lastName</th>
+                <th>adress: $person.adress</th>
             </tr>
             <tr>
-                <th>Midle Name: $person.midleName</th>
+                <th>Town: $person.town</th>
+            </tr>
+            <tr>
+                <th>Company: $person.companyName</th>
+            </tr>
+            <tr>
+                <th>Zip Code: $person.zip</th>
             </tr>
             <tr>
                 <th>email: $person.email</th>
+            </tr>
+            <tr>
+                <th>phone: $person.phone</th>
             </tr>
         </table>
 </div>

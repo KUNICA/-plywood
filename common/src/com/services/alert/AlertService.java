@@ -46,6 +46,7 @@ public class AlertService  implements AlertServiceImpl{
 
     private static final String template = "tanks.vm";
     private static final String templateAdmin = "application.vm";
+    private static final String templateAuthorization = "authorization.vm";
 
     private static final String emailAdmin = "kun-oleg@tut.by";
 
@@ -100,6 +101,30 @@ public class AlertService  implements AlertServiceImpl{
             }
         };
         mailSender.send(preparator);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendAlertAuthorization(final String userName,final String password) {
+        try{
+            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+                @SuppressWarnings({"rawtypes", "unchecked"})
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                    PersonalData person = personalDataService.getPersonalData(userName);
+                    message.setFrom(person.getEmail());
+                    message.setTo(person.getEmail());
+                    message.setSubject("Message " + userName);
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("userName", userName);
+                    model.put("password", password);
+                    String text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, templateAuthorization, "UTF-8", model);
+                    message.setText(text,true);
+                }
+            };
+            mailSender.send(preparator);
         }catch(Exception e){
             e.printStackTrace();
         }

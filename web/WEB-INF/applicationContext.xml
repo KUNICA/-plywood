@@ -9,8 +9,9 @@
       http://www.springframework.org/schema/context/spring-context-3.2.xsd
       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+
     <context:annotation-config/>
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
     <context:component-scan base-package="com"/>
 
     <mvc:resources mapping="/js/**" location="/js/"/>
@@ -39,10 +40,16 @@
         </property>
     </bean>
 
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="/WEB-INF/classes/messages" />
+    </bean>
+
 
 
     <context:property-placeholder location="WEB-INF/classes/db.properties" />
     <context:property-placeholder location="WEB-INF/classes/security.properties" />
+    <context:property-placeholder location="WEB-INF/classes/messages.properties" />
 
 
     <!--A DriverManagerDataSource-->
@@ -69,6 +76,8 @@
                 <prop key="hibernate.default_schema">${default_schema}</prop>
                 <prop key="hibernate.max_fetch_depth">${max_fetch_depth}</prop>
                 <prop key="hibernate.jdbc.batch_size">${jdbc.batch_size}</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/plywood_work</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
             </props>
         </property>
     </bean>
