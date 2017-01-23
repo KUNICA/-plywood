@@ -6,5 +6,6 @@ package com.entity;
 public enum Type {
     Product,
     Plywood,
-    Particleboard
+    Particleboard,
+    ParticleboardLaminated
 }

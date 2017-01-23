@@ -1,5 +1,7 @@
 package com.exel;
 
+import com.entity.Grade;
+
 /**
  * Created by user on 23.08.2016.
  */
@@ -9,6 +11,9 @@ public class PlywoodExel extends ProductExel{
     private String coatingColor;
     private String waterResistance;
     private String sanded;
+    private String grade;
+    private String amountPackage;
+    private String numberPackages;
 
     public PlywoodExel() {
         super();
@@ -44,5 +49,29 @@ public class PlywoodExel extends ProductExel{
 
     public void setCoatingColor(String coatingColor) {
         this.coatingColor = coatingColor;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public String getAmountPackage() {
+        return amountPackage;
+    }
+
+    public String getNumberPackages() {
+        return numberPackages;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public void setAmountPackage(String amountPackage) {
+        this.amountPackage = amountPackage;
+    }
+
+    public void setNumberPackages(String numberPackages) {
+        this.numberPackages = numberPackages;
     }
 }

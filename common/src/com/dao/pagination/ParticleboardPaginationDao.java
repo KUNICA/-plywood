@@ -37,12 +37,8 @@ public class ParticleboardPaginationDao extends ProductPaginationDao implements 
         criteria = super.getWereCriteriaParam(criteria, data);
         if(data instanceof ParticleboardIntervalPagination) {
             ParticleboardIntervalPagination dataParticleboard = (ParticleboardIntervalPagination) data;
-            if(dataParticleboard.getCoating()!=null) {
-                criteria.add(Restrictions.eq("coating", dataParticleboard.getCoating()));
-            }
-            if(dataParticleboard.getMinLaminated()!=null && dataParticleboard.getMaxLaminated()!=null) {
-                criteria.add(Restrictions.ge("laminated", dataParticleboard.getMinLaminated()))
-                        .add(Restrictions.le("laminated", dataParticleboard.getMaxLaminated()));
+            if(dataParticleboard.getSanded()!=null){
+                criteria.add(Restrictions.eq("sanded",dataParticleboard.getSanded()));
             }
         }
 

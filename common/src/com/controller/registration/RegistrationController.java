@@ -3,11 +3,8 @@ package com.controller.registration;
 
 import com.dataweb.Password;
 import com.dataweb.Registration;
-import com.entity.*;
-import com.services.SaveOrUpdateObjectInputServiceImpl;
 import com.services.registration.RegistrationServiceImpl;
-import com.validation.RegistrationValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by user on 15.09.2016.

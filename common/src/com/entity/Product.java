@@ -34,6 +34,8 @@ public class Product {
     protected Long width;
     protected Long depth;
     protected String productId;
+    protected String typeStr;
+    protected Long views;
     protected List<Images> photos;
 
     public Product() {
@@ -76,6 +78,16 @@ public class Product {
     @Column(name = "short_description", nullable = true, length = -1)
     public String getShortDescription() {
         return shortDescription;
+    }
+
+    @Basic
+    @Column(name = "type_print", nullable = true, length = -1)
+    public String getTypeStr() {
+        return typeStr;
+    }
+
+    public void setTypeStr(String typeStr) {
+        this.typeStr = typeStr;
     }
 
     public void setShortDescription(String shortDescription) {
@@ -134,6 +146,15 @@ public class Product {
         return this.operOut;
     }
 
+    @Basic
+    @Column(name = "views", nullable = true)
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
+    }
 
     public void setOperIn(Operations operationIn) {
         this.operIn = operationIn;

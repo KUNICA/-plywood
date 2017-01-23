@@ -10,4 +10,6 @@ public interface ProductServiceImpl {
     List getPlywoods(String userName);
     List getParticleboards(String userName);
     boolean removeProduct(long productId,String userName);
+    List getLastProducts(int count);
+    List getViewsProducts(int count);
 }

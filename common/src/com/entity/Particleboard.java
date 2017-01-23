@@ -12,6 +12,9 @@ public class Particleboard extends Product {
     private Boolean coating;
     private Grade grade;
     private Long laminated;
+    private Boolean sanded;
+    private Long amountPackage;
+    private Long numberPackages;
 
     public Particleboard() {
         super();
@@ -49,4 +52,33 @@ public class Particleboard extends Product {
         this.laminated = laminated;
     }
 
+    @Basic
+    @Column(name = "sanded", nullable = true, length = 1)
+    public Boolean getSanded() {
+        return sanded;
+    }
+
+    public void setSanded(Boolean sanded) {
+        this.sanded = sanded;
+    }
+
+    @Basic
+    @Column(name = "amount_package", nullable = true, length = 225)
+    public Long getAmountPackage() {
+        return amountPackage;
+    }
+
+    @Basic
+    @Column(name = "number_packages", nullable = true, length = 225)
+    public Long getNumberPackages() {
+        return numberPackages;
+    }
+
+    public void setAmountPackage(Long amountPackage) {
+        this.amountPackage = amountPackage;
+    }
+
+    public void setNumberPackages(Long numberPackages) {
+        this.numberPackages = numberPackages;
+    }
 }

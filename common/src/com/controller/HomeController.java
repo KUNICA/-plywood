@@ -5,6 +5,7 @@ import com.entity.OperationType;
 import com.entity.Operations;
 import com.services.SaveOrUpdateObjectInputServiceImpl;
 import com.services.account.IPersonalDataService;
+import com.services.admin.ProductService;
 import com.services.offer.OfferServiceImpl;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by user on 20.08.2016.
@@ -37,6 +40,9 @@ public class HomeController {
     @Inject
     OfferServiceImpl offerServiceImpl;
 
+    @Inject
+    ProductService productService;
+
     private static final String pageParticleboard = "particleboard";
     private static final String pagePlywood = "plywood";
 
@@ -49,6 +55,14 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping(value = "/home/last-products/{count}", method = RequestMethod.POST,
+            consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List lastProducts(@PathVariable("count") int count) {
+        return productService.getLastProducts(count);
+    }
+
     @RequestMapping(value = "/home/{index}",method = RequestMethod.GET)
     public String getHome(@PathVariable("index") int index,Model model, HttpSession session) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -56,6 +70,14 @@ public class HomeController {
             model.addAttribute("personalData",personalDataService.getPersonalData(userName)) ;
         }
         return Page.getPage(index).getNamePage();
+    }
+
+    @RequestMapping(value = "/home/views-products/{count}", method = RequestMethod.POST,
+            consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List viewsProducts(@PathVariable("count") int count) {
+        return productService.getViewsProducts(count);
     }
 
     @RequestMapping("/authorize")
@@ -114,9 +136,12 @@ public class HomeController {
         return "registrationCompleted";
     }
 
+
+
     private enum Page{
         pageParticleboard ("particleboard"),
-        pagePlywood("plywood");
+        pagePlywood("plywood"),
+        pageParticleboardLaminated("particleboardLaminated");
         String namePage;
         Page(String name){
             this.namePage = name;

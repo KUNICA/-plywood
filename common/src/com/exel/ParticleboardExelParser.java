@@ -15,16 +15,17 @@ import javax.inject.Named;
 public class ParticleboardExelParser extends ExelParser {
 
     private enum ParticleboardField{
-        PRODUCT_ID("Product ID"),
-        COATING("Coating"),
-        GRADE("Grade"),
-        LAMINATED("Laminated"),
-        THIKNESS("Thickness"),
-        LENGTH("Length"),
-        WEIGHT("Weight"),
+        PRODUCT_ID("Product ID (String)"),
+        TYPE("Type"),
+        LENGTH("Length (int)"),
+        WEIGHT("Weight (int)"),
+        THIKNESS("thickness (int)"),
+        SANDED("Шлифованное или нет "),
         PRICE("Price"),
-        PHOTO("Photo"),
-        DESCRIPTION("Description"),
+        PHOTO("Фото"),
+        AMOUNT_PACKAGE("Количество листов в упаковке  (int)"),
+        NUMBER_PACKAGES("Количество упаковок в фуре (22 тонн)  (int)"),
+        DESCRIPTION("Описание станка EN /Описание станка  (String)"),
         OTHER("OTHER");
 
         String nameField;
@@ -47,32 +48,24 @@ public class ParticleboardExelParser extends ExelParser {
         }
     }
 
-    protected void addField(ProductExel product,String nameField,String dataField,int list_iter,int rowIter) throws ProductFormatExelExeption {
+    protected void addField(Object obj,String nameField,String dataField,int list_iter,int rowIter) throws ProductFormatExelExeption {
         ParticleboardField plywoodField = ParticleboardField.getField(rowIter);
-        ParticleboardExel particleboard = (ParticleboardExel) product;
+        ProductExel product  =  (ProductExel) obj;
+        ParticleboardExel particleboard = (ParticleboardExel) obj;
         switch (plywoodField) {
             case PRODUCT_ID:
                 if (plywoodField.isStirng(nameField)) {
                     product.setProductId(dataField);
                 }
                 break;
-            case COATING:
+            case TYPE:
                 if (plywoodField.isStirng(nameField)) {
-                    particleboard.setCoating(dataField);
-                } else {
-                    throw new ProductFormatExelExeption(list_iter,plywoodField.getNameField());
+                    product.setType(dataField);
                 }
                 break;
-            case GRADE:
+            case SANDED:
                 if (plywoodField.isStirng(nameField)) {
-                    particleboard.setGrade(dataField);
-                } else {
-                    throw new ProductFormatExelExeption(list_iter,plywoodField.getNameField());
-                }
-                break;
-            case LAMINATED:
-                if (plywoodField.isStirng(nameField)) {
-                    particleboard.setLaminated(dataField);
+                    particleboard.setSanded(dataField);
                 } else {
                     throw new ProductFormatExelExeption(list_iter,plywoodField.getNameField());
                 }
@@ -111,6 +104,10 @@ public class ParticleboardExelParser extends ExelParser {
                     product.getPhotos().put(nameField, dataField);
                 }else if(ParticleboardField.DESCRIPTION.isStirng(nameField)){
                     product.setShortDescription(dataField);
+                }else if(ParticleboardField.AMOUNT_PACKAGE.isStirng(nameField)){
+                    ((ParticleboardExel) product).setAmountPackage(dataField);
+                }else if(ParticleboardField.NUMBER_PACKAGES.isStirng(nameField)){
+                    ((ParticleboardExel) product).setNumberPackages(dataField);
                 }
                     //throw new ProductFormatExelExeption(list_iter, ParticleboardField.OTHER.getNameField());
                 break;

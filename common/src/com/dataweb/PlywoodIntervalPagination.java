@@ -1,5 +1,6 @@
 package com.dataweb;
 
+import com.entity.Grade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,19 +8,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PlywoodIntervalPagination extends IntervalPagination {
 
-    @JsonProperty("minCoating")
-    protected Long  minCoating;
-    @JsonProperty("maxCoating")
-    protected Long maxCoating;
-
     @JsonProperty("sanded")
     protected Boolean sanded;
     @JsonProperty("resistance")
     protected Boolean resistance;
+    @JsonProperty("grade")
+    protected String grade;
+    @JsonProperty("gradeAll")
+    protected Boolean gradeAll;
 
-
-    @JsonProperty("coating")
-    protected Boolean coating;
 
     public Boolean getSanded() {
         return sanded;
@@ -37,27 +34,19 @@ public class PlywoodIntervalPagination extends IntervalPagination {
         this.resistance = resistance;
     }
 
-    public Long getMinCoating() {
-        return minCoating;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setMinCoating(Long minCoating) {
-        this.minCoating = minCoating;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
-    public void setMaxCoating(Long maxCoating) {
-        this.maxCoating = maxCoating;
+    public Boolean getGradeAll() {
+        return gradeAll;
     }
 
-    public Long getMaxCoating() {
-        return maxCoating;
-    }
-
-    public Boolean getCoating() {
-        return coating;
-    }
-
-    public void setCoating(Boolean coating) {
-        this.coating = coating;
+    public void setGradeAll(Boolean gradeAll) {
+        this.gradeAll = gradeAll;
     }
 }

@@ -1,5 +1,6 @@
 package com.dao.pagination;
 
+import com.dataweb.Interval;
 import com.dataweb.IntervalPagination;
 
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
  */
 public interface ProductPaginationDaoImpl {
     List getObjects(IntervalPagination data);
+    List getObjects(Interval data);
     Long getCountObjects(IntervalPagination data);
     Object getCountMax(String field);
     Object getCountMin(String field);
+    List getFields(String field);
     Long getCountAllObjects();
 }

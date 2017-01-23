@@ -9,6 +9,7 @@ import java.util.Map;
 public class ProductExel {
 
     protected String productId;
+    protected String type;
     protected String thickness;
     protected String length;
     protected String weight;
@@ -76,6 +77,12 @@ public class ProductExel {
         this.photos = photos;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 }
 

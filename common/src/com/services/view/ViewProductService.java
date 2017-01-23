@@ -25,6 +25,10 @@ public class ViewProductService implements ViewProductServiceImpl {
     @Named("particleboardDao")
     private ProductDao particleboardDao;
 
+    @Inject
+    @Named("particleboardLaminatedDao")
+    private ProductDao particleboardLaminatedDao;
+
 
     @Override
     public Type getProductType(Long id) {
@@ -42,6 +46,9 @@ public class ViewProductService implements ViewProductServiceImpl {
                 break;
             case Plywood:
                 product = plywoodDao.getProduct(id);
+                break;
+            case ParticleboardLaminated:
+                product = particleboardLaminatedDao.getProduct(id);
                 break;
         }
         return product;

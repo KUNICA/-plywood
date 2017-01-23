@@ -20,17 +20,19 @@ public class PlywoodExelParser extends ExelParser {
 
     private enum PlywoodField{
 
-        PRODUCT_ID("Product ID"),
-        COATING("Coating"),
-        COATING_COLOR("Coating color"),
-        WATER_RESISTANCE("Water resistance"),
-        SANDED("Sanded or unsanded"),
-        THIKNESS("Thickness"),
-        LENGTH("Length"),
-        WEIGHT("Weight"),
-        PRICE("Price"),
-        PHOTO("Photo"),
-        DESCRIPTION("Description"),
+        PRODUCT_ID("Product ID (String)"),
+        TYPE("Type"),
+        LENGTH("Length (int)"),
+        WEIGHT("Weight (int)"),
+        THIKNESS("thickness (int)"),
+        GRADE("Grade"),
+        SANDED("Шлифованный или нет (sanded or unsanded)"),
+        WATER_RESISTANCE("Water resistance (FK or -)"),
+        PRICE("Price (int)"),
+        PHOTO("Фото"),
+        AMOUNT_PACKAGE("Количество листов в упаковке  (int)"),
+        NUMBER_PACKAGES("Количество упаковок в фуре (22 тонн)  (int)"),
+        DESCRIPTION("Описание станка EN /Описание станка  (String)"),
         OTHER("OTHER");
 
         String nameField;
@@ -53,8 +55,9 @@ public class PlywoodExelParser extends ExelParser {
         }
     }
 
-    protected void addField(ProductExel product,String nameField,String dataField,int list_iter,int rowIter) throws ProductFormatExelExeption {
+    protected void addField(Object obj,String nameField,String dataField,int list_iter,int rowIter) throws ProductFormatExelExeption {
         PlywoodField plywoodField = PlywoodField.getField(rowIter);
+        ProductExel product = (ProductExel) obj;
         PlywoodExel plywood = (PlywoodExel) product;
         switch (plywoodField) {
             case PRODUCT_ID:
@@ -62,16 +65,14 @@ public class PlywoodExelParser extends ExelParser {
                     product.setProductId(dataField);
                 }
                 break;
-            case COATING:
+            case TYPE:
                 if (plywoodField.isStirng(nameField)) {
-                    plywood.setCoating(dataField);
-                } else {
-                    throw new ProductFormatExelExeption(list_iter,plywoodField.getNameField());
+                    product.setType(dataField);
                 }
                 break;
-            case COATING_COLOR:
+            case GRADE:
                 if (plywoodField.isStirng(nameField)) {
-                    plywood.setCoatingColor(dataField);
+                    plywood.setGrade(dataField);
                 } else {
                     throw new ProductFormatExelExeption(list_iter,plywoodField.getNameField());
                 }
@@ -119,11 +120,15 @@ public class PlywoodExelParser extends ExelParser {
                 }
                 break;
             default:
-                // Считываем фото и видио
+                // Считываем фото
                 if (!Strings.isNullOrEmpty(nameField) && PlywoodField.PHOTO.isStirng(nameField)) {
                     product.getPhotos().put(nameField, dataField);
                 }else if(PlywoodField.DESCRIPTION.isStirng(nameField)){
                     product.setShortDescription(dataField);
+                }else if(PlywoodField.AMOUNT_PACKAGE.isStirng(nameField)){
+                    ((PlywoodExel) product).setAmountPackage(dataField);
+                }else if(PlywoodField.NUMBER_PACKAGES.isStirng(nameField)){
+                    ((PlywoodExel) product).setNumberPackages(dataField);
                 }
                    // throw new ProductFormatExelExeption(list_iter,PlywoodField.OTHER.getNameField());
 

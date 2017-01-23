@@ -32,7 +32,7 @@ public abstract class ExelParser implements ExelParserImpl {
     public List getProducts(InputStream inputStream) throws InvalidFormatException, ProductFormatExelExeption {
         XSSFWorkbook workBook = null; // Получаем workbook
         POIFSFileSystem fileSystem = null; //Открываем документу
-        List<ProductExel> products = new ArrayList<ProductExel>();
+        List<Object> products = new ArrayList<Object>();
         try {
             //fileSystem = new POIFSFileSystem(inputStream);
             workBook = new XSSFWorkbook(inputStream);
@@ -41,7 +41,7 @@ public abstract class ExelParser implements ExelParserImpl {
 
                 XSSFSheet sheet = workBook.getSheetAt(i); // Проверяем страницу
 
-                ProductExel product = getProductExel(sheet,i);
+                Object product = getProductExel(sheet,i);
 
                 products.add(product);
             }
@@ -54,11 +54,11 @@ public abstract class ExelParser implements ExelParserImpl {
         return products;
     }
 
-    protected ProductExel getProductExel(XSSFSheet sheet,int list_iter) throws ProductFormatExelExeption {
+    protected Object getProductExel(XSSFSheet sheet,int list_iter) throws ProductFormatExelExeption {
         Iterator<Row> rows = sheet.rowIterator(); // Перебираем все строки
         // Перебираем все строки начиная со второй до тех пор, пока документ не закончитс
         int rowIter = 0;
-        ProductExel product = getInstance();
+        Object product = (Object)getInstance();
         while (rows.hasNext()) {
             XSSFRow row = (XSSFRow) rows.next();
             //Получаем ячейки из строки по номерам столбцов
@@ -82,7 +82,7 @@ public abstract class ExelParser implements ExelParserImpl {
         return formatter.formatCellValue(dataFieldXSSFCell);
     }
 
-    protected abstract void addField(ProductExel product,String nameField,String dataField,int list_iter,int rowIter)throws ProductFormatExelExeption;
+    protected abstract void addField(Object product,String nameField,String dataField,int list_iter,int rowIter)throws ProductFormatExelExeption;
 
-    protected abstract ProductExel getInstance();
+    protected abstract Object getInstance();
 }

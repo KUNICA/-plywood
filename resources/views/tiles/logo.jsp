@@ -41,8 +41,13 @@
                     <ul class="dropdown-menu">
                         <li><a href="/home/0">Particleboard</a></li>
                         <li><a href="/home/1">Plywood</a></li>
+                        <li><a href="/home/2">Laminated particleboard </a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                <li><a href="/video/section">Video</a></li>
+                </li>
+                <li><a href="/contacts/page">Contacts</a></li>
 
             </ul>
         </div><!-- /.col -->
@@ -57,9 +62,11 @@
                         </a>
                     </li>
                 </sec:authorize>
+                <!--
                 <sec:authorize access="isAnonymous()">
                     <li><a href="/registration/form"><span class="glyphicon glyphicon-user"></span>Register</a></li>
                 </sec:authorize>
+                -->
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <sec:authorize access="isAuthenticated()">
                         <sec:authentication property="principal.username" />

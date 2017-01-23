@@ -1,5 +1,7 @@
 package com.dao.video;
 
+import com.dataweb.Interval;
+import com.dataweb.IntervalVidio;
 import com.entity.Video;
 import java.util.List;
 
@@ -8,5 +10,9 @@ import java.util.List;
  */
 public interface VideoDaoImpl {
     List getVidios(Long id);
+    List searchVidios(String str);
     Video getVidio(Long id);
+    List getCategories();
+    Long getCount(String section);
+    List getObjects(String category,IntervalVidio interval);
 }

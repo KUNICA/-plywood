@@ -11,6 +11,9 @@ function toPlug(index){
         case 2:
             scriptRuller =  new ScriptPlywood();
             break;
+        case 3:
+            scriptRuller =  new ScriptParticleboardLaminated();
+            break;
     }
     return scriptRuller;
 }

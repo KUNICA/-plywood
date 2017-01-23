@@ -1,6 +1,7 @@
 package com.services.pagination;
 
 import com.dao.pagination.ProductPaginationDaoImpl;
+import com.dataweb.Interval;
 import com.dataweb.IntervalPagination;
 import com.dataweb.MenuParametrs;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,10 @@ public class ProductPaginationService implements ProductPaginationServiceImpl {
         return productsEntityPaginationDao.getObjects(data);
     }
 
+    public List getObjects(Interval data){
+        return productsEntityPaginationDao.getObjects(data);
+    }
+
     @Override
     public Long getCountObjects(IntervalPagination data) {
         return productsEntityPaginationDao.getCountObjects(data);
@@ -40,17 +45,6 @@ public class ProductPaginationService implements ProductPaginationServiceImpl {
     }
 
     public Object getParametr(MenuParametrs param) {
-        param.setMinPrice((Double)productsEntityPaginationDao.getCountMin("price"));
-        param.setMaxPrice((Double)productsEntityPaginationDao.getCountMax("price"));
-
-        param.setMinLength((Long)productsEntityPaginationDao.getCountMin("length"));
-        param.setMaxLength((Long)productsEntityPaginationDao.getCountMax("length"));
-
-        param.setMinWidth((Long)productsEntityPaginationDao.getCountMin("width"));
-        param.setMaxWidth((Long)productsEntityPaginationDao.getCountMax("width"));
-
-        param.setMinDepth((Long)productsEntityPaginationDao.getCountMin("depth"));
-        param.setMaxDepth((Long)productsEntityPaginationDao.getCountMax("depth"));
         return param;
     }
 }

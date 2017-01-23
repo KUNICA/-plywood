@@ -30,6 +30,7 @@ public class PrintProductsService implements PrintProductsServiceImpl {
     ServletContext context;
 
     static String LOCATION = "//images//product//";
+    static String LOCATION_IMG = "//images//";
 
     protected static final int IMAGE_MAIN = 0;
     protected static final int IMAGE_2 = 1;
@@ -118,6 +119,13 @@ public class PrintProductsService implements PrintProductsServiceImpl {
             fild.setType(product.getType().name());
         }
         return fild;
+    }
+
+    public String getImageSrc(String patch){
+        File resourceImage = new File(context.getRealPath(File.separator) + LOCATION_IMG,patch);
+        if(resourceImage.exists())
+                return resourceImage.getPath();
+      return "";
     }
 
     protected void setImage(File resourceImage,PrintFilds fild, int i){

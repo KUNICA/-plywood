@@ -24,6 +24,7 @@ $(document).on('click', '.checkBoxField', function(e) {
             checkBox2.checked = checkBox.checked;
         }
     }
+    /*
     if(checkBox.checked){
         if(checkBox!=undefined) {
             checkBox.checked = "";
@@ -39,6 +40,7 @@ $(document).on('click', '.checkBoxField', function(e) {
             checkBox2.checked = "checked";
         }
     }
+    */
 
     if(productId!=null) {
         var urlObjects = "/compare/isProduct/" + productId;
@@ -64,7 +66,10 @@ $(document).on('click', '.checkBoxField', function(e) {
                 dataType:'json',
                 async: false
             }).done(function( check ) {
+                /*
+
                 if(checkProduct==undefined || !checkProduct){
+                    
                     if(checkBox!=undefined) {
                         checkBox.checked = "checked";
                     }
@@ -79,6 +84,7 @@ $(document).on('click', '.checkBoxField', function(e) {
                         checkBox2.checked = "checked";
                     }
                 }
+                */
 
                 var typeProduct = document.getElementById("typeProduct");
                 jQuery.ajax({

@@ -34,7 +34,7 @@
     <sec:authorize access="isAuthenticated()">
 <table class = "table" style="width:300px">
     <tr>
-        <th>First Name: ${personalData.fullName}</th>
+        <th>Full Name: ${personalData.fullName}</th>
     </tr>
     <tr>
         <th>email: ${personalData.email}</th>

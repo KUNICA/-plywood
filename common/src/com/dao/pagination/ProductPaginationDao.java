@@ -1,11 +1,13 @@
 package com.dao.pagination;
 
 import com.dao.DaoCriteria;
+import com.dataweb.Interval;
 import com.dataweb.IntervalPagination;
 import com.entity.Images;
 import com.entity.Product;
 import com.entity.Product;
 import org.hibernate.*;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +30,22 @@ public class ProductPaginationDao extends DaoCriteria<Product> implements Produc
     }
 
     protected Criteria getWereCriteriaParam(Criteria criteria,IntervalPagination data){
-        return criteria.add(Restrictions.ge("price",data.getMinPrice()))
-                .add(Restrictions.le("price",data.getMaxPrice()))
-                .add(Restrictions.ge("length",data.getMinLength()))
-                .add(Restrictions.le("length",data.getMaxLength()))
-                .add(Restrictions.ge("width",data.getMinWidth()))
-                .add(Restrictions.le("width",data.getMaxWidth()))
-                .add(Restrictions.ge("depth",data.getMinDepth()))
-                .add(Restrictions.le("depth",data.getMaxDepth()));
+        criteria.add(Restrictions.ge("price",data.getMinPrice()))
+                .add(Restrictions.le("price",data.getMaxPrice()));
+        if(!data.getLengthAll()){
+            criteria.add(Restrictions.ge("length",data.getLength()))
+                    .add(Restrictions.le("length",data.getLength()));
+        }
+        if(!data.getWidthAll()){
+            criteria.add(Restrictions.ge("width",data.getWidth()))
+                    .add(Restrictions.le("width",data.getWidth()));
+        }
+        if(!data.getDepthAll()){
+            criteria.add(Restrictions.ge("depth",data.getDepth()))
+                    .add(Restrictions.le("depth",data.getDepth()));
+        }
+
+        return criteria;
     }
 
     @Autowired
@@ -59,7 +69,7 @@ public class ProductPaginationDao extends DaoCriteria<Product> implements Produc
             Criteria criteria = getCriteriaProducts(session);
             criteria = getWereCriteriaParam(criteria,data);
             productsEntityList  = criteria.setFirstResult(data.getStart().intValue())
-                 .setMaxResults(data.getEnd().intValue()).list();
+                    .setMaxResults(data.getEnd().intValue()).list();
 
             // productsEntityList = getCriteriaProducts(session)
             //       .setFirstResult(start)
@@ -106,6 +116,42 @@ public class ProductPaginationDao extends DaoCriteria<Product> implements Produc
                 session.close();
         }
         return count;
+    }
+
+    @Override
+    public List getObjects(Interval data) {
+
+        Session session = null;
+        Transaction tx = null;
+        List  productsEntityList = null;
+
+        try {
+            session = currentSession();
+            tx = session.beginTransaction();
+
+            session.enableFetchProfile("mediaProfile");
+
+            Criteria criteria = getCriteriaProducts(session);
+            productsEntityList  = criteria.setFirstResult(data.getStart().intValue())
+                    .setMaxResults(data.getEnd().intValue()).list();
+
+            // productsEntityList = getCriteriaProducts(session)
+            //       .setFirstResult(start)
+            //     .setMaxResults(end)
+            //   .list();
+
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return productsEntityList;
     }
 
     @Override
@@ -160,6 +206,33 @@ public class ProductPaginationDao extends DaoCriteria<Product> implements Produc
                 session.close();
         }
         return count;
+    }
+
+    public List getFields(String field) {
+        Session session = null;
+        Transaction tx = null;
+        List list = null;
+
+        try {
+            session = currentSession();
+            tx = session.beginTransaction();
+            Criteria criteria = getCriteriaProducts(session);
+            list = criteria.setProjection(Projections.distinct(Projections.property(field)))
+                    .addOrder(Order.asc(field))
+                    .list();
+
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return list;
     }
 
     @Override

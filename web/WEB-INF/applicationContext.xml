@@ -3,16 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
       http://www.springframework.org/schema/context
       http://www.springframework.org/schema/context/spring-context-3.2.xsd
-      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 
 
     <context:annotation-config/>
     <mvc:annotation-driven/>
     <context:component-scan base-package="com"/>
+    <task:annotation-driven proxy-target-class="true" executor="myExecutor" scheduler="myScheduler"/>
+    <task:executor id="myExecutor" pool-size="5"/>
+    <task:scheduler id="myScheduler" pool-size="10"/>
 
     <mvc:resources mapping="/js/**" location="/js/"/>
     <mvc:resources mapping="/css/**" location="/css/"/>
@@ -20,6 +26,7 @@
     <mvc:resources mapping="/views/**" location="/views/"/>
     <mvc:resources mapping="/avatars/**" location="/avatars/"/>
     <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/public/**" location="/public/"/>
     <!--
      Loads externalized configuration details from db.properties.
     -->
@@ -44,8 +51,6 @@
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="/WEB-INF/classes/messages" />
     </bean>
-
-
 
     <context:property-placeholder location="WEB-INF/classes/db.properties" />
     <context:property-placeholder location="WEB-INF/classes/security.properties" />

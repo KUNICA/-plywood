@@ -1,12 +1,21 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import com.google.common.base.Strings;
+
 
 /**
  * Created by user on 05.09.2016.
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Grade {
-    FIRST("first");
+    FIRST_FIRST("1/1"),
+    SECOND_SECOND("2/2"),
+    TREE_TREE("3/3"),
+    FOUR_FOUR("4/4");
+
     String nameField;
     Grade(String name){
         this.nameField = name;
@@ -41,5 +50,4 @@ public enum Grade {
         }
         return particleboardField;
     }
-
 }

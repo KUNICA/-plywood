@@ -17,18 +17,18 @@ public class IntervalPagination implements Serializable {
     protected Double minPrice;
     @JsonProperty("maxPrice")
     protected Double maxPrice;
-    @JsonProperty("minLength")
-    protected Long minLength;
-    @JsonProperty("maxLength")
-    protected Long maxLength;
-    @JsonProperty("minWidth")
-    protected Long minWidth;
-    @JsonProperty("maxWidth")
-    protected Long maxWidth;
-    @JsonProperty("minDepth")
-    protected Long minDepth;
-    @JsonProperty("maxDepth")
-    protected Long maxDepth;
+    @JsonProperty("length")
+    protected Long length;
+    @JsonProperty("lengthAll")
+    protected Boolean lengthAll;
+    @JsonProperty("width")
+    protected Long width;
+    @JsonProperty("widthAll")
+    protected Boolean widthAll;
+    @JsonProperty("depth")
+    protected Long depth;
+    @JsonProperty("depthAll")
+    protected Boolean depthAll;
 
     public Long getStart() {
         return start;
@@ -54,28 +54,28 @@ public class IntervalPagination implements Serializable {
         return maxPrice;
     }
 
-    public Long getMinLength() {
-        return minLength;
+    public Long getLength() {
+        return length;
     }
 
-    public Long getMaxLength() {
-        return maxLength;
+    public Long getWidth() {
+        return width;
     }
 
-    public Long getMinWidth() {
-        return minWidth;
+    public Long getDepth() {
+        return depth;
     }
 
-    public Long getMaxWidth() {
-        return maxWidth;
+    public Boolean getLengthAll() {
+        return lengthAll;
     }
 
-    public Long getMinDepth() {
-        return minDepth;
+    public Boolean getWidthAll() {
+        return widthAll;
     }
 
-    public Long getMaxDepth() {
-        return maxDepth;
+    public Boolean getDepthAll() {
+        return depthAll;
     }
 
     public void setMinPrice(Double minPrice) {
@@ -86,27 +86,27 @@ public class IntervalPagination implements Serializable {
         this.maxPrice = maxPrice;
     }
 
-    public void setMinLength(Long minLength) {
-        this.minLength = minLength;
+    public void setLength(Long length) {
+        this.length = length;
     }
 
-    public void setMaxLength(Long maxLength) {
-        this.maxLength = maxLength;
+    public void setWidth(Long width) {
+        this.width = width;
     }
 
-    public void setMinWidth(Long minWidth) {
-        this.minWidth = minWidth;
+    public void setDepth(Long depth) {
+        this.depth = depth;
     }
 
-    public void setMaxWidth(Long maxWidth) {
-        this.maxWidth = maxWidth;
+    public void setLengthAll(Boolean lengthAll) {
+        this.lengthAll = lengthAll;
     }
 
-    public void setMinDepth(Long minDepth) {
-        this.minDepth = minDepth;
+    public void setWidthAll(Boolean widthAll) {
+        this.widthAll = widthAll;
     }
 
-    public void setMaxDepth(Long maxDepth) {
-        this.maxDepth = maxDepth;
+    public void setDepthAll(Boolean depthAll) {
+        this.depthAll = depthAll;
     }
 }

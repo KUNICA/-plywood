@@ -7,9 +7,10 @@ var current = null;
 var countP = null
 var mselect = 9;
 
+
 var myMapPaginator = {};
 var myMapParamSearch = {};
-var ParamSearch = function(index,name,scriptPlywood){
+var ParamSearch = function(index,name,scriptPlywood,ScriptRullerMethods){
     this.ex1 = 'ex1_' + index;
     this.ex2 = 'ex2_' + index;
     this.ex3 = 'ex3_' + index;
@@ -25,6 +26,10 @@ var ParamSearch = function(index,name,scriptPlywood){
 
     this.initParam = scriptPlywood.initParam;
     this.eventParam = scriptPlywood.eventParam;
+    
+    this.initDataListParams = ScriptRullerMethods.initDataListParams;
+
+    this.initPagination = ScriptRullerMethods.initPagination;
     
 }
 
@@ -86,7 +91,7 @@ var Paginator = function(index,paginationHolderId, pagesTotal, pagesSpan, pageCu
 
 function getParent(el, className) {
     var obj = el;
-    while (obj.className !== className) {
+    while ( obj.className !== undefined && obj.className !== className) {
         obj = obj.parentNode;
     }
     return obj;
@@ -98,34 +103,35 @@ function getPaginatorId(pId){
 
 function getPaginatorParrentIndex(element){
     var paginator = getParent(element,"paginator");
-    return paginator.id.substr(11, paginator.id.length);
+    return paginator != undefined && paginator.id!= undefined  ? paginator.id.substr(11, paginator.id.length): undefined;
 }
 
 function getPaginatorParrent(element){
     var paginatorId = getPaginatorParrentIndex(element)
-    return getPaginatorId("paginator2_" + paginatorId);
+    return paginatorId!= undefined ? getPaginatorId("paginator2_" + paginatorId): undefined;
 }
 
 function chekClick(e) {
     e?evt=e:evt=event;
     var element = evt.target?evt.target:evt.srcElement;
-    var paginator = getPaginatorParrent(element);
-
-    if(element.id!=null && element.id.indexOf(paginator.cellCurrent)+1){
-        current = element.textContent;
-        nextPage(element);
-    }
-    if(element.id!=null && element.id == 'arrowleft' + paginator.paginator1){
-        clickArrowLeft(e);
-    }
-    if(element.id!=null && element.id == 'arrowright' + paginator.paginator1){
-        clickArrowRight(e);
-    }
-    if(element.id!=null && element.id == 'arrowleft' + paginator.paginator2){
-        clickArrowLeft2(e);
-    }
-    if(element.id!=null && element.id == 'arrowright' + paginator.paginator2){
-        clickArrowRight2(e);
+    if(element!= undefined && element.className!= undefined) {
+        var paginator = getPaginatorParrent(element);
+        if (paginator!= undefined && element.id != null && element.id.indexOf(paginator.cellCurrent) + 1) {
+            current = element.textContent;
+            nextPage(element);
+        }
+        if (paginator!= undefined && element.id != null && element.id == 'arrowleft' + paginator.paginator1) {
+            clickArrowLeft(e);
+        }
+        if (paginator!= undefined && element.id != null && element.id == 'arrowright' + paginator.paginator1) {
+            clickArrowRight(e);
+        }
+        if (paginator!= undefined && element.id != null && element.id == 'arrowleft' + paginator.paginator2) {
+            clickArrowLeft2(e);
+        }
+        if (paginator!= undefined && element.id != null && element.id == 'arrowright' + paginator.paginator2) {
+            clickArrowRight2(e);
+        }
     }
 }
 
@@ -737,35 +743,6 @@ if (element != undefined) {
 }
 }
 
-function initPagination(index) {
-    
-    var params = myMapParamSearch[index];
-    var paginations = getPaginatorId("paginator2_" + index);
-
-    
-    var elementPrice = document.getElementById(params.ex2);
-    var priceList = elementPrice.value.split(",");
-    var minPrice = priceList[0];
-    var maxPrice = priceList[1];
-
-    var elementLength = document.getElementById(params.ex1);
-    var lengthList = elementLength.value.split(",");
-    var minLength = lengthList[0];
-    var maxLength = lengthList[1];
-
-    var elementWidth = document.getElementById(params.ex3);
-    var widthList = elementWidth.value.split(",");
-    var minWidth  = widthList[0];
-    var maxWidth  = widthList[1];
-
-    var elementDepth = document.getElementById(params.ex4);
-    var depthList = elementDepth.value.split(",");
-    var minDepth  = depthList[0];
-    var maxDepth  = depthList[1];
-
-    params.initData(index,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth);
-}
-
     function nextPage(cellCurrentValue) {
         var cellFirstValue = 0;
         var paginator = getPaginatorParrent(cellCurrentValue);
@@ -806,31 +783,8 @@ function initPagination(index) {
         var dataList = null;
         var start = id1 * mselect - mselect;
         var end = mselect;
-        var elementPrice = document.getElementById(params.ex2);
-        var priceList = elementPrice.value.split(",");
-        var minPrice = priceList[0];
-        var maxPrice = priceList[1];
 
-        var elementLength = document.getElementById(params.ex1);
-        var lengthList = elementLength.value.split(",");
-        var minLength = lengthList[0];
-        var maxLength = lengthList[1];
-
-        var elementWidth = document.getElementById(params.ex3);
-        var widthList = elementWidth.value.split(",");
-        var minWidth  = widthList[0];
-        var maxWidth  = widthList[1];
-
-        var elementDepth = document.getElementById(params.ex4);
-        var depthList = elementDepth.value.split(",");
-        var minDepth  = depthList[0];
-        var maxDepth  = depthList[1];
-
-        var parentElement = document.getElementById(params.parent_element_id);
-        var parentListElement = document.getElementById(params.parent_elementList_id);
-
-        params.getObjects(parentElement,parentListElement,$(".homeCard"),start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth,paginator.count);
-
+        params.initDataListParams(start,end,paginator, params);
 }
 
 function makePreview(image, a) {
@@ -849,122 +803,4 @@ function makePreview(image, a) {
     }
 
     return img;
-}
-
-function initPaginationParametrs(index,url){
-    jQuery.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "POST",
-        url: url,
-        dataType:'json',
-        async: false
-    }).done(function( parametrs ) {
-        
-        var params = myMapParamSearch[index];
-
-        var panelSlide = document.getElementById(params.PanelSlide);
-
-        panelSlide.innerHTML = 
-                                            '<div class="price-filter">' +
-                                                  '<h2>Price</h2>' +
-                                                  '<hr>' +
-                                                  '<input  id="' + params.ex2 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex2 + 'Slider" value="' + parametrs.minPrice + ',' + parametrs.maxPrice +'" data-slider-min="' + parametrs.minPrice +'" data-slider-max="' + parametrs.maxPrice + '" data-slider-step="5" data-slider-value="[' + parametrs.minPrice + ',' + parametrs.maxPrice +']" title=""/>' +
-                                            '</div>' +
-                                            '<span class="min-max">' +
-                                                    'Price: $' + parametrs.minPrice +  '- $' + parametrs.maxPrice +
-                                            '</span>' +
-
-
-                                            '<div class="price-filter">' +
-                                            '<hr>' +
-                                            '<h2>Length</h2>' +
-                                            '<hr>' +
-                                            '<input  id="' + params.ex1 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex1 + 'Slider" value="' + parametrs.minLength + ',' + parametrs.maxLength +'" data-slider-min="' + parametrs.minLength +'" data-slider-max="' + parametrs.maxLength + '" data-slider-step="5" data-slider-value="[' + parametrs.minLength + ',' + parametrs.maxLength +']" title=""/>' +
-                                            '</div>' +
-                                            '<span class="min-max">' +
-                                            'Length: ' + parametrs.minLength +  '- ' + parametrs.maxLength +
-                                            '</span>' +
-
-                                            '<div class="price-filter">' +
-                                            '<hr>' +
-                                            '<h2>Width</h2>' +
-                                            '<hr>' +
-                                            '<input  id="' + params.ex3 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex3 + 'Slider" value="' + parametrs.minWidth + ',' + parametrs.maxWidth +'" data-slider-min="' + parametrs.minWidth +'" data-slider-max="' + parametrs.maxWidth + '" data-slider-step="5" data-slider-value="[' + parametrs.minWidth + ',' + parametrs.maxWidth +']" title=""/>' +
-                                            '</div>' +
-                                            '<span class="min-max">' +
-                                            'Width: ' + parametrs.minWidth +  '- ' + parametrs.maxWidth +
-                                            '</span>' +
-
-                                            '<div class="price-filter">' +
-                                            '<hr>' +
-                                            '<h2>Depth</h2>' +
-                                            '<hr>' +
-                                            '<input  id="' + params.ex4 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex4 + 'Slider" value="' + parametrs.minDepth + ',' + parametrs.maxDepth +'" data-slider-min="' + parametrs.minDepth +'" data-slider-max="' + parametrs.maxDepth + '" data-slider-step="5" data-slider-value="[' + parametrs.minDepth + ',' + parametrs.maxDepth +']" title=""/>' +
-                                            '</div>' +
-                                            '<span class="min-max">' +
-                                            'Depth: ' + parametrs.minDepth +  '- ' + parametrs.maxDepth +
-                                            '</span>';
-
-        /*
-        panelSlide.innerHTML =
-            '<div class="panelPrice">' +
-            '<b>Price </b>' +
-            '<b id="minPrice">' + '$' + parametrs.minPrice + '</b>' +
-            '<input  id="' + params.ex2 + '" type="text" class="span2 exSlider" data-slider-id="' + params.ex2 + 'Slider" value="" data-slider-min="' + parametrs.minPrice +'" data-slider-max="' + parametrs.maxPrice + '" data-slider-step="5" data-slider-value="[' + parametrs.minPrice + ',' + parametrs.maxPrice +']" title=""/>' +
-            '<b id="maxPrice">' + '$' +parametrs.maxPrice + '</b>' +
-            '</div>' +
-            '<div class="panelElement">' +
-            '<b>Length </b>' +
-            '<b id="minLength">' + parametrs.minLength + '</b>' +
-            '<input style="width: 100px;" id="' + params.ex1 + '" class="span2 exSlider" data-slider-id="' + params.ex1 + 'Slider" data-slider-min="' + parametrs.minLength + '" data-slider-max="' + parametrs.maxLength + '" data-slider-step="1" data-slider-value="[' + parametrs.minLength + ',' + parametrs.maxLength + ']" title=""/>' +
-            '<b id="maxLength">' + parametrs.maxLength + '</b>' +
-            '</div>' +
-            '<div class="panelElement">' +
-            '<b>Width </b>' +
-            '<b id="minWidth">' + parametrs.minWidth + '</b>' +
-            '<input style="width: 100px;" id="' + params.ex3 + '" class="span2 exSlider" data-slider-id="' + params.ex3 + 'Slider" type="text" data-slider-min="' + parametrs.minWidth + '" data-slider-max="' + parametrs.maxWidth + '" data-slider-step="1" data-slider-value="[' + parametrs.minWidth + ',' + parametrs.maxWidth + ']" title=""/>' +
-            '<b id="maxWidth">' + parametrs.maxWidth + '</b>' +
-            '</div>' +
-            '<div class="panelElement">' +
-            '<b>Depth </b>' +
-            '<b id="minDepth">' + parametrs.minDepth + '</b>' +
-            '<input style="width: 100px;" id="' + params.ex4 + '" class="span2 exSlider" data-slider-id="ex4' + params.ex4 + 'Slider" type="text" data-slider-min="' + parametrs.minDepth  + '" data-slider-max="' + parametrs.maxDepth  + '" data-slider-step="1" data-slider-value="[' + parametrs.minDepth + ',' + parametrs.maxDepth  + ']" title=""/>' +
-            '<b id="maxDepth">' + parametrs.maxDepth + '</b>' +
-            '</div>';
-            */
-
-        panelSlide.innerHTML = params.initParam(panelSlide.innerHTML,parametrs);
-
-        $("#" + params.ex2).slider({
-            formatter: function(value) {
-                return 'Current value: ' + value;
-            }});
-
-        $('#' + params.ex1).slider({
-            formatter: function(value) {
-                return 'Current value: ' + value;
-            }
-        });
-        $('#' + params.ex3).slider({
-            formatter: function(value) {
-                return 'Current value: ' + value;
-            }
-        });
-        $('#' + params.ex4).slider({
-            formatter: function(value) {
-                return 'Current value: ' + value;
-            }
-        });
-
-
-        params.eventParam();
-
-        $(".slider-handle").mouseup(function()   {
-            initPagination(index);
-        });
-
-    });
 }

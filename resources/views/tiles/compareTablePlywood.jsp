@@ -106,18 +106,16 @@
 
                             function removeLink(index){
                                 document.getElementById("image" + index).style.display = 'none';
-                                document.getElementById("price" + index).style.display = 'none';
-                                document.getElementById("price2" + index).style.display = 'none';
                                 document.getElementById("description" + index).style.display = 'none';
                                 document.getElementById("length" + index).style.display = 'none';
                                 document.getElementById("width" + index).style.display = 'none';
                                 document.getElementById("depth" + index).style.display = 'none';
-                                document.getElementById("coating" + index).style.display = 'none';
                                 document.getElementById("stock" + index).style.display = 'none';
                                 document.getElementById("waterResistance" + index).style.display = 'none';
                                 document.getElementById("sanded" + index).style.display = 'none';
-                                document.getElementById("color" + index).style.display = 'none';
                                 document.getElementById("shop" + index).style.display = 'none';
+                                document.getElementById("price" + index).style.display = 'none';
+                                document.getElementById("price2" + index).style.display = 'none';
 
                             }
 
@@ -143,7 +141,7 @@
 
                 </thead>
                 <tbody>
-
+                <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
                 <tr class="comparison-item price">
                     <th>Price</th>
                     <% int counterPrice = 0; %>
@@ -154,7 +152,7 @@
                         <%  counterPrice++; %>
                     </c:forEach>
                 </tr>
-
+                </sec:authorize>
                 <tr class="comparison-item description">
                     <th>Description</th>
                     <% int counterDescription = 0; %>
@@ -176,15 +174,15 @@
                         <%  counterstock++; %>
                     </c:forEach>
                 </tr>
-
+                <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
                 <tr class="price repeated">
                     <th>Price</th>
-                    <%  counterPrice = 0; %>
+                    <%  int counterPrice = 0; %>
                     <c:forEach items="${tableCompare}" var="list_price" varStatus="counterPrice">
                         <td id="price2<%=counterPrice%>" class="odd "><span class="amount">$${list_price.price}</span></td>
                         <%  counterPrice++; %>
                     </c:forEach>
-                </tr>
+                </tr></sec:authorize>
                 <tr class="comparison-item">
                     <th>Width</th>
                     <% int counterWidth = 0; %>
@@ -202,36 +200,11 @@
                     </c:forEach>
                 </tr>
                 <tr class="comparison-item">
-                    <th>Depth</th>
+                    <th>Thickness</th>
                     <% int counterDepth = 0; %>
                     <c:forEach items="${tableCompare}" var="list_depth" varStatus="counterDepth">
                         <td class="odd " id="depth<%=counterDepth%>"><span class="amount">${list_depth.depth}</span></td>
                         <%  counterDepth++; %>
-                    </c:forEach>
-                </tr>
-                <tr class="comparison-item">
-                    <th>Coating</th>
-                    <% int counterCoating = 0; %>
-                    <c:forEach items="${tableCompare}" var="list_coating" varStatus="counterCoating">
-                        <td class="odd " id="coating<%=counterCoating%>"><span class="amount">
-                                                            <c:choose>
-                                                                <c:when test="${list_coating.coating}">
-                                                                    yes
-                                                                </c:when>
-                                                                <c:when test="${!list_coating.coating}">
-                                                                    no
-                                                                </c:when>
-                                                            </c:choose>
-                            </span></td>
-                        <%  counterCoating++; %>
-                    </c:forEach>
-                </tr>
-                <tr class="comparison-item">
-                    <th>Color</th>
-                    <% int counterColor = 0; %>
-                    <c:forEach items="${tableCompare}" var="list_color" varStatus="counterColor">
-                        <td class="odd " id="color<%=counterColor%>"><span class="amount">${list_color.colorCoating}</span></td>
-                        <%  counterColor++; %>
                     </c:forEach>
                 </tr>
                 <tr class="comparison-item">

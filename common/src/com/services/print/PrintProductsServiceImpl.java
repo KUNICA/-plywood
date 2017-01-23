@@ -7,4 +7,5 @@ import java.util.List;
  */
 public interface PrintProductsServiceImpl {
     List getListParamProducts(String userName);
+    String getImageSrc(String patch);
 }

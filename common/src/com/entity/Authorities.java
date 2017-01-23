@@ -6,6 +6,7 @@ import javax.persistence.*;
  * Created by user on 16.09.2016.
  */
 @Entity
+@Table(name = "authorities")
 public class Authorities {
     private String username;
     private Authority authority;

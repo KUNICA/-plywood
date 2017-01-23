@@ -106,17 +106,15 @@
 
                             function removeLink(index){
                                 document.getElementById("image" + index).style.display = 'none';
-                                document.getElementById("price" + index).style.display = 'none';
-                                document.getElementById("price2" + index).style.display = 'none';
                                 document.getElementById("description" + index).style.display = 'none';
                                 document.getElementById("length" + index).style.display = 'none';
                                 document.getElementById("width" + index).style.display = 'none';
                                 document.getElementById("depth" + index).style.display = 'none';
-                                document.getElementById("laminated" + index).style.display = 'none';
-                                document.getElementById("coating" + index).style.display = 'none';
-                                document.getElementById("grade" + index).style.display = 'none';
+                                document.getElementById("sanded" + index).style.display = 'none';
                                 document.getElementById("stock" + index).style.display = 'none';
                                 document.getElementById("shop" + index).style.display = 'none';
+                                document.getElementById("price" + index).style.display = 'none';
+                                document.getElementById("price2" + index).style.display = 'none';
                             }
 
 
@@ -140,7 +138,7 @@
                 </sec:authorize>
                 </thead>
                 <tbody>
-
+                <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
                 <tr class="comparison-item price">
                     <th>Price</th>
                         <% int counterPrice = 0; %>
@@ -151,6 +149,7 @@
                             <%  counterPrice++; %>
                         </c:forEach>
                 </tr>
+                </sec:authorize>
 
                 <tr class="comparison-item description">
                     <th>Description</th>
@@ -173,15 +172,16 @@
                         <%  counterstock++; %>
                     </c:forEach>
                 </tr>
-
+                <%  int counterPrice = 0; %>
+                <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
                 <tr class="price repeated">
                     <th>Price</th>
-                        <%  counterPrice = 0; %>
                         <c:forEach items="${tableCompare}" var="list_price" varStatus="counterPrice">
                             <td id="price2<%=counterPrice%>" class="odd "><span class="amount">$${list_price.price}</span></td>
                             <%  counterPrice++; %>
                         </c:forEach>
                 </tr>
+                </sec:authorize>
                 <tr class="comparison-item">
                         <th>Width</th>
                         <% int counterWidth = 0; %>
@@ -199,7 +199,7 @@
                         </c:forEach>
                 </tr>
                 <tr class="comparison-item">
-                        <th>Depth</th>
+                        <th>Thickness</th>
                         <% int counterDepth = 0; %>
                         <c:forEach items="${tableCompare}" var="list_depth" varStatus="counterDepth">
                             <td class="odd " id="depth<%=counterDepth%>"><span class="amount">${list_depth.depth}</span></td>
@@ -207,36 +207,20 @@
                         </c:forEach>
                 </tr>
                 <tr class="comparison-item">
-                        <th>Laminated</th>
-                        <% int counterLaminated = 0; %>
-                        <c:forEach items="${tableCompare}" var="list_laminated" varStatus="counterLaminated">
-                            <td class="odd " id="laminated<%=counterLaminated%>"><span class="amount">${list_laminated.laminated}</span></td>
-                            <%  counterLaminated++; %>
-                        </c:forEach>
-                </tr>
-                        <tr class="comparison-item">
-                        <th>Coating</th>
-                        <% int counterCoating = 0; %>
-                        <c:forEach items="${tableCompare}" var="list_coating" varStatus="counterCoating">
-                            <td class="odd " id="coating<%=counterCoating%>"><span class="amount">
+                        <th>Sanded</th>
+                        <% int counterSanded = 0; %>
+                        <c:forEach items="${tableCompare}" var="list_sanded" varStatus="counterSanded">
+                            <td class="odd " id="sanded<%=counterSanded%>"><span class="amount">
                                                             <c:choose>
-                                                                <c:when test="${list_coating.coating}">
-                                                                    yes
+                                                                <c:when test="${list_sanded.sanded}">
+                                                                    sanded
                                                                 </c:when>
-                                                                <c:when test="${!list_coating.coating}">
-                                                                    no
+                                                                <c:when test="${!list_coating.sanded}">
+                                                                    unsanded
                                                                 </c:when>
                                                             </c:choose>
                             </span></td>
-                            <%  counterCoating++; %>
-                        </c:forEach>
-                </tr>
-                <tr class="comparison-item">
-                        <th>Grade</th>
-                        <% int counterGrade = 0; %>
-                        <c:forEach items="${tableCompare}" var="list_grade" varStatus="counterGrade">
-                            <td class="odd " id="grade<%=counterGrade%>"><span class="amount">${list_grade.grade}</span></td>
-                            <%  counterGrade++; %>
+                            <%  counterSanded++; %>
                         </c:forEach>
                 </tr>
 

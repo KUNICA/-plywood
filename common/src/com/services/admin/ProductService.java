@@ -52,4 +52,14 @@ public class ProductService implements ProductServiceImpl {
         return true;
     }
 
+    @Override
+    public List getLastProducts(int count) {
+        return productDaoImpl.getLastProducts(count);
+    }
+
+    @Override
+    public List getViewsProducts(int count) {
+        return productDaoImpl.getViewsProducts(count);
+    }
+
 }

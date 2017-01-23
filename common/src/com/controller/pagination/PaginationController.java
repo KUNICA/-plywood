@@ -36,6 +36,10 @@ public class PaginationController {
     private ProductPaginationServiceImpl plywoodPaginationService;
 
     @Inject
+    @Named("particleboardLaminatedParinationService")
+    private ProductPaginationServiceImpl particleboardLaminatedParinationService;
+
+    @Inject
     private ImageService imageService;
 
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -86,11 +90,59 @@ public class PaginationController {
         return list;
     }
 
+    @RequestMapping(value = "/admin-particleboards",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List getAdminParticleboards(@RequestBody Interval interval) {
+        List list = particleboardPaginationService.getObjects(interval);
+        return list;
+    }
+
     @RequestMapping(value = "/parametrsParticleboards", method = RequestMethod.POST, consumes="application/json", produces="application/json",
             headers = {"Accept=text/xml, application/json"})
     public @ResponseBody
     Object getParametrsParticleboard() {
         return  particleboardPaginationService.getParametrObjects();
+    }
+
+    @RequestMapping(value = "/countActualParticleboardLaminated",
+            method = RequestMethod.POST,
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody Long getCountLaminatedParticleboard(@RequestBody ParticleboardLaminatedIntervalPagination interval) {
+        return particleboardLaminatedParinationService.getCountObjects(interval);
+    }
+
+    @RequestMapping(value = "/countAllParticleboardLaminated",
+            method = RequestMethod.POST,
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody Long getCountAllLaminatedParticleboard() {
+        return particleboardLaminatedParinationService.getCountAllObjects();
+    }
+
+    @RequestMapping(value = "/particleboardsLaminated",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List getParticleboardsLaminated(@RequestBody ParticleboardLaminatedIntervalPagination interval) {
+        List list = particleboardLaminatedParinationService.getObjects(interval);
+        return list;
+    }
+
+    @RequestMapping(value = "/admin-particleboardsLaminated",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List getAdminLaminatedParticleboards(@RequestBody Interval interval) {
+        List list = particleboardLaminatedParinationService.getObjects(interval);
+        return list;
+    }
+
+    @RequestMapping(value = "/parametrsParticleboardsLaminated", method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    Object getParametrsParticleboardLaminated() {
+        return  particleboardLaminatedParinationService.getParametrObjects();
     }
 
     @RequestMapping(value = "/countActualPlywood",
@@ -112,6 +164,15 @@ public class PaginationController {
             headers = {"Accept=text/xml, application/json"})
     public @ResponseBody
     List getPlywoods(@RequestBody PlywoodIntervalPagination interval) {
+        List list = plywoodPaginationService.getObjects(interval);
+        return list;
+    }
+
+    @RequestMapping(value = "/admin-plywoods",
+            method = RequestMethod.POST, consumes="application/json", produces="application/json",
+            headers = {"Accept=text/xml, application/json"})
+    public @ResponseBody
+    List getPlywoods(@RequestBody Interval interval) {
         List list = plywoodPaginationService.getObjects(interval);
         return list;
     }

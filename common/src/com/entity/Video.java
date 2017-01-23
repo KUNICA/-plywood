@@ -1,6 +1,7 @@
 package com.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by user on 20.08.2016.
@@ -8,12 +9,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "video")
 public class Video {
+
     private Long id;
     private String link;
     private String description;
     private Long productId;
     private Operations operationIn;
     private Operations operationOut;
+    private Date data;
+    private String section;
+    private String headline;
+    private String language;
+    private String brand;
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -37,7 +45,7 @@ public class Video {
     }
 
     @Basic
-    @Column(name = "description", nullable = false, length = 255)
+    @Column(name = "description", nullable = true, length = 255)
     public String getDescription() {
         return description;
     }
@@ -48,7 +56,7 @@ public class Video {
 
 
     @Basic
-    @Column(name = "product_id", nullable = false)
+    @Column(name = "product_id", nullable = true)
     public Long getProductId() {
         return productId;
     }
@@ -73,5 +81,53 @@ public class Video {
 
     public void setOperationOut(Operations operationOut) {
         this.operationOut = operationOut;
+    }
+
+    @Basic
+    @Column(name = "data", nullable = true)
+    public Date getData() {
+        return data;
+    }
+
+    @Basic
+    @Column(name = "section", nullable = true, length = 255)
+    public String getSection() {
+        return section;
+    }
+
+    @Basic
+    @Column(name = "headline", nullable = true, length = 255)
+    public String getHeadline() {
+        return headline;
+    }
+    @Basic
+    @Column(name = "language", nullable = true, length = 255)
+    public String getLanguage() {
+        return language;
+    }
+    @Basic
+    @Column(name = "brand", nullable = true, length = 255)
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }

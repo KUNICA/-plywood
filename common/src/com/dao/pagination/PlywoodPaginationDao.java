@@ -2,6 +2,7 @@ package com.dao.pagination;
 
 import com.dataweb.IntervalPagination;
 import com.dataweb.PlywoodIntervalPagination;
+import com.entity.Grade;
 import com.entity.Particleboard;
 import com.entity.Plywood;
 import org.hibernate.Criteria;
@@ -41,14 +42,8 @@ public class PlywoodPaginationDao extends ProductPaginationDao implements Produc
             if(dataPlywood.getResistance()!=null){
                 criteria.add(Restrictions.eq("waterResistance",dataPlywood.getResistance()));
             }
-
-            if(dataPlywood.getCoating()!=null) {
-                criteria.add(Restrictions.eq("coating", dataPlywood.getCoating()));
-            }
-            if(dataPlywood.getCoating()!=null && dataPlywood.getCoating()
-                    && dataPlywood.getMinCoating()!=null && dataPlywood.getMaxCoating()!=null) {
-                criteria.add(Restrictions.ge("colorCoating", dataPlywood.getMinCoating()))
-                        .add(Restrictions.le("colorCoating", dataPlywood.getMaxCoating()));
+            if(!dataPlywood.getGradeAll()){
+                criteria.add(Restrictions.eq("grade", Grade.getField(dataPlywood.getGrade())));
             }
         }
 

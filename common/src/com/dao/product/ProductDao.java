@@ -3,6 +3,7 @@ package com.dao.product;
 import com.dao.DaoCriteria;
 import com.entity.Product;
 import org.hibernate.*;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -138,5 +139,64 @@ public class ProductDao extends DaoCriteria<Product> implements ProductDaoImpl {
                 session.close();
         }
         return product;
+    }
+
+    @Override
+    public List getLastProducts(int count) {
+        Session session = null;
+        Transaction tx = null;
+        List  products = null;
+
+        try {
+            session = currentSession();
+            tx = session.beginTransaction();
+
+            products = createCriteria(session)
+                    .createAlias("operIn","operIn")
+                    .add(Restrictions.isNull("operOut"))
+                    .addOrder(Order.desc("operIn.dateOper"))
+                    .setMaxResults(count)
+                    .list();
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return products;
+    }
+
+    @Override
+    public List getViewsProducts(int count) {
+        Session session = null;
+        Transaction tx = null;
+        List  products = null;
+
+        try {
+            session = currentSession();
+            tx = session.beginTransaction();
+
+            products = createCriteria(session)
+                    .add(Restrictions.isNull("operOut"))
+                    .addOrder(Order.desc("views"))
+                    .setMaxResults(count)
+                    .list();
+            tx.commit();
+        }
+        catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return products;
     }
 }

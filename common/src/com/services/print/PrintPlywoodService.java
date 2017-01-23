@@ -27,13 +27,10 @@ public class PrintPlywoodService extends PrintProductsService implements PrintPr
         PrintFilds filds = super.setFild(product);
         if (product instanceof Plywood) {
             Plywood plywood = (Plywood) product;
-            if (plywood.getColorCoating() != null) {
-                filds.setLaminated(formatter.format(plywood.getColorCoating()));
-            }
-            if (plywood.getCoating() != null && plywood.getCoating()) {
-                filds.setCoatingPlywood("Yes");
+            if (plywood.getGrade() != null && plywood.getGrade().getNameField()!=null) {
+                filds.setGrade(plywood.getGrade().getNameField());
             } else {
-                filds.setCoatingPlywood("No");
+                filds.setGrade("No");
             }
             if (plywood.getWaterResistance() != null && plywood.getWaterResistance()) {
                 filds.setWaterResistance("Fk");

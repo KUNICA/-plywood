@@ -4,12 +4,24 @@
 
 var ScriptParticleboard = function(){
     this.paramsUrl = '/pagination/parametrsParticleboards';
-}
+};
 
 ScriptParticleboard.prototype.initParam = function(innerHtml,parametrs){
 
 
     innerHtml +=
+        '<hr>' +
+        '<div class="category-filter">' +
+        '<h2>Sanded</h2>' +
+        '<hr>' +
+        '<ul>' +
+        '<li><input checked="checked" class="le-checkbox" type="radio" id ="radioAll" name="optradio" ><i class="fake-box"></i> <label>All</label> <span class="pull-right">(sanded all)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioUnsanded" name="optradio"><i class="fake-box"></i> <label>no</label> <span class="pull-right">(unsanded)</span></li>' +
+        '<li><input class="le-checkbox" type="radio" id ="radioSanded" name="optradio" ><i class="fake-box"></i> <label>yes</label> <span class="pull-right">(sanded)</span></li>' +
+        '</ul>' +
+        '</div>';
+        
+        /*
         '<hr>' +
         '<div class="price-filter">' +
                   '<hr>' +
@@ -19,18 +31,8 @@ ScriptParticleboard.prototype.initParam = function(innerHtml,parametrs){
                   '</div>' +
                   '<span class="min-max">' +
                   'Laminated: ' + parametrs.minLaminated +  '- ' + parametrs.maxLaminated +
-        '</span>' +
-
-        '<hr>' +
-        '<div class="category-filter">' +
-        '<h2>Coating</h2>' +
-        '<hr>' +
-        '<ul>' +
-        '<li><input checked="checked" class="le-checkbox" type="radio" id ="radioTheCoatingParticleboard" name="coatingParticleboard"><i class="fake-box"></i> <label>All</label> <span class="pull-right">(choose all)</span></li>' +
-        '<li><input class="le-checkbox" type="radio" id ="radioNoCoatingParticleboard" name="coatingParticleboard"><i class="fake-box"></i> <label>no</label> <span class="pull-right">(no coating)</span></li>' +
-        '<li><input class="le-checkbox" type="radio" id ="radioAllCoatingParticleboard" name="coatingParticleboard" ><i class="fake-box"></i> <label>yes</label> <span class="pull-right">(is the coating)</span></li>' +
-        '</ul>' +
-        '</div>' ;
+        '</span>';
+        */
 
     /*
     innerHtml +=
@@ -55,54 +57,50 @@ ScriptParticleboard.prototype.initParam = function(innerHtml,parametrs){
         */
 
     return innerHtml;
-}
+};
+
 
 ScriptParticleboard.prototype.eventParam = function(){
-    $(".radio").on('change',function()   {
-        initPagination(1);
+ /*
+    $('input:radio[name=optradio]').change(function () {
+        myMapParamSearch[1].initPagination(1);
     });
+ */
+};
 
-    $('#laminatedParticleboard').slider({
-        formatter: function(value) {
-            return 'Current value: ' + value;
-        }
-    });
 
-}
 
-ScriptParticleboard.prototype.initData = function(index,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth){
-
-    var coating = null;
-    if(document.getElementById('radioTheCoatingParticleboard').checked == true){
-        coating = true;
-    } else if(document.getElementById('radioNoCoatingParticleboard').checked){
-        coating = false;
-    }  else if(document.getElementById('radioAllCoatingParticleboard').checked){
-        coating = null;
-    }
-
+ScriptParticleboard.prototype.initData = function(index,minPrice,maxPrice,length,lengthAll,width,widthAll,depth,depthAll){
+    
+/*
     var laminatedParticleboard = document.getElementById('laminatedParticleboard');
     var laminatedParticleboardList = laminatedParticleboard.value.split(",");
     var minLaminated = laminatedParticleboardList[0];
     var maxLaminated = laminatedParticleboardList[1];
+*/
 
+    var sanded = null;
+    if(document.getElementById('radioSanded').checked){
+        sanded = true;
+    } else if(document.getElementById('radioUnsanded').checked){
+        sanded = false;
+    }  else if(document.getElementById('radioAll').checked){
+        sanded = null;
+    }
 
-        var urlCount = '/pagination/countAllParticleboard';
+        var urlCount = '/pagination/countActualParticleboard';
     var  data={
         "start": 0,
         "end": 0,
         "minPrice": minPrice,
         "maxPrice": maxPrice,
-        "minLength": minLength,
-        "maxLength": maxLength,
-        "minWidth":minWidth,
-        "maxWidth":maxWidth,
-        "minDepth":minDepth,
-        "maxDepth":maxDepth,
-        "coating":coating,
-        "minLaminated":minLaminated,
-        "maxLaminated":maxLaminated
-
+        "length": length,
+        "lengthAll": lengthAll,
+        "width": width,
+        "widthAll": widthAll,
+        "depth": depth,
+        "depthAll": depthAll,
+        "sanded":sanded
     };
 
     jQuery.ajax({
@@ -121,20 +119,30 @@ ScriptParticleboard.prototype.initData = function(index,minPrice,maxPrice,minLen
     });
 }
 
-ScriptParticleboard.prototype.getObjects = function(parentElement,parentListElement,element,start,end,minPrice,maxPrice,minLength,maxLength,minWidth,maxWidth,minDepth,maxDepth,count) {
+ScriptParticleboard.prototype.getObjects = function(parentElement,parentListElement,element,start,end,minPrice,maxPrice,length,lengthAll,width,widthAll,depth,depthAll,count) {
 
+
+    var sanded = null;
+    if(document.getElementById('radioSanded').checked){
+        sanded = true;
+    } else if(document.getElementById('radioUnsanded').checked){
+        sanded = false;
+    }  else if(document.getElementById('radioAll').checked){
+        sanded = null;
+    }
 
     var  data={
         "start": start,
         "end": end,
         "minPrice": minPrice,
         "maxPrice": maxPrice,
-        "minLength": minLength,
-        "maxLength": maxLength,
-        "minWidth":minWidth,
-        "maxWidth":maxWidth,
-        "minDepth":minDepth,
-        "maxDepth":maxDepth,
+        "length": length,
+        "lengthAll": lengthAll,
+        "width": width,
+        "widthAll": widthAll,
+        "depth": depth,
+        "depthAll": depthAll,
+        "sanded":sanded
     };
 
     var urlObjects = '/pagination/particleboards';

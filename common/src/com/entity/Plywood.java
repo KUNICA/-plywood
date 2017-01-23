@@ -13,6 +13,9 @@ public class Plywood extends Product{
     private Long colorCoating;
     private Boolean waterResistance;
     private Boolean sanded;
+    private Grade grade;
+    private Long amountPackage;
+    private Long numberPackages;
 
     public Plywood() {
         super();
@@ -57,5 +60,36 @@ public class Plywood extends Product{
 
     public void setSanded(Boolean sanded) {
         this.sanded = sanded;
+    }
+
+    @Basic
+    @Column(name = "grade")
+    @Enumerated(EnumType.STRING)
+    public Grade getGrade() {
+        return grade;
+    }
+
+    @Basic
+    @Column(name = "amount_package", nullable = true, length = 225)
+    public Long getAmountPackage() {
+        return amountPackage;
+    }
+
+    @Basic
+    @Column(name = "number_packages", nullable = true, length = 225)
+    public Long getNumberPackages() {
+        return numberPackages;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public void setAmountPackage(Long amountPackage) {
+        this.amountPackage = amountPackage;
+    }
+
+    public void setNumberPackages(Long numberPackages) {
+        this.numberPackages = numberPackages;
     }
 }

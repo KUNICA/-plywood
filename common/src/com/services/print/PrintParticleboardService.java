@@ -28,16 +28,10 @@ public class PrintParticleboardService extends PrintProductsService implements P
         PrintFilds filds =  super.setFild(product);
         if(product instanceof Particleboard){
             Particleboard particleboard = (Particleboard)product;
-            if(particleboard.getLaminated()!=null){
-                filds.setLaminated(formatter.format(particleboard.getLaminated()));
-            }
-            if(particleboard.getCoating()!=null && particleboard.getCoating()){
-                filds.setCoatingParticleboard("Yes");
-            }else{
-                filds.setCoatingParticleboard("No");
-            }
-            if(particleboard.getGrade()!=null){
-                filds.setGrade(particleboard.getGrade().getNameField());
+            if (particleboard.getSanded() != null && particleboard.getSanded()) {
+                filds.setSanded("Sanded");
+            } else {
+                filds.setSanded("Unsanded");
             }
         }
 

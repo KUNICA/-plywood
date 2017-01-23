@@ -11,6 +11,10 @@ public class ParticleboardExel extends ProductExel {
 
     private String coating;
 
+    private String sanded;
+    private String amountPackage;
+    private String numberPackages;
+
     public String getLaminated() {
         return laminated;
     }
@@ -33,5 +37,29 @@ public class ParticleboardExel extends ProductExel {
 
     public String getCoating() {
         return coating;
+    }
+
+    public String getSanded() {
+        return sanded;
+    }
+
+    public String getAmountPackage() {
+        return amountPackage;
+    }
+
+    public String getNumberPackages() {
+        return numberPackages;
+    }
+
+    public void setSanded(String sanded) {
+        this.sanded = sanded;
+    }
+
+    public void setAmountPackage(String amountPackage) {
+        this.amountPackage = amountPackage;
+    }
+
+    public void setNumberPackages(String numberPackages) {
+        this.numberPackages = numberPackages;
     }
 }

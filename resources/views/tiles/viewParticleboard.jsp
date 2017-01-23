@@ -108,10 +108,11 @@
                 <div class="excerpt">
                     <p>${listPlywood.shortDescription}</p>
                 </div>
-
+                    <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
                 <div class="prices">
                     <div class="price-current">$${listPlywood.price}</div>
                 </div>
+                    </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
                 <div class="qnt-holder">
                     <div class="le-quantity" id = "le-quantity${listPlywood.id}" style=" float: left; max-width:100px; display: none">
@@ -168,33 +169,29 @@
                             <div class="value">${listPlywood.width} cm</div>
                         </li>
                         <li>
-                            <label>depth</label>
+                            <label>thickness</label>
                             <div class="value">${listPlywood.depth} cm</div>
                         </li>
                         <li>
-                            <label>laminated</label>
-                            <div class="value">${listPlywood.laminated}</div>
-                        </li>
-                        <li>
-                            <label>coating</label>
+                            <label>Sanded or unsanded</label>
                             <div class="value">
-                            <c:choose>
-                                <c:when test="${listPlywood.coating}">
-                                    yes
-                                </c:when>
-                                <c:when test="${!listPlywood.coating}">
-                                    no
-                                </c:when>
-                            </c:choose>
+                                <c:choose>
+                                    <c:when test="${listPlywood.sanded}">
+                                        sanded
+                                    </c:when>
+                                    <c:when test="${!listPlywood.sanded}">
+                                        unsanded
+                                    </c:when>
+                                </c:choose>
                             </div>
                         </li>
                         <li>
-                            <label>grade</label>
-                            <div class="value">
-                                <c:if test="${listPlywood.grade!=null}">
-                                    ${listPlywood.grade.nameField}
-                                </c:if>
-                            </div>
+                            <label>Number of packages in a wagon</label>
+                            <div class="value">${listPlywood.amountPackage} cm</div>
+                        </li>
+                        <li>
+                            <label>Number of sheets per pack</label>
+                            <div class="value">${listPlywood.numberPackages} cm</div>
                         </li>
                     </ul><!-- /.tabled-data -->
 
@@ -269,6 +266,19 @@
                 addToCart.textContent = "Add to cart";
                 viewShop.style.display = 'none';
             }
+        });
+
+
+        urlObjects = '/viewproduct/add-views/' +  productId;
+        jQuery.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: urlObjects,
+            dataType:'json',
+            async: true
         });
 
     });

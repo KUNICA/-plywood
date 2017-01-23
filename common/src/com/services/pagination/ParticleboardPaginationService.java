@@ -1,6 +1,7 @@
 package com.services.pagination;
 
 import com.dao.pagination.ProductPaginationDaoImpl;
+import com.dataweb.Interval;
 import com.dataweb.IntervalPagination;
 import com.dataweb.MenuParametrs;
 import com.dataweb.ParticleboardsMenuParametrs;
@@ -17,27 +18,39 @@ public class ParticleboardPaginationService extends ProductPaginationService imp
 
     @Inject
     @Named("particleboardPaginationDao")
-    private ProductPaginationDaoImpl productPaginationDao;
+    private ProductPaginationDaoImpl particleboardPaginationDao;
 
     @Override
     public List getObjects(IntervalPagination data) {
-        return productPaginationDao.getObjects(data);
+        return particleboardPaginationDao.getObjects(data);
     }
+
+    public List getObjects(Interval data){
+        return particleboardPaginationDao.getObjects(data);
+    }
+
 
     @Override
     public Long getCountObjects(IntervalPagination data) {
-        return productPaginationDao.getCountObjects(data);
+        return particleboardPaginationDao.getCountObjects(data);
     }
+
 
     public Object getParametrObjects() {
         ParticleboardsMenuParametrs param = new ParticleboardsMenuParametrs();
-        param.setMinLaminated((Long)productPaginationDao.getCountMin("laminated"));
-        param.setMaxLaminated((Long)productPaginationDao.getCountMax("laminated"));
+        param.setMinPrice((Double)particleboardPaginationDao.getCountMin("price"));
+        param.setMaxPrice((Double)particleboardPaginationDao.getCountMax("price"));
+
+        param.setListLength(particleboardPaginationDao.getFields("length"));
+
+        param.setListWidth(particleboardPaginationDao.getFields("width"));
+
+        param.setListDepth(particleboardPaginationDao.getFields("depth"));
         return getParametr(param);
     }
 
     @Override
     public Long getCountAllObjects() {
-        return productPaginationDao.getCountAllObjects();
+        return particleboardPaginationDao.getCountAllObjects();
     }
 }

@@ -1,10 +1,7 @@
 package com.services.exel;
 
 import com.dao.product.ProductDaoImpl;
-import com.entity.Grade;
-import com.entity.Particleboard;
-import com.entity.Plywood;
-import com.entity.Product;
+import com.entity.*;
 import com.exel.*;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.google.common.base.Strings;
@@ -29,16 +26,25 @@ public class InitProductExelService implements InitProductExelServiceImpl{
     @Inject
     protected ExelParserImpl particleboardExelParser;
 
+    @Named("particleboardLaminatedExelParser")
+    @Inject
+    protected ExelParserImpl particleboardLaminatedExelParser;
+
     @Named("particleboardDao")
     @Inject
     protected ProductDaoImpl particleboardDao;
+
+    @Named("particleboardLaminatedDao")
+    @Inject
+    protected ProductDaoImpl particleboardLaminatedDao;
 
     @Named("plywoodDao")
     @Inject
     protected ProductDaoImpl plywoodDao;
 
-    private static final String PLYWOOD = "plywood";
-    private static final String PARTICLEBOARD = "particleboard";
+    private static final String PLYWOOD = "Plywood";
+    private static final String PARTICLEBOARD = "Particleboard";
+    private static final String PARTICLEBOARD_LAMINATED = "ParticleboardLaminated";
 
     public List initPlywoods(InputStream inputStream, String exelParser) throws InvalidFormatException, ProductFormatExelExeption {
         List plywoods = new ArrayList();
@@ -48,6 +54,9 @@ public class InitProductExelService implements InitProductExelServiceImpl{
                 break;
             case PARTICLEBOARD:
                 plywoods = particleboardExelParser.getProducts(inputStream);
+                break;
+            case PARTICLEBOARD_LAMINATED:
+                plywoods = particleboardLaminatedExelParser.getProducts(inputStream);
                 break;
         }
         return plywoods;
@@ -62,6 +71,9 @@ public class InitProductExelService implements InitProductExelServiceImpl{
             case PARTICLEBOARD:
                 product = new Particleboard();
                 break;
+            case PARTICLEBOARD_LAMINATED:
+                product = new ParticleboardLaminated();
+                break;
         }
         return product;
     }
@@ -74,6 +86,9 @@ public class InitProductExelService implements InitProductExelServiceImpl{
                 break;
             case PARTICLEBOARD:
                 product = (Product)particleboardDao.getProduct(id);
+                break;
+            case PARTICLEBOARD_LAMINATED:
+                product = (Product)particleboardLaminatedDao.getProduct(id);
                 break;
         }
         return product;
@@ -97,6 +112,9 @@ public class InitProductExelService implements InitProductExelServiceImpl{
         }
         if(!Strings.isNullOrEmpty(productExel.getPrice())){
             product.setPrice(Double.parseDouble(productExel.getPrice()));
+        }
+        if(!Strings.isNullOrEmpty(productExel.getType())){
+            product.setTypeStr(productExel.getType());
         }
         switch (productStr){
             case PLYWOOD:
@@ -123,6 +141,21 @@ public class InitProductExelService implements InitProductExelServiceImpl{
                 if(!Strings.isNullOrEmpty(plywoodExel.getCoatingColor())){
                     plywood.setColorCoating(Long.parseLong(plywoodExel.getCoatingColor()));
                 }
+                if(!Strings.isNullOrEmpty(plywoodExel.getAmountPackage())){
+                    plywood.setAmountPackage(Long.parseLong(plywoodExel.getAmountPackage()));
+                }
+                if(!Strings.isNullOrEmpty(plywoodExel.getNumberPackages())){
+                    plywood.setNumberPackages(Long.parseLong(plywoodExel.getNumberPackages()));
+                }
+                if(!Strings.isNullOrEmpty(plywoodExel.getGrade()) && Grade.isField(plywoodExel.getGrade())){
+                    plywood.setGrade(Grade.getField(plywoodExel.getGrade()));
+                }
+
+                if(!Strings.isNullOrEmpty(productExel.getType()) && !Strings.isNullOrEmpty(productExel.getLength()) &&
+                        !Strings.isNullOrEmpty(productExel.getThickness()) && !Strings.isNullOrEmpty(productExel.getWeight())){
+                    String name = productExel.getType() + "/" + productExel.getLength() + "x" + productExel.getWeight() + "x" + productExel.getThickness();
+                    plywood.setName(name);
+                }
                 break;
             case PARTICLEBOARD:
                 Particleboard particleboard = (Particleboard)product;
@@ -138,6 +171,43 @@ public class InitProductExelService implements InitProductExelServiceImpl{
                 }
                 if(!Strings.isNullOrEmpty(particleboardExel.getGrade()) && Grade.isField(particleboardExel.getGrade())){
                     particleboard.setGrade(Grade.getField(particleboardExel.getGrade()));
+                }
+                if(!Strings.isNullOrEmpty(particleboardExel.getAmountPackage())){
+                    particleboard.setAmountPackage(Long.parseLong(particleboardExel.getAmountPackage()));
+                }
+                if(!Strings.isNullOrEmpty(particleboardExel.getNumberPackages())){
+                    particleboard.setNumberPackages(Long.parseLong(particleboardExel.getNumberPackages()));
+                }
+                if(!Strings.isNullOrEmpty(particleboardExel.getSanded())){
+                    particleboard.setSanded(particleboardExel.getSanded().equals("sanded"));
+                }
+                else{
+                    particleboard.setSanded(false);
+                }
+                if(!Strings.isNullOrEmpty(productExel.getType()) && !Strings.isNullOrEmpty(productExel.getLength()) &&
+                        !Strings.isNullOrEmpty(productExel.getThickness()) && !Strings.isNullOrEmpty(productExel.getWeight())){
+                    String name = productExel.getType() + "/" + productExel.getLength() + "x" + productExel.getWeight() + "x" + productExel.getThickness();
+                    particleboard.setName(name);
+                }
+                break;
+            case PARTICLEBOARD_LAMINATED:
+                ParticleboardLaminated particleboardLaminated = (ParticleboardLaminated)product;
+                ParticleboardExel particleboardLaminatedExel = (ParticleboardExel) productExel;
+                if(!Strings.isNullOrEmpty(particleboardLaminatedExel.getLaminated())){
+                    particleboardLaminated.setLaminated(particleboardLaminatedExel.getLaminated());
+                }
+                if(!Strings.isNullOrEmpty(particleboardLaminatedExel.getAmountPackage())){
+                    particleboardLaminated.setAmountPackage(Long.parseLong(particleboardLaminatedExel.getAmountPackage()));
+                }
+                if(!Strings.isNullOrEmpty(particleboardLaminatedExel.getNumberPackages())){
+                    particleboardLaminated.setNumberPackages(Long.parseLong(particleboardLaminatedExel.getNumberPackages()));
+                }
+                if(!Strings.isNullOrEmpty(productExel.getType()) && !Strings.isNullOrEmpty(productExel.getLength()) &&
+                        !Strings.isNullOrEmpty(productExel.getThickness()) && !Strings.isNullOrEmpty(productExel.getWeight()) &&
+                        !Strings.isNullOrEmpty(particleboardLaminatedExel.getLaminated())){
+                    String name = productExel.getType() + "/" + particleboardLaminatedExel.getLaminated() +
+                            "/" + productExel.getLength() + "x" + productExel.getWeight() + "x" + productExel.getThickness();
+                    particleboardLaminated.setName(name);
                 }
                 break;
         }

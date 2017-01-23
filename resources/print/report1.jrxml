@@ -3,7 +3,7 @@
 	<property name="template.type" value="columnar"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="340"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -17,6 +17,7 @@
 	<parameter name="patch" class="java.lang.String"/>
 	<parameter name="patchFont" class="java.lang.String"/>
 	<parameter name="patchTitle" class="java.lang.String"/>
+	<parameter name="logo_patch" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="length" class="java.lang.String"/>
 	<field name="width" class="java.lang.String"/>
@@ -58,13 +59,17 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="89" splitType="Stretch">
+		<band height="60" splitType="Stretch">
+			<image>
+				<reportElement x="1" y="0" width="199" height="58" uuid="e1103f40-c7d9-4523-8044-297c6b0d9703"/>
+				<imageExpression><![CDATA[$P{logo_patch}]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement style="Title" x="2" y="0" width="553" height="89" uuid="673041b1-dca2-4f41-8c38-d293c695d159"/>
-				<textElement textAlignment="Center">
-					<font fontName="Serif" size="30"/>
+				<reportElement x="395" y="38" width="160" height="20" forecolor="#0000FF" uuid="b59d6ef3-2de0-4d38-a018-958f83312e33"/>
+				<textElement>
+					<font isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[products from plywood and particleboard]]></text>
+				<text><![CDATA[plywood-house.com]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -77,74 +82,75 @@
 	<detail>
 		<band height="408" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" positionType="Float" x="2" y="42" width="133" height="20" forecolor="#000000" uuid="1a52c3e8-e001-4836-86b4-291168446dae"/>
+				<reportElement style="Column header" positionType="Float" x="2" y="25" width="133" height="20" forecolor="#000000" uuid="1a52c3e8-e001-4836-86b4-291168446dae"/>
 				<textElement textAlignment="Right">
 					<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Name:]]></text>
 			</staticText>
 			<image>
-				<reportElement x="364" y="44" width="191" height="136" uuid="cded7f7d-f15a-4b5a-82f4-c60553a1c6cd"/>
+				<reportElement x="364" y="25" width="191" height="136" uuid="cded7f7d-f15a-4b5a-82f4-c60553a1c6cd"/>
 				<imageExpression><![CDATA[$F{image1}]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="151" y="42" width="210" height="18" uuid="145da2ef-b405-4804-9149-8567003bf86c"/>
+				<reportElement style="Detail" positionType="Float" x="151" y="25" width="210" height="40" uuid="145da2ef-b405-4804-9149-8567003bf86c"/>
 				<textElement>
 					<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Column header" positionType="Float" x="2" y="60" width="133" height="20" forecolor="#000000" uuid="f3042f71-19c2-46af-8103-15fe9ed67bd6"/>
+				<reportElement style="Column header" positionType="Float" x="2" y="65" width="133" height="20" forecolor="#000000" uuid="f3042f71-19c2-46af-8103-15fe9ed67bd6"/>
 				<textElement textAlignment="Right">
 					<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Length:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="151" y="60" width="210" height="18" uuid="2fedab28-3427-469c-88c4-daf1d0d36a2a"/>
+				<reportElement style="Detail" positionType="Float" x="151" y="65" width="210" height="18" uuid="2fedab28-3427-469c-88c4-daf1d0d36a2a"/>
 				<textElement>
 					<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{length}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Column header" positionType="Float" x="2" y="80" width="133" height="20" forecolor="#000000" uuid="161e7e00-eeb4-456f-9e82-48537aed2373"/>
+				<reportElement style="Column header" positionType="Float" x="2" y="85" width="133" height="20" forecolor="#000000" uuid="161e7e00-eeb4-456f-9e82-48537aed2373"/>
 				<textElement textAlignment="Right">
 					<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Width:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="151" y="78" width="210" height="18" uuid="280eff7d-521c-4a8f-a312-807a19abf242"/>
+				<reportElement style="Detail" positionType="Float" x="151" y="83" width="210" height="18" uuid="280eff7d-521c-4a8f-a312-807a19abf242"/>
 				<textElement>
 					<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{width}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Column header" positionType="Float" x="2" y="100" width="133" height="20" forecolor="#000000" uuid="fd76edef-149b-45cf-b24f-543246459f42"/>
+				<reportElement style="Column header" positionType="Float" x="2" y="105" width="133" height="20" forecolor="#000000" uuid="fd76edef-149b-45cf-b24f-543246459f42"/>
 				<textElement textAlignment="Right">
 					<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Depth:]]></text>
+				<text><![CDATA[Thickness:
+]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="151" y="96" width="210" height="24" uuid="9417a46d-fb0e-481e-9028-ee3c1c978eb2"/>
+				<reportElement style="Detail" positionType="Float" x="151" y="101" width="210" height="24" uuid="9417a46d-fb0e-481e-9028-ee3c1c978eb2"/>
 				<textElement>
 					<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{depth}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="Column header" positionType="Float" x="2" y="120" width="133" height="20" forecolor="#000000" uuid="c4e211e6-3ddc-40ed-87c4-108d3b574ddf"/>
+				<reportElement style="Column header" positionType="Float" x="2" y="144" width="133" height="20" forecolor="#000000" uuid="c4e211e6-3ddc-40ed-87c4-108d3b574ddf"/>
 				<textElement textAlignment="Right">
 					<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Price:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="151" y="120" width="210" height="20" uuid="b56c2b4e-b672-48d1-968f-e38113b14c78"/>
+				<reportElement style="Detail" positionType="Float" x="151" y="144" width="210" height="20" uuid="b56c2b4e-b672-48d1-968f-e38113b14c78"/>
 				<textElement>
 					<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
@@ -160,112 +166,70 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="555" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="d15bb8e9-1473-41fd-baa9-a55171285bc9"/>
 			</frame>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="0" y="166" width="133" height="20" forecolor="#000000" uuid="16a0d668-40ab-4e8d-8d11-132e60b72971"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sanded or unsanded:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="151" y="166" width="210" height="20" uuid="b7052147-34f5-4d9b-93c2-512e540c6cb5"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sanded}]]></textFieldExpression>
+			</textField>
 			<frame>
-				<reportElement x="2" y="140" width="359" height="80" uuid="77a980fe-43a3-4d76-a2c0-bbb308d21760">
+				<reportElement x="2" y="184" width="359" height="61" uuid="77a980fe-43a3-4d76-a2c0-bbb308d21760">
 					<printWhenExpression><![CDATA[$F{type}.equals("Plywood")]]></printWhenExpression>
 				</reportElement>
 				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="40" width="133" height="20" forecolor="#000000" uuid="855eac08-b8e7-498c-8f3c-b9da4ca0041c"/>
+					<reportElement style="Column header" positionType="Float" x="2" y="2" width="133" height="20" forecolor="#000000" uuid="855eac08-b8e7-498c-8f3c-b9da4ca0041c"/>
 					<textElement textAlignment="Right">
 						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Water resistance:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="40" width="210" height="20" uuid="8da082fe-9875-42eb-92be-ff5cb6439fea"/>
-					<textElement>
-						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{waterResistance}]]></textFieldExpression>
-				</textField>
 				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="20" width="133" height="20" forecolor="#000000" uuid="f07729e1-f998-4547-a406-b8257f680de3"/>
-					<textElement textAlignment="Right">
-						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<text><![CDATA[Color:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="18" width="210" height="22" uuid="6d1d1ad9-d417-4e3c-be41-6ad8bfa5e57c"/>
-					<textElement>
-						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{color}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="0" width="133" height="20" forecolor="#000000" uuid="937a6d2e-b5a2-4e6e-afbd-daf390025b96"/>
-					<textElement textAlignment="Right">
-						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<text><![CDATA[Coating:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="0" width="210" height="20" uuid="6d8504eb-057c-4351-8414-d45425a43578"/>
-					<textElement>
-						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{coatingPlywood}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="59" width="210" height="20" uuid="b7052147-34f5-4d9b-93c2-512e540c6cb5"/>
-					<textElement>
-						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{sanded}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="60" width="133" height="20" forecolor="#000000" uuid="16a0d668-40ab-4e8d-8d11-132e60b72971"/>
-					<textElement textAlignment="Right">
-						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<text><![CDATA[Sanded or unsanded:]]></text>
-				</staticText>
-			</frame>
-			<frame>
-				<reportElement x="2" y="160" width="362" height="80" uuid="e27110b8-b3e4-4ed1-af43-cc74f09f07dd">
-					<printWhenExpression><![CDATA[$F{type}.equals("Particleboard")]]></printWhenExpression>
-				</reportElement>
-				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="39" width="133" height="20" forecolor="#000000" uuid="7d9d9f8a-10bb-46a2-8138-467ef0433416"/>
+					<reportElement style="Column header" positionType="Float" x="0" y="20" width="135" height="20" forecolor="#000000" uuid="937a6d2e-b5a2-4e6e-afbd-daf390025b96"/>
 					<textElement textAlignment="Right">
 						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Grade:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="40" width="210" height="20" uuid="c4424326-0ab9-4ded-8815-8c19bb209326"/>
+					<reportElement style="Detail" positionType="Float" x="149" y="2" width="210" height="20" uuid="8da082fe-9875-42eb-92be-ff5cb6439fea"/>
+					<textElement>
+						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{waterResistance}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="149" y="20" width="210" height="20" uuid="c4424326-0ab9-4ded-8815-8c19bb209326"/>
 					<textElement>
 						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
 				</textField>
+			</frame>
+			<frame>
+				<reportElement x="4" y="186" width="362" height="61" uuid="e27110b8-b3e4-4ed1-af43-cc74f09f07dd">
+					<printWhenExpression><![CDATA[$F{type}.equals("ParticleboardLaminated")]]></printWhenExpression>
+				</reportElement>
 				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="19" width="133" height="20" forecolor="#000000" uuid="3684139a-230c-4fa7-af10-2c4675f392f9"/>
+					<reportElement style="Column header" positionType="Float" x="0" y="0" width="133" height="20" forecolor="#000000" uuid="965258c0-f978-4353-bb12-f895e9e4659a"/>
 					<textElement textAlignment="Right">
 						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Laminated:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="18" width="210" height="22" uuid="c45d4825-a72b-43e9-a8ce-6c7c7f8f2246"/>
+					<reportElement style="Detail" positionType="Float" x="145" y="0" width="210" height="20" uuid="dc578013-1651-4d8c-92fd-ee9cb2d23ddf"/>
 					<textElement>
 						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{laminated}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement style="Column header" positionType="Float" x="0" y="0" width="133" height="20" forecolor="#000000" uuid="f1412d3c-8fd1-4b0b-8498-128e0ca23344"/>
-					<textElement textAlignment="Right">
-						<font fontName="Serif" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<text><![CDATA[Coating:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="149" y="0" width="210" height="20" uuid="ed500f56-454c-498f-9ddc-5d211767b6d0"/>
-					<textElement>
-						<font fontName="Serif" size="14" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{coatingParticleboard}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<staticText>
@@ -310,28 +274,28 @@
 	</columnFooter>
 	<pageFooter>
 		<band height="17" splitType="Stretch">
+			<textField pattern="EE dd MM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="d65d8a87-97e2-4e98-8f89-860c02af31b4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 			<frame>
-				<reportElement mode="Opaque" x="2" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="de981edf-9649-4142-9514-a0d4f3aabe7d"/>
+				<reportElement mode="Opaque" x="4" y="0" width="555" height="14" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="de981edf-9649-4142-9514-a0d4f3aabe7d"/>
 				<textField evaluationTime="Report">
-					<reportElement style="Column header" x="513" y="-1" width="40" height="13" forecolor="#FFFFFF" uuid="20993890-f37d-4545-8eb9-f153780876c2"/>
+					<reportElement style="Column header" x="514" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="20993890-f37d-4545-8eb9-f153780876c2"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Serif" size="10" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Column header" x="433" y="-1" width="80" height="13" forecolor="#FFFFFF" uuid="02dc3ebb-79d4-4461-a1a1-7dddd0bfb473"/>
+					<reportElement style="Column header" x="427" y="0" width="80" height="13" forecolor="#FFFFFF" uuid="02dc3ebb-79d4-4461-a1a1-7dddd0bfb473"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Serif" size="10" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-				</textField>
-				<textField pattern="EE dd MM yyyy">
-					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="d65d8a87-97e2-4e98-8f89-860c02af31b4"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Serif" size="10" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
